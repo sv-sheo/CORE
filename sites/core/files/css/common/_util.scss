@@ -1,0 +1,134 @@
+
+
+.bold 		{ font-weight: bold;}
+
+.va_middle	{ vertical-align: middle; }
+
+.br_0 		{ border-radius:  0px; }
+.br_2 		{ border-radius:  2px; }
+.br_3 		{ border-radius:  3px; }
+.br_4 		{ border-radius:  4px; }
+.br_5 		{ border-radius:  5px; }
+.br_6 		{ border-radius:  6px; }
+.br_8 		{ border-radius:  8px; }
+.br_10 		{ border-radius:  10px; }
+.br_12 		{ border-radius:  12px; }
+.br_15 		{ border-radius:  15px; }
+.br_16 		{ border-radius:  16px; }
+.br_20 		{ border-radius:  20px; }
+.br_30 		{ border-radius:  30px; }
+.br_40 		{ border-radius:  40px; }
+.br_50 		{ border-radius:  50px; }
+.br_rounded { border-radius:  999px; }
+.rounded 	{ border-radius:  999px; }
+.br_full 	{ border-radius:  100%; }
+.br_none 	{ border-radius:  0px; }
+
+.gradient_text {
+
+	background:     			linear-gradient(135deg, $theme_color_1, $theme_color_2);
+	background-clip: 			text;
+	-webkit-background-clip: 	text;
+	color: 						transparent;
+
+}
+
+.fs_5 	{ font-size: 5pt; }
+.fs_6 	{ font-size: 6pt; }
+.fs_7 	{ font-size: 7pt; }
+.fs_8 	{ font-size: 8pt; }
+.fs_9 	{ font-size: 9pt; }
+.fs_10	{ font-size: 10pt; }
+.fs_11	{ font-size: 11pt; }
+.fs_12	{ font-size: 12pt; }
+.fs_14	{ font-size: 14pt; }
+.fs_15	{ font-size: 15pt; }
+.fs_16	{ font-size: 16pt; }
+.fs_18	{ font-size: 18pt; }
+.fs_20	{ font-size: 20pt; }
+.fs_22	{ font-size: 22pt; }
+.fs_24	{ font-size: 24pt; }
+.fs_25	{ font-size: 25pt; }
+.fs_26	{ font-size: 26pt; }
+.fs_28	{ font-size: 28pt; }
+.fs_30	{ font-size: 30pt; }
+
+.fs_5x 	{ font-size: 5px; }
+.fs_6x 	{ font-size: 6px; }
+.fs_7x 	{ font-size: 7px; }
+.fs_8x 	{ font-size: 8px; }
+.fs_9x 	{ font-size: 9px; }
+.fs_10x	{ font-size: 10px; }
+.fs_11x	{ font-size: 11px; }
+.fs_12x	{ font-size: 12px; }
+.fs_14x	{ font-size: 14px; }
+.fs_15x	{ font-size: 15px; }
+.fs_16x	{ font-size: 16px; }
+.fs_18x	{ font-size: 18px; }
+.fs_20x	{ font-size: 20px; }
+.fs_22x	{ font-size: 22px; }
+.fs_24x	{ font-size: 24px; }
+.fs_25x	{ font-size: 25px; }
+.fs_26x	{ font-size: 26px; }
+.fs_28x	{ font-size: 28px; }
+.fs_30x	{ font-size: 30px; }
+
+// top padding = 2/3 of font-size, side padding = 4/3 of font-size
+.txt_5 	{ font-size: 5pt; padding: 4pt 8pt; }
+.txt_6 	{ font-size: 6pt; padding: 4pt 8pt; }
+.txt_7 	{ font-size: 7pt; padding: 4pt 8pt; }
+.txt_8 	{ font-size: 8pt; padding: 6pt 12pt; }
+.txt_9 	{ font-size: 9pt; padding: 6pt 12pt; }
+.txt_10 { font-size: 10pt; padding: 6pt 12pt; }
+.txt_12 { font-size: 12pt; padding: 8pt 16pt; }
+.txt_14 { font-size: 14pt; padding: 10pt 20pt; }
+.txt_15 { font-size: 15pt; padding: 10pt 20pt; }
+.txt_16 { font-size: 16pt; padding: 10pt 20pt; }
+.txt_18 { font-size: 18pt; padding: 12pt 24pt; }
+.txt_20 { font-size: 20pt; padding: 13pt 27pt; }
+.txt_21 { font-size: 21pt; padding: 13pt 27pt; }
+.txt_22 { font-size: 22pt; padding: 13pt 27pt; }
+.txt_24 { font-size: 24pt; padding: 16pt 32pt; }
+.txt_25 { font-size: 25pt; padding: 16pt 32pt; }
+.txt_26 { font-size: 26pt; padding: 18pt 36pt; }
+.txt_27 { font-size: 27pt; padding: 18pt 36pt; }
+.txt_28 { font-size: 28pt; padding: 18pt 36pt; }
+.txt_30 { font-size: 30pt; padding: 20pt 40pt; }
+
+// top padding = 2/3 of font-size, side padding = font-size
+.txti_5  { font-size: 5pt; padding: 4pt 5pt; }
+.txti_6  { font-size: 6pt; padding: 4pt 6pt; }
+.txti_7  { font-size: 7pt; padding: 4pt 7pt; }
+.txti_8  { font-size: 8pt; padding: 6pt 8pt; }
+.txti_9  { font-size: 9pt; padding: 6pt 9pt; }
+.txti_10 { font-size: 10pt; padding: 6pt 10pt; }
+.txti_12 { font-size: 12pt; padding: 8pt 12pt; }
+.txti_14 { font-size: 14pt; padding: 10pt 14pt; }
+.txti_15 { font-size: 15pt; padding: 10pt 15pt; }
+.txti_16 { font-size: 16pt; padding: 10pt 16pt; }
+.txti_18 { font-size: 18pt; padding: 12pt 18pt; }
+.txti_20 { font-size: 20pt; padding: 13pt 20pt; }
+.txti_21 { font-size: 21pt; padding: 13pt 21pt; }
+.txti_22 { font-size: 22pt; padding: 13pt 22pt; }
+.txti_24 { font-size: 24pt; padding: 16pt 24pt; }
+.txti_25 { font-size: 25pt; padding: 16pt 25pt; }
+.txti_26 { font-size: 26pt; padding: 18pt 26pt; }
+.txti_27 { font-size: 27pt; padding: 18pt 27pt; }
+.txti_28 { font-size: 28pt; padding: 18pt 28pt; }
+.txti_30 { font-size: 30pt; padding: 20pt 30pt; }
+
+.pd_2 { padding: 2px; }
+.pd_4 { padding: 4px; }
+.pd_5 { padding: 5px; }
+.pd_6 { padding: 6px; }
+.pd_8 { padding: 8px; }
+.pd_10 { padding: 10px; }
+.pd_12 { padding: 12px; }
+.pd_14 { padding: 14px; }
+.pd_15 { padding: 15px; }
+.pd_16 { padding: 16px; }
+.pd_18 { padding: 18px; }
+.pd_20 { padding: 20px; }
+
+.mg_10 { margin: 10px; }
+.mg_20 { margin: 20px; }

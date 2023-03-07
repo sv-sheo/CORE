@@ -1,0 +1,15 @@
+﻿/* 1 */
+{
+    "_id" : ObjectId("59889c63809aace9a0474129"),
+    "id" : 1,
+    "name" : "sheo",
+    "pass" : "53a8732467248b359f6b18427a64c47e"
+}
+
+/* 2 */
+{
+    "_id" : ObjectId("5988ca31e42fa3a8f3fa7b37"),
+    "id" : 2,
+    "name" : "tadeas",
+    "pass" : "9fac40a4b5d8e75d31b12cb190768105"
+}

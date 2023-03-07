@@ -1,0 +1,36 @@
+
+<html>
+    
+    <head>
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        
+        <style>
+            
+            body { font-family: DejaVu Sans, sans-serif; } /* VERY IMPORTANT - CZECH SYMBOLS*/
+            .left {display: inline-block; width: 150px; font-weight: bold; }
+            .right {display: inline-block; }
+            
+        </style>
+        
+    </head>
+    
+    <body>
+    
+        <h1>FIBY - {{data.type}} - {{data.topic}} </h1>
+
+        <div stlye="margin: 10px 20px;">{{data.text}}</div>
+
+        <p style="margin: 10px 0;">
+
+            <span class="left">Téma: </span>                <span class="right">{{data.topic}}</span><br>
+            <span class="left">Odeslal: </span>             <span class="right">{{data.name}}</span><br>
+            <span class="left">E-mail: </span>              <span class="right">{{data.email}}</span><br>
+            <span class="left">Telefon: </span>              <span class="right">{{data.phone}}</span><br>
+            <span class="left">PSČ: </span>                 <span class="right">{{data.post}}</span><br>
+
+        </p>
+
+    </body>
+    
+</html>

@@ -1,0 +1,21 @@
+
+.nm_separator_flat {
+
+	background: 	$light_color;
+	box-shadow:    	-2px -2px 4px $light_shadow, 2px 2px 4px $dark_shadow;
+
+}
+
+.nm_separator_convex {
+
+	background: 	linear-gradient(lighten($light_color, 5%), darken($light_color, 5%));
+	box-shadow:    	-2px -2px 4px $light_shadow, 2px 2px 4px $dark_shadow;
+
+}
+
+.nm_separator_concave {
+
+	background: 	linear-gradient(darken($light_color, 5%), lighten($light_color, 5%));
+	box-shadow:    	-2px -2px 4px $light_shadow, 2px 2px 4px $dark_shadow;
+
+}

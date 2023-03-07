@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+
+<!-- CONTENTS OF Q.data is available here -->
+
+<html lang="en">
+
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta name="robots" content="index, follow">
+        <meta name=”description” content=”Finance a bydlení”>
+        <meta name="author" content="sheo.cz">
+        
+        <title>{{html.head.title}}</title>
+
+        <script src="{{socket.protocol}}://{{socket.host}}:{{socket.port}}/socket.io/socket.io.min.js"></script>
+        <script src="{{base_url}}files/get/build/other/desktop_preload.js?prqi={{request_id}}"></script>
+        <script src="{{webpack_url}}desktop.js?prqi={{request_id}}"></script>
+        <link href="{{webpack_url}}desktop.css?prqi={{request_id}}" type="text/css" rel="stylesheet">
+
+        <!--<script src="/core/files/get/build/production/desktop.js?prqi={{request_id}}"></script>
+        <link href="/core/files/get/build/production/desktop.css?prqi={{request_id}}" type="text/css" rel="stylesheet">-->
+        
+    </head>
+    
+    <body>
+
+        <div id="slock">
+
+			<div id="warp">
+
+				<div id="left_block" class="main_blocks">
+
+                    <div id="left_block_header" class="mb_header_block">
+
+                        <div class="left_header">
+
+                            <a class="left_header_image" href="{{HOST}}"><img class="h100p" src="{{HOST}}files/get/icons/s_core_logo.svg" /></a>
+
+                        </div>
+
+                    </div>
+
+					<nav id="main_menu_container">
+
+						<div class="mm_menu">
+							
+                            <a class="mm_menu_link" data-key="server" href="{{base_url}}">SERVER</a>
+                            <a class="mm_menu_link" data-key="processes" href="{{base_url}}processes">PROCESSES</a>
+                            <a class="mm_menu_link" data-key="sub_servers" href="{{base_url}}sub_servers">SUB-SERVERS</a>
+                            <a class="mm_menu_link" data-key="sites" href="{{base_url}}sites">SITES</a>
+                            <a class="mm_menu_link" data-key="sockets" href="{{base_url}}sockets">SOCKETS</a>
+                            
+						</div>
+
+					</nav>
+
+					<div id="lb_noisy_background" class="absolute"></div>
+					<div id="lb_inner_shadow_border"></div>
+
+				</div>
+
+				<div id="right_block" class="main_blocks">
+
+                    <header id="top_header_container" class="mb_header_block">
+
+                        <h1 class="th_block th_header">SERVER CORE - ADMIN</h1>
+
+                        <div class="th_block th_control">
+
+                            <div class="thc_block thc_status">
+
+                                <div class="nm_platform_flat nm_platform_concave pd_5 br_10 h100p">
+                                    
+                                    <div class="thc_status_text">STATUS</div>
+                                    <div class="thc_status_indicator"><div class="led_light led_light_success h8x"></div></div>
+
+                                </div>
+
+                            </div>
+                            <div class="thc_block thc_admin">
+                                
+                                <div class="thca_block thca_name">{{admin.name}}</div>
+                                <div class="thca_block"><a class="nm_btn nm_btn_flat txt_10 br_10 no_link" href="{{HOST}}logout">Log Out</a></div>
+                                
+                            </div>
+
+                        </div>
+
+                    </header>
+
+					<main id="main_container">
+
+						<div id="sections" class="">
+
+                            {{{html.sections.server}}}
+                            {{{html.sections.processes}}}
+                            {{{html.sections.sub_servers}}}
+                            {{{html.sections.sites}}}
+                            {{{html.sections.sockets}}}
+
+						</div>
+
+                    </main>
+
+				</div>
+
+				<footer id="footer_container"></footer>
+
+			</div>
+
+        
+            <div id="jtr5g6t8fdg52hre58rq" class="alert-box-7"><div style="display: none;" id="server_data">
+            
+                <!--<script src='https://www.google.com/recaptcha/api.js' async defer ></script>-->
+                <script> var PRELOAD_DATA = {{{js_data}}}</script>
+            
+            </div></div>
+        
+        </div>
+        
+    </body>
+    
+</html>

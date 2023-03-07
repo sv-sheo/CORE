@@ -1,0 +1,102 @@
+
+#contact {
+    
+    #contact_map {
+        
+        height:         calc(90vh - 50px);
+        width:          100%;
+        
+    }
+    
+    #contact_ribbon_background {
+        
+        background:     $theme_color;
+        
+    }
+    
+    #contact_bottom_ribbon {
+        
+        height:     10vh;
+        color:      $theme_color;
+        @include    line_height(10vh, 3);
+        
+    }
+    
+    #contact_content { 
+    
+        margin-top: -80px;
+        padding-bottom: 50px;
+        
+    }
+  
+    /*overflow:   hidden;
+    margin:     0 auto 0 auto; 
+    height:     auto;
+    min-height: 0px;
+    
+    #contact_header {
+        
+        @extend         .block_content_header;
+        text-align:     center;
+        padding:        4rem 0;
+        
+    }
+    
+    #contact_warp { padding-bottom: 4rem; }
+    
+    .contact_left_col {
+        
+        height:         400px;
+        width:          300px;
+        
+    }
+    
+    .contact_mid_col {
+        
+        width:          470px;
+        
+    }
+    
+    #contact_map {
+        
+        height: 400px;
+        
+    }
+    
+    #contact_content {
+        
+        padding: 0rem 1rem 1rem 2rem;
+        font-size: 1.5rem;
+        
+    }   
+    .cc_left {
+        
+        display: inline-block;
+        font-family: GOTHIC_BOLD;
+        width: 130px;
+        padding: 0.5rem 0;
+        
+    }
+    .cc_right {
+        
+        display: inline-block;
+        padding: 0.5rem 0;
+        
+    }
+    
+    @media screen and (max-width: $media_width) and (max-height: $media_height) {
+
+        #contact_header {   font-size: 2rem; padding: 2rem; padding-top: 4rem; }
+        #contact_warp {     padding-bottom: 3rem; }
+        #contact_content {  font-size: 1.2rem; }
+        .contact_left_col { width: 150px; height: 200px;}
+        .contact_mid_col {  width: 400px;}
+        #contact_content {  font-size: 1rem; }
+        .cc_left {          width: 100px; }
+        #contact_map {      height: 200px; }
+    
+    }*/
+    
+}
+
+

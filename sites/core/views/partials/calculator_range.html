@@ -1,0 +1,18 @@
+<div class="cbf_row">
+
+    <div class="cbf_row_header">
+        
+        <span>{{data.text}}</span>
+        {{#if data.title}}<img title="{{data.title}}" class="h20x calc_help_icon" src="{{HOST}}files/get/icons/help_black.png" >{{/if}}
+    
+    </div>
+    <div class="cbf_row_values"><div id="cbf_{{name}}_result_{{id}}" class="cbf_row_display_result">0 Kč</div></div>
+    <div class="cbf_row_range">
+
+        <div class="cbf_row_range_button cbfrrb_left" data-page="{{id}}" data-name="{{name}}" data-type="minus"><img class="w100p h100p" src="{{HOST}}files/get/icons/minus_theme.png"></div>
+        <input id="cbf_{{name}}_input_{{id}}" class="cbf_range" name="{{name}}" type="range" min="{{data.min}}" step="{{data.step}}" max="{{data.max}}" value="{{data.value}}">
+        <div class="cbf_row_range_button cbfrrb_right" data-page="{{id}}" data-name="{{name}}" data-type="plus"><img class="w100p h100p" src="{{HOST}}files/get/icons/plus_theme.png"></div>
+
+    </div>
+
+</div>

@@ -1,0 +1,10 @@
+<div class="cbf_col_header">{{data.text}}</div>
+<select id="cbf_fixation_input_{{id}}" class="cbf_col_select" name="{{name}}">
+
+    {{#each data.options}}
+
+        <option value="{{@key}}">{{this}}</option>
+
+    {{/each}}
+
+</select>

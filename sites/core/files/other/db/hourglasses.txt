@@ -1,0 +1,185 @@
+﻿/* 1 */
+{
+    "_id" : ObjectId("5994ccafe4623498a8e21126"),
+    "id" : 1,
+    "page" : "finances_home",
+    "weight" : 1,
+    "name" : "Investice",
+    "title" : "Osvědčeným způsobem zhodnoťte peníze",
+    "text" : "V portfoliu pro vás máme připraveny podílové fondy, burzovní investování, pohledávky, alternativní investice, komodity a v neposlední řadě stavební spoření, termínované vklady a penzijní připojištění. Služby poskytujeme jak pro fyzické tak právnické osoby.",
+    "image" : "finances_home_1.jpg",
+    "active" : 1
+}
+
+/* 2 */
+{
+    "_id" : ObjectId("5994cccae4623498a8e21127"),
+    "page" : "finances_home",
+    "id" : 2,
+    "weight" : 2,
+    "name" : "Spoření",
+    "title" : "Vyšší a bezpečnější zhodnocení peněz",
+    "text" : "V dnešní době, kdy se úvěry staly součástí našeho života, se často zapomíná na spoření. Přitom je spoření nejdůležitějším pilířem pro finanční svobodu každého člověka. Díky správnému investování vysadíme klienta z úvěrového kolotoče a nasměřujeme ho na správnou cestu. V dnešní době, kdy se úvěry staly součástí našeho života, se často zapomíná na spoření. Přitom je spoření nejdůležitějším pilířem pro finanční svobodu každého člověka. Díky správnému investování vysadíme klienta z úvěrového kolotoče a nasměřujeme ho na správnou cestu.",
+    "image" : "finances_home_2.jpg",
+    "active" : 1,
+    "file" : ""
+}
+
+/* 3 */
+{
+    "_id" : ObjectId("5994cdf9e4623498a8e21128"),
+    "page" : "finances_home",
+    "id" : 3,
+    "weight" : 4,
+    "name" : "Hypotéky",
+    "title" : "Nižší sazba v průměru o 0,5 %",
+    "text" : "Financování Vašeho záměru nemusí být vždy pokryto zcela jen z vlastních zdrojů. Podle Vašich požadavků vybereme vhodný produkt, tak aby byl nejlevnější z hlediska nákladovosti a také odpovídal přesně vašim představám. Pro zpracování nabídky používáme vždy ty nejaktuálnější informace a vypracování analýzy je u nás zdarma.",
+    "image" : "finances_home_3.jpg",
+    "active" : 1
+}
+
+/* 4 */
+{
+    "_id" : ObjectId("5994ce68e4623498a8e2112a"),
+    "page" : "finances_home",
+    "id" : 5,
+    "weight" : 3,
+    "name" : "Pojištění",
+    "title" : "na které se můžete spolehnout",
+    "text" : "Majetkové a životní pojištění je důležitou ochranou proti nečekaným událostem v soukromém životě, a také u firem. Zprostředkujeme Vám pojištění všeho druhu od různých pojišťoven na trhu. Optimalizujeme vhodné parametry pojištění a co nejnižší platby. Následně jsme také připraveni klientům pomoci při likvidaci pojistných událostí.",
+    "image" : "finances_home_5.jpg",
+    "active" : 1
+}
+
+/* 5 */
+{
+    "_id" : ObjectId("5994ce44e4623498a8e21129"),
+    "page" : "finances_home",
+    "id" : 4,
+    "weight" : 5,
+    "name" : "Úvěry",
+    "title" : "Nižší náklady i více než o polovinu",
+    "text" : "Najdeme Vám nejvhodnější způsob financování z hlediska účelu a nákladovosti. Nabízíme úvěry ze stavebního spoření, spotřební úvěry, leasingy, investiční a provozní úvěry pro firmy. Díky tomu, že zastupujeme banky v ČR, vám ušetříme čas strávený vybíráním té nejlepší.",
+    "image" : "finances_home_4.jpg",
+    "active" : 1
+}
+
+/* 6 */
+{
+    "_id" : ObjectId("59c51019e67a4b15bf43745d"),
+    "id" : 7,
+    "page" : "living_reference",
+    "name" : "Reference 1",
+    "weight" : 2,
+    "text" : "",
+    "image" : "living_reference_7_0QNFISnuJKYo2Epj9Gqtf6_m.png",
+    "active" : 1
+}
+
+/* 7 */
+{
+    "_id" : ObjectId("59c51059453ab315beb0b649"),
+    "id" : 8,
+    "page" : "living_reference",
+    "name" : "Reference 2",
+    "weight" : 1,
+    "text" : "",
+    "image" : "living_reference_8_kReAfQUSu-4SBbpe1P4DTYwX.jpg",
+    "active" : 1
+}
+
+/* 8 */
+{
+    "_id" : ObjectId("59c610d29a06a5384f5cc40d"),
+    "id" : 9,
+    "page" : "living_step",
+    "name" : "1. OSOBNÍ SCHŮZKA",
+    "weight" : 1,
+    "text" : "Pojďme se seznámit",
+    "image" : "living_step_9_cKr-ucD85e6Sv2fTqllIv9Dk.jpg",
+    "active" : 1
+}
+
+/* 9 */
+{
+    "_id" : ObjectId("59cc1196ef38e34253470d22"),
+    "id" : 10,
+    "page" : "living_step",
+    "name" : "2. Pozemkový servis",
+    "weight" : 2,
+    "text" : " ",
+    "image" : "",
+    "active" : 1
+}
+
+/* 10 */
+{
+    "_id" : ObjectId("59cc121c5a3aca425a92282b"),
+    "id" : 11,
+    "page" : "living_step",
+    "name" : "3. Zadání, cenotvorba a dohoda o spolupráci",
+    "weight" : 3,
+    "text" : "Dalším krokem je vydefinovat si přesně dům podle Vašich představ. Dáváte přednost rodině, koníčkům nebo večírkům s přáteli? S našim architektem vyřešíte nejen dotažení Vašich představ do cíle, ale také se dozvíte mnoho zajímavých a praktických návrhů.",
+    "image" : "",
+    "active" : 1
+}
+
+/* 11 */
+{
+    "_id" : ObjectId("59ce127956492913d885e282"),
+    "id" : 12,
+    "page" : "living_step",
+    "name" : "4. Zajištění financování",
+    "weight" : 4,
+    "text" : "",
+    "image" : "",
+    "active" : 1
+}
+
+/* 12 */
+{
+    "_id" : ObjectId("59ce128dd80dfd13d0e547e3"),
+    "id" : 13,
+    "page" : "living_step",
+    "name" : "5. Vizualizace domu, interiéru a zahrady",
+    "weight" : 5,
+    "text" : "Text nové položky 13",
+    "image" : "",
+    "active" : 1
+}
+
+/* 13 */
+{
+    "_id" : ObjectId("59ce12bed80dfd13d0e547e6"),
+    "id" : 14,
+    "page" : "living_step",
+    "name" : "6. Příprava projektu a zajištění stavebního povolení",
+    "weight" : 6,
+    "text" : "",
+    "image" : "",
+    "active" : 1
+}
+
+/* 14 */
+{
+    "_id" : ObjectId("59ce12f728c1d413d7bd0dac"),
+    "id" : 15,
+    "page" : "living_step",
+    "name" : "7. Realizace a kolaudace",
+    "weight" : 7,
+    "text" : "",
+    "image" : "",
+    "active" : 1
+}
+
+/* 15 */
+{
+    "_id" : ObjectId("59bfd4bdb79a5740836b7368"),
+    "id" : 6,
+    "page" : "about_us",
+    "name" : "Jednatel",
+    "weight" : 6,
+    "text" : "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. ",
+    "image" : "about_us_6_6LN-l7NFJO_teHeVYlcxdahg.jpg",
+    "active" : 1
+}

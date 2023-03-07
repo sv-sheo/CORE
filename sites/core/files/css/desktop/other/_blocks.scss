@@ -1,0 +1,111 @@
+.block {
+    
+    height:     $block_height;
+    min-height: $min_block_height;
+    max-height: $max_block_height;
+    
+    width:      $block_width;
+    min-width:  $min_block_width;
+    max-width:  $max_block_width;
+    
+    overflow:   hidden;
+    margin:     0 auto 0 auto; 
+    
+}
+
+.block_content {
+
+    // vertical align 
+    top: 50%;
+    transform: translateY(-50%); // moves itself 50% of its height up
+    width: 40%;
+    margin: 0 20% 0 40%;
+
+}
+
+@media screen and (min-width: 1400px) {
+
+    #second_content { margin: 0 20% 0 30% !important; } /* second content block*/
+
+}
+
+.block_content_header {
+    
+    font-family: GOTHIC;
+    color:      $theme_color;
+    font-size:  3rem;
+    
+}
+
+.block_content_text {
+    
+    font-size: 2rem; 
+    padding: 1rem;
+    
+}
+
+
+#first {
+ 
+    #bg_image_first { @extend .full_screen_image; }
+    
+}
+
+#second {
+ 
+    #bg_image_second { @extend .full_screen_image; }
+    
+}
+
+/* scroll button */
+#scroll_button {
+    
+    position:   fixed;  
+    bottom:     50px;
+    left:       50%;
+    width:      70px;
+    height:     70px;
+    z-index:    100;
+    transform:  translateX(-50%);
+    cursor:     pointer;
+    
+}
+
+@keyframes scroll_button {
+    0%  { top: 10px; }
+
+    25% { top: 10px; }
+    31% { top: 20px; }
+    37% { top: 10px; }
+    43% { top: 20px; }
+    50%{ top: 10px; }
+
+    75% { top: 10px; }
+    81% { top: 20px; }
+    87% { top: 10px; }
+    93% { top: 20px; }
+    100%{ top: 10px; }
+}
+
+#scroll_button_arrow {
+    
+    @extend             .absolute;
+    top:                10px;
+    opacity:            0.7;
+    
+    animation-name:     scroll_button;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+    
+    &:hover { opacity: 1;}
+
+}
+
+@media screen and (max-width: $media_width) and (max-height: $media_height) {
+
+    .block_content_header { font-size: 2rem; }
+    .block_content_text {   font-size: 1.5rem; padding: 0.7rem; }
+    #scroll_button  {       width: 50px; height: 50px; }
+    #scroll_button_arrow {  background-size: 30px 30px; }
+
+}

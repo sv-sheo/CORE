@@ -1,0 +1,120 @@
+
+$fs_ribbon: 1.3rem;
+
+#ribbon {
+    
+    position: static;
+    font-size: $fs_ribbon;
+    overflow: visible;
+    
+    #ribbon_logo_warp {
+        
+        text-align: center;
+        
+    }
+    
+    #ribbon_logo_bg {
+        
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        
+    }
+    
+    #ribbon_logo {
+        
+        position: relative;
+        width: 130px;
+        /*height: 140px;*/
+        z-index: 3;
+        margin-top: 5px;
+        
+    }
+
+    #ribbon_warp {
+        color: inherit;
+        position: absolute;
+        overflow: visible;
+        left: 0px;
+        top: 0px;
+        z-index: 20;
+    }    
+            #ribbon_menu {
+                color: $light_color;
+                font-size: 1rem;
+                font-weight: lighter;
+            }
+    
+                .ribbon_menu_left {
+                
+                    padding-right: 15px;
+                    text-align: right;
+                    white-space: normal;
+                    
+                }
+                .ribbon_menu_right {
+                
+                    padding-left: 15px;
+                    white-space: normal;
+                    
+                }
+                    .ribbon_menu_link {
+
+                        padding: 15px 0px;
+
+                    }
+
+                        .rml_overlay {
+
+                            @extend .absolute;
+                            background: $dark_color;
+                            opacity: 0; 
+
+                            &:hover { opacity: 0; }
+
+                        }
+                        .rml_anchor {
+
+                            color: #fff;
+                            text-decoration: none;
+                            position: relative;
+                            z-index: 5;
+                            padding: 15px;
+                            
+                            &:hover { border-bottom: 2px solid white; }
+
+                        }
+    
+            #ribbon_language {
+                z-index: 2;
+            }
+                    #rl_content {
+                        padding: 0.5rem 2rem 0.5rem 1rem;
+                        &:hover {background: red;}
+                    }
+                            .rl_link {
+                                padding: 0.1rem 0.5rem;
+                                opacity: 0.6;
+                                cursor: pointer;
+                                
+                                &:hover {
+                                    opacity: 1;
+                                }
+                                
+                            }
+                            #selected_language {
+                                padding: 0.5rem;
+                                opacity: 1;
+                            }
+    
+    @media screen and (max-width: $media_width) and (max-height: $media_height) {
+
+        #ribbon_logo_warp   { width: 150px; height: 100px; }
+        #ribbon_logo        { width: 90px; height: 70px; }
+    
+    }
+    
+    
+}

@@ -1,0 +1,23 @@
+
+<section id="section_sub_servers" data-key="sub_servers" class="section">
+	
+	{{#each sub_servers}}
+
+		<div class="section_seb_server_origin">
+
+			<div class="ssso_header">{{@key}}</div>
+
+			{{#each this }}
+
+				{{> section_sub_server_row name=@key }}
+
+			{{/each}}
+
+			<div class="nm_separator_flat w100p h4x br_rounded"></div>
+
+		</div>
+
+	{{/each}}
+
+
+</section>

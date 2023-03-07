@@ -1,0 +1,177 @@
+
+<section id="section_processes" data-key="processes" class="section">
+	
+		<!-- MASTER -->
+		<div class="section_process_row">
+
+			<div class="spr_block spr_left">
+
+				<div class="spr_left_header">MASTER PROCESS</div>
+
+				<div class="spr_left_content flex_column_container">
+
+					<div class="sprlc_row flex_column_row">
+						<div class="sprlc_row_header">PID</div>
+						<div class="sprlc_row_content" data-key="processes_master_pid"></div>
+					</div>
+
+					<div class="sprlc_row flex_column_row">
+						<div class="sprlc_row_header">Parent PID</div>
+						<div class="sprlc_row_content" data-key="processes_master_ppid"></div>
+					</div>
+
+					<div class="sprlc_row flex_column_row">
+						<div class="sprlc_row_header">UP-TIME</div>
+						<div class="sprlc_row_content" data-key="processes_master_uptime"></div>
+					</div>
+
+					<div class="sprlc_row flex_column_row">
+						<div class="sprlc_row_header">START-TIME</div>
+						<div class="sprlc_row_content" data-key="processes_master_starttime"></div>
+					</div>
+
+					<div class="sprlc_row flex_column_row">
+						<div class="sprlc_row_header">CPU usage</div> <!-- https://stackoverflow.com/questions/63289933/get-process-cpu-usage-in-percentage -->
+						<div class="sprlc_row_content" data-key="processes_master_cpu"></div>
+					</div>
+
+					<div class="sprlc_row flex_column_row">
+						<div class="sprlc_row_header">RAM usage</div>
+						<div class="sprlc_row_content" data-key="processes_master_ram"></div>
+					</div>
+
+					<div class="sprlc_row flex_column_row">
+						<div class="sprlc_row_header">Workers</div>
+						<div class="sprlc_row_content" data-key="processes_master_workers"></div>
+					</div>
+
+				</div>
+
+			</div>
+			<div class="spr_block spr_right">
+
+				<div class="log_row_container nm_platform_inset nm_platform_convex" data-key="processes_master_logs">
+
+					<div class="log_row">process logs</div>
+
+				</div>
+
+			</div>
+	
+		</div>
+
+		<!--<div class="nm_separator_flat w100p h4x br_rounded"></div> -->
+
+		<!-- RETHINKDB -->
+		<div class="section_process_row">
+
+			<div class="spr_block spr_left">
+
+				<div class="spr_left_header">RETHINKDB PROCESS</div>
+
+				<div class="spr_left_content flex_column_container">
+
+					<div class="sprlc_row flex_column_row">
+						<div class="sprlc_row_header">PID</div>
+						<div class="sprlc_row_content" data-key="processes_rethinkdb_pid"></div>
+					</div>
+
+					<div class="sprlc_row flex_column_row">
+						<div class="sprlc_row_header">Spawnfile</div>
+						<div class="sprlc_row_content" data-key="processes_rethinkdb_spawnfile"></div>
+					</div>
+
+					<div class="sprlc_row flex_column_row">
+						<div class="sprlc_row_header">Connected</div>
+						<div class="sprlc_row_content" data-key="processes_rethinkdb_connected"></div>
+					</div>
+
+					<div class="sprlc_row flex_column_row">
+						<div class="sprlc_row_header">Killed</div>
+						<div class="sprlc_row_content" data-key="processes_rethinkdb_killed"></div>
+					</div>
+
+				</div>
+
+			</div>
+			<div class="spr_block spr_right">
+
+				<div class="log_row_container nm_platform_inset nm_platform_convex" data-key="processes_rethinkdb_logs">
+
+					<div class="log_row">process logs</div>
+
+				</div>
+
+			</div>
+	
+		</div>
+
+		{{#each workers_arr}}
+
+			<!-- RETHINKDB -->
+			<div class="section_process_row">
+
+				<div class="spr_block spr_left">
+
+					<div class="spr_left_header">WORKER {{this}} PROCESS</div>
+
+					<div class="spr_left_content flex_column_container">
+
+						<div class="sprlc_row flex_column_row">
+							<div class="sprlc_row_header">PID</div>
+							<div class="sprlc_row_content" data-key="processes_worker_{{this}}_pid"></div>
+						</div>
+
+						<div class="sprlc_row flex_column_row">
+							<div class="sprlc_row_header">Parent PID</div>
+							<div class="sprlc_row_content" data-key="processes_worker_{{this}}_ppid"></div>
+						</div>
+
+						<div class="sprlc_row flex_column_row">
+							<div class="sprlc_row_header">Connected</div>
+							<div class="sprlc_row_content" data-key="processes_worker_{{this}}_connected"></div>
+						</div>
+
+						<div class="sprlc_row flex_column_row">
+							<div class="sprlc_row_header">STATE</div>
+							<div class="sprlc_row_content" data-key="processes_worker_{{this}}_state"></div>
+						</div>
+
+						<div class="sprlc_row flex_column_row">
+							<div class="sprlc_row_header">UP-TIME</div>
+							<div class="sprlc_row_content" data-key="processes_worker_{{this}}_uptime"></div>
+						</div>
+	
+						<div class="sprlc_row flex_column_row">
+							<div class="sprlc_row_header">START-TIME</div>
+							<div class="sprlc_row_content" data-key="processes_worker_{{this}}_starttime"></div>
+						</div>
+	
+						<div class="sprlc_row flex_column_row">
+							<div class="sprlc_row_header">CPU usage</div>
+							<div class="sprlc_row_content" data-key="processes_worker_{{this}}_cpu"></div>
+						</div>
+	
+						<div class="sprlc_row flex_column_row">
+							<div class="sprlc_row_header">RAM usage</div>
+							<div class="sprlc_row_content" data-key="processes_worker_{{this}}_ram"></div>
+						</div>
+
+					</div>
+
+				</div>
+				<div class="spr_block spr_right">
+
+					<div class="log_row_container nm_platform_inset nm_platform_convex" data-key="processes_worker_{{this}}_logs">
+						
+						<div class="log_row">process logs</div>
+
+					</div>
+
+				</div>
+		
+			</div>
+
+		{{/each}}
+
+</section>

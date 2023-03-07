@@ -1,0 +1,40 @@
+/* variables */
+@import 'config';
+
+@import '../common/neumorphism/index';
+@import '../common/dimensions';
+@import '../common/base64';
+@import '../common/extends';
+@import '../common/mixins';
+@import '../common/util';
+
+@import 'auth/login';
+@import 'main/index';
+@import 'main/sections';
+
+
+@font-face {font-family: GOTHIC;        src: url(/files/get/fonts/gothic.ttf);}
+@font-face {font-family: GOTHIC_BOLD;   src: url(/files/get/fonts/gothicb.ttf);}
+
+body, html {
+    
+    padding:        0 !important; 
+    margin:         0 !important;
+    font-size:      1rem; // 16px for most (font size of html)
+    
+}
+
+div {
+    
+    position:       relative;
+    padding:        0;
+    margin:         0;
+    box-sizing:     border-box;
+    
+}
+
+#server_data {
+    
+    display:        none;
+    
+}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta name="robots" content="noindex, nofollow">
+        <meta name=”description” content=”CORE-S login”>
+        <meta name="author" content="sheo.cz">
+        
+        <link href="{{webpack_url}}desktop.css?prqi={{request_id}}" type="text/css" rel="stylesheet">
+        
+        <title>{{html.head.title}}</title>
+        
+    </head>
+    
+    <body>
+        
+        <div id="slock">
+
+            <div id="login_warp">
+
+                <form id="login_form" action="{{HOST}}login" method="post" class="nm_platform_spread nm_platform_concave tc br_16">
+
+					<label class="login_label">ADMIN</label>
+                    <input class="login_input nm_input txti_10 br_rounded" name="name" value="{{result.name}}" >
+					<label class="login_label">PASSWORD</label>
+                    <input class="login_input nm_input txti_10 br_rounded" name="pass" type="password" >
+
+					<div class="login_remember">
+
+						<div class="nm_radio_theme rounded h15x">
+							
+							<div class="nm_radio_checker"></div>
+							<input id="remember" name="language" type="checkbox" hidden />
+
+						</div>
+
+						<label class="login_remember_label" for="remember">Remember me</label>
+
+					</div>
+                    
+					<button type="submit" class="nm_btn nm_btn_flat txt_12 rounded"><span class="gradient_text bold">Log in</span></button>
+                    
+                    <div class="login_error">{{result.text}}</div>
+
+                </form>
+
+            </div>
+        
+        </div>
+
+		<script>
+
+			var remember_checkbox_input = document.getElementById('remember');
+			var remember_checkbox_DOM	= remember_checkbox_input.parentElement;
+
+			remember_checkbox_DOM.addEventListener('change', function(e) { 
+				
+				if(  remember_checkbox_input.checked ) remember_checkbox_DOM.classList.add('active');
+				if( !remember_checkbox_input.checked ) remember_checkbox_DOM.classList.remove('active');
+				
+			});
+
+		</script>
+        
+    </body>
+    
+</html>

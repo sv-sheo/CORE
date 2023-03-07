@@ -1,0 +1,120 @@
+
+
+.carousel_container {
+    
+    width: 100%;
+    left: 0%;
+    
+}
+
+.carousel_overlay {
+    
+    z-index: 5;
+    
+}
+
+.carousel_header {
+    
+    color:      $light_color;
+    font-size:  3rem;
+    text-align: center;
+    padding:    3rem;
+    margin-top: 50px;
+    
+    
+}
+
+.carousel_slide {
+    
+    @include absolute(0px, 0px, 100%, 100%);
+    
+    z-index: 1;
+    
+}
+
+.cs_warp {
+    
+    text-align: center;
+    height:     100%;
+    
+}
+
+.cp_full_img {
+    
+    height:     100%;
+    width:      auto;
+    
+}
+
+.carousel_arrow {
+    
+    position:   absolute;
+    top:        45%;
+    width:      100px;
+    height:     100px;
+    z-index:    20;
+    
+    background-position: center center;
+    background-repeat: no-repeat;
+    opacity: 0.7; 
+    cursor: pointer;
+    &:hover { opacity: 1;}
+    
+}
+
+.carousel_arrow_right {
+    
+    right:              0px;
+    background-image:   $base64_right_white;
+ 
+}
+
+.carousel_arrow_left {
+    
+    left:               0px;
+    background-image:   $base64_left_white;
+    
+}
+
+.carousel_dot_navigation {
+    
+    position:   absolute;
+    bottom:     50px;
+    left:       50%;
+    transform:  translateX(-50%);
+    z-index:    10;
+    
+}
+
+.carousel_dot_link {
+    
+    display:    inline-block;
+    margin:     10px 15px;
+    padding:    8px;
+    border:     3px solid white;
+    transform:  rotate(45deg);
+    opacity:    0.7;
+    
+}
+
+.carousel_dot_link:hover {
+    
+    opacity:    1;
+    cursor:     pointer;
+    
+}
+
+.carousel_dot_link_active {
+    
+    background: white;
+    opacity:    1;
+    
+}
+
+ @media screen and (max-width: $media_width) and (max-height: $media_height) {
+
+     .carousel_arrow {  width: 50px; height: 50px; background-size: 30px 30px; }
+     .carousel_header { font-size: 2rem; padding: 2rem;}
+     .carousel_dot_link{padding: 6px; border-width: 2px; }
+
+}

@@ -1,0 +1,93 @@
+
+
+.nm_btn {
+
+	border:         none;
+    outline:        none;
+	color:          $dark_color;
+	background:     $light_color;
+
+	cursor:         pointer;
+	transition:     box-shadow 80ms;
+
+	@extend 		.no_text_select;
+
+}
+
+.nm_btn_flat {
+
+	background:     linear-gradient(150deg, lighten($light_color, 2%), darken($light_color, 2%));
+	box-shadow:     -5px -5px 10px $light_shadow, 5px 5px 10px $dark_shadow;
+
+	&:hover {
+
+		color:    	darken($dark_color, 5%);
+		background:	$light_color;
+        box-shadow:	-1px -1px 2px $light_shadow, 1px 1px 2px $dark_shadow;
+
+    }
+
+    &:active {
+
+		color:    	darken($dark_color, 10%);
+        background:	linear-gradient(150deg, lighten($light_color, 2%), darken($light_color, 2%));
+        box-shadow:	-1px -1px 2px $light_shadow, 1px 1px 2px $dark_shadow, inset -2px -2px 5px $light_shadow, inset 2px 2px 5px $dark_shadow;
+
+    }
+
+}
+
+.nm_btn_inset {
+
+	background:     linear-gradient(150deg, lighten($light_color, 2%), darken($light_color, 2%));
+	box-shadow:     -5px -5px 10px $light_shadow, 5px 5px 10px $dark_shadow;
+
+	&:hover {
+
+		background:	$light_color;
+        box-shadow: -1px -1px 2px $light_shadow, 1px 1px 2px $dark_shadow;
+
+    }
+
+    &:active {
+
+        background:	$light_color;
+        box-shadow:	inset -2px -2px 4px $light_shadow, inset 2px 2px 4px $dark_shadow;
+
+    }
+
+}
+
+.nm_btn_spread {
+
+	background:     linear-gradient(150deg, lighten($light_color, 2%), darken($light_color, 2%));
+	box-shadow:     -10px -10px 20px $light_shadow, 10px 10px 20px $dark_shadow;
+
+	&:hover {
+
+		background:	$light_color;
+        box-shadow: -1px -1px 2px $light_shadow, 1px 1px 2px $dark_shadow;
+
+    }
+
+    &:active {
+
+        background:	$light_color;
+        box-shadow:	inset -2px -2px 4px $light_shadow, inset 2px 2px 4px $dark_shadow;
+
+    }
+
+}
+
+.nm_btn_cubic {
+
+	aspect-ratio: 1/1;
+
+}
+
+.nm_btn_circle {
+
+	aspect-ratio: 	1/1;
+	border-radius: 	999px;
+
+}

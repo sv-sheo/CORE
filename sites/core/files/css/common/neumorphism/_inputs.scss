@@ -1,0 +1,282 @@
+
+.nm_input {
+
+	outline: 		none;
+	border: 		none;
+	background: 	lighten($light_color, 4%);
+	color:			$darker_color;
+	box-sizing:		border-box;
+
+	box-shadow:		inset -2px -2px 4px $light_shadow, inset 2px 2px 4px $dark_shadow;
+
+	// default size
+	font-size:      12pt;
+	padding:        8pt 12pt;
+
+	&:focus { 
+		
+		box-shadow:		-1px -1px 2px $light_shadow, 1px 1px 2px $dark_shadow, inset -3px -3px 6px $light_shadow, inset 3px 3px 6px $dark_shadow;
+		background: 	linear-gradient(150deg, lighten($light_color, 6%), lighten($light_color, 8%)); 
+	
+	}
+
+}
+
+.nm_checkbox {
+
+	display:		inline-block;
+	background: 	$dark_color; 
+	box-shadow:		-1px -1px 2px 0px $light_shadow, 1px 1px 2px 0px $dark_shadow, inset 2px 2px 4px 0px darken($dark_color, 20%), inset 2px 2px 4px 0px darken($dark_color, 20%), inset -2px -2px 4px -2px lighten($dark_color, 20%);
+	text-align:		left;
+	cursor:			pointer;
+	padding:		4px; // overwrite depending on height ... h=10px -> padding=1px. h=20px -> padding=2px ... above 30px, 4px padding is good for all
+	font-size:		0px;
+	aspect-ratio:	5/3;
+	
+	/* defined in html (via .h30x .w60x
+	height:			30px;
+	width:			60px;
+	*/
+
+	&.active {
+
+		background: 	linear-gradient(135deg, $theme_color_1, $theme_color_2);
+		box-shadow:		-1px -1px 2px 0px $light_shadow, 1px 1px 2px 0px $dark_shadow, inset 2px 2px 4px 0px darken($theme_color_1, 10%), inset -2px -2px 4px 0px lighten($theme_color_2, 4%);
+		text-align:		right;
+
+		//.nm_checkbox_checker { transform: translate(90%); }
+
+	}
+
+	&_checker {
+
+		display: 		inline-block;
+		border-radius:	100%;
+		height:			100%;
+		aspect-ratio:	1/1;
+		background: 	linear-gradient(135deg, lighten($light_color, 4%), darken($light_color, 4%)); 
+		box-shadow:		1px 1px 1px 0px darken($dark_color, 20%);
+
+	}
+
+	&:hover {
+
+		.nm_checkbox_checker {
+
+			//background: 	linear-gradient(135deg, darken($light_color, 4%), lighten($light_color, 4%)); 
+			background: 	$light_color;
+			box-shadow:		none;
+
+		}
+
+	}
+
+}
+
+.nm_radio_theme {
+
+	display:		inline-block;
+	background: 	$dark_color; 
+	box-shadow:		-1px -1px 2px 0px $light_shadow, 1px 1px 2px 0px $dark_shadow, inset 2px 2px 4px 0px darken($dark_color, 20%), inset 2px 2px 4px 0px darken($dark_color, 20%), inset -2px -2px 4px -2px lighten($dark_color, 20%);
+	cursor:			pointer;
+	font-size:		0px;
+	padding:		4px;
+	aspect-ratio:	1/1;
+
+	.nm_radio_checker {
+
+		display: 		none;
+		border-radius:	100%;
+		height:			100%;
+		aspect-ratio:	1/1;
+		background: 	linear-gradient(135deg, lighten($light_color, 4%), darken($light_color, 4%)); 
+		box-shadow:		1px 1px 1px 0px darken($dark_color, 20%);
+
+	}
+
+	&.active {
+
+		background: 	linear-gradient(135deg, $theme_color_1, $theme_color_2);
+		box-shadow:		-1px -1px 2px 0px $light_shadow, 1px 1px 2px 0px $dark_shadow, inset 2px 2px 4px 0px darken($theme_color_1, 10%), inset -2px -2px 4px 0px lighten($theme_color_2, 4%);
+
+		.nm_radio_checker { display: inline-block; }
+
+	}
+
+}
+
+.nm_radio_flat {
+
+	display:		inline-block;
+	background:     linear-gradient(150deg, lighten($light_color, 2%), darken($light_color, 2%));
+	box-shadow:     inset 0 0 0 $lighter_shadow, inset 0 0 0 $darker_shadow, -5px -5px 10px $lighter_shadow, 5px 5px 10px $darker_shadow; // set the 0 to enable transition
+	cursor:			pointer;
+	font-size:		0px;
+	padding:		6px;
+	aspect-ratio:	1/1;
+
+	transition:		box-shadow 80ms;
+
+	.nm_radio_checker {
+
+		display:		inline-block;
+		border-radius:	100%;
+		height:			100%;
+		aspect-ratio:	1/1;
+		background: 	$light_color;
+		border:			1px solid $dark_color;
+		transition:		background 80ms;
+
+	}
+
+	&.active {
+
+
+		background:     linear-gradient(150deg, darken($light_color, 2%), lighten($light_color, 2%));
+		box-shadow:		inset 2px 2px 4px 0px $darker_shadow, inset -2px -2px 4px 0px $lighter_shadow, 0 0 0 $lighter_shadow, 0 0 0 $darker_shadow;
+
+		.nm_radio_checker { background:	$dark_color; }
+
+	}
+
+}
+
+.nm_gauge {
+
+	background:     $light_color;
+	box-shadow:		inset 2px 2px 4px $darker_shadow, inset -2px -2px 4px $lighter_shadow;
+	font-size: 		0px;
+
+	&_fill {
+
+		position:	absolute;
+		width:		100%;
+		bottom:		0px;
+		background: linear-gradient(180deg, $theme_color_2, $theme_color_1);
+
+	}
+
+}
+
+.nm_loader {
+
+	display:			flex;
+	flex-flow:			row nowrap;
+	justify-content: 	center;
+	align-items: 		center;
+	box-shadow:     	-3px -3px 6px $light_shadow, 3px 3px 6px $darker_shadow;
+
+	&_fill {
+		position:	absolute;
+		top: 		0px;
+		left: 		0px;
+		height: 	100%;
+		background: linear-gradient(90deg, $theme_color_1, $theme_color_3);
+	}
+
+	&_text {
+
+		color: 			$theme_color_1;
+		display: 		inline-block;
+		mix-blend-mode: multiply;
+	  
+	  }
+
+
+}
+
+
+.led_light {
+
+	min-height:		6px;
+	aspect-ratio: 	1/1;
+	border-radius: 	100%;
+
+	animation-duration: 		1s;
+	animation-iteration-count: 	infinite;
+
+}
+
+.led_light_success {
+
+	background: 	$success_color; 
+	box-shadow:		0px 0px 20px 5px $success_color;
+	animation-name:	blinking_success;
+
+}
+
+.led_light_warning {
+
+	background: 	$warning_color; 
+	box-shadow:		0px 0px 20px 5px $warning_color;
+	animation-name:	blinking_warning;
+
+}
+
+.led_light_error {
+
+	background: 	$error_color; 
+	box-shadow:		0px 0px 20px 5px $error_color;
+	animation-name:	blinking_error;
+
+}
+
+.led_light_theme_1 {
+
+	background: 	$theme_color_1; 
+	box-shadow:		0px 0px 20px 5px $theme_color_1; 
+	animation-name:	blinking_theme_1; 
+
+}
+
+.led_light_theme_2 {
+
+	background: 	$theme_color_2; 
+	box-shadow:		0px 0px 20px 5px $theme_color_2; 
+	animation-name:	blinking_theme_2; 
+
+}
+
+.led_light_theme_3 {
+
+	background: 	$theme_color_3; 
+	box-shadow:		0px 0px 20px 5px $theme_color_3; 
+	animation-name:	blinking_theme_3; 
+
+}
+
+@keyframes blinking_success {
+	0%   {	box-shadow:		0px 0px 12px 3px $success_color;}
+	50% {	box-shadow:		0px 0px 15px 5px $success_color;}
+	100%   {	box-shadow:	0px 0px 12px 3px $success_color;}
+  }
+
+  @keyframes blinking_warning {
+	0%   {	box-shadow:		0px 0px 12px 3px $warning_color;}
+	50% {	box-shadow:		0px 0px 15px 5px $warning_color;}
+	100%   {	box-shadow:	0px 0px 12px 3px $warning_color;}
+  }
+
+  @keyframes blinking_error {
+	0%   {	box-shadow:		0px 0px 12px 3px $error_color;}
+	50% {	box-shadow:		0px 0px 15px 5px $error_color;}
+	100%   {	box-shadow:	0px 0px 12px 3px $error_color;}
+  }
+
+  @keyframes blinking_theme_1 {
+	0%   {	box-shadow:		0px 0px 12px 3px $theme_color_1; }
+	50% {	box-shadow:		0px 0px 15px 5px $theme_color_1; }
+	100%   {	box-shadow:	0px 0px 12px 3px $theme_color_1; }
+  }
+
+  @keyframes blinking_success {
+	0%   {	box-shadow:		0px 0px 12px 3px $theme_color_2; }
+	50% {	box-shadow:		0px 0px 15px 5px $theme_color_2; }
+	100%   {	box-shadow:	0px 0px 12px 3px $theme_color_2; }
+  }
+
+  @keyframes blinking_success {
+	0%   {	box-shadow:		0px 0px 12px 3px $theme_color_3; }
+	50% {	box-shadow:		0px 0px 15px 5px $theme_color_3; }
+	100%   {	box-shadow:	0px 0px 12px 3px $theme_color_3; }
+  }

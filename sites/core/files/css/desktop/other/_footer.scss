@@ -1,0 +1,42 @@
+#footer {
+    
+    height:         auto;
+    min-height:     0px;
+    background:     $dark_color;
+    color:          $light_color;
+    z-index:        105;
+    padding-bottom: 40px;
+    
+}
+
+.footer_column {
+    
+    padding: 2rem 1rem;
+    
+}
+
+.footer_link_big, .footer_link_small {
+    
+    display:    block;
+    padding:    0.5rem 0;
+    color:      $light_color;
+    text-decoration: none;
+    
+}
+
+.footer_link_big {  font-size: 1.5rem; }
+.footer_link_small {z-index: 1; }
+
+#footer_footer {
+    
+    position:       absolute;
+    bottom:         0px;
+    height:         40px;
+    width:          100%;
+    @include        line_height(40px, 2.5);
+    color:          $light_color;
+    background:     $dark_color;
+    text-align:     center;
+    
+        
+}

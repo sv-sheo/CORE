@@ -1,0 +1,60 @@
+
+.nm_platform_flat {
+
+	box-shadow:    	-3px -3px 6px $light_shadow, 3px 3px 6px $dark_shadow;
+
+}
+
+.nm_platform_spread {
+
+	box-shadow:    	-10px -10px 20px $light_shadow, 10px 10px 20px $dark_shadow;
+
+}
+
+.nm_platform_concave {
+
+	background: 	linear-gradient(135deg, lighten($light_color, 3%), darken($light_color, 3%))
+
+}
+
+.nm_platform_convex {
+
+	background: 	linear-gradient(135deg, darken($light_color, 3%), lighten($light_color, 3%))
+
+}
+
+.nm_platform_inset {
+
+	box-shadow:    	inset -3px -3px 6px $light_shadow, inset 3px 3px 6px $darker_shadow;
+
+}
+
+.nm_platform_inset_spread {
+
+	box-shadow:    	inset -10px -10px 20px $light_shadow, inset 10px 10px 20px $darker_shadow;
+
+}
+
+.nm_platform_rounded_edges {
+
+	box-shadow:    	-3px -3px 6px $light_shadow, 3px 3px 6px $dark_shadow, inset -3px -3px 6px $dark_shadow, inset 3px 3px 6px $light_shadow;
+
+}
+
+.nm_platform_spread_edges {
+
+	box-shadow:    	-10px -10px 20px $light_shadow, 10px 10px 20px $dark_shadow, inset -10px -10px 20px $dark_shadow, inset 10px 10px 20px $light_shadow;
+
+}
+
+.nm_platform_rounded_inset {
+
+	box-shadow:    	-3px -3px 6px $dark_shadow, 3px 3px 6px $light_shadow, inset -3px -3px 6px $light_shadow, inset 3px 3px 6px $dark_shadow;
+
+}
+
+.nm_platform_rounded_inset_spread {
+
+	box-shadow:    	-10px -10px 20px $dark_shadow, 10px 10px 20px $light_shadow, inset -10px -10px 20px $light_shadow, inset 10px 10px 20px $dark_shadow;
+
+}

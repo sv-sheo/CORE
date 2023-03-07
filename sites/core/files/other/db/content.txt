@@ -1,0 +1,251 @@
+﻿/* 1 */
+{
+    "_id" : ObjectId("5988582e350ef77b53b58e54"),
+    "page" : "home",
+    "name" : "block_1_text",
+    "text" : "Obsah 1. bloku",
+    "content" : "Nejvíce nás inspiruje pohled vpřed. "
+}
+
+/* 2 */
+{
+    "_id" : ObjectId("5988580b350ef77b53b58e09"),
+    "page" : "home",
+    "name" : "block_1_header",
+    "text" : "Nadpis 1. bloku",
+    "content" : ""
+}
+
+/* 3 */
+{
+    "_id" : ObjectId("59885836350ef77b53b58e6a"),
+    "page" : "home",
+    "name" : "block_2_header",
+    "text" : "Nadpis 2. bloku",
+    "content" : ""
+}
+
+/* 4 */
+{
+    "_id" : ObjectId("599c0a990c8e2ec2800cd4e9"),
+    "page" : "finances",
+    "name" : "intro_percents",
+    "text" : "Procenta v úvodu",
+    "content" : "2,19 %"
+}
+
+/* 5 */
+{
+    "_id" : ObjectId("599c0acb0c8e2ec2800cd4ea"),
+    "page" : "finances",
+    "name" : "intro_percents_text",
+    "text" : "Text pod procenty",
+    "content" : "Zde začíná FIBY hypotéka."
+}
+
+/* 6 */
+{
+    "_id" : ObjectId("599c0b050c8e2ec2800cd4eb"),
+    "page" : "finances",
+    "name" : "mailus_header",
+    "text" : "Nadpis mailového formuláře",
+    "content" : "MÁM ZÁJEM O NEZÁVAZNÉ POROVNÁNÍ"
+}
+
+/* 7 */
+{
+    "_id" : ObjectId("599d6669e89b89f02b66fd5c"),
+    "page" : "living",
+    "name" : "carousel_header",
+    "text" : "Nadpis carouselu",
+    "content" : "NÁVRHY DOMŮ"
+}
+
+/* 8 */
+{
+    "_id" : ObjectId("5988583f350ef77b53b58e7c"),
+    "page" : "home",
+    "name" : "block_2_text",
+    "text" : "Obsah 2. bloku",
+    "content" : "Provedeme Vás cestou k Vašemu vysněnému bydlení. Navrhujeme, konzultujeme, vyřizujeme, realizujeme. Tvoříme stavby pro výjimečné i každodenní chvíle."
+}
+
+/* 9 */
+{
+    "_id" : ObjectId("599d6f62e89b89f02b670d3c"),
+    "page" : "home",
+    "name" : "intro_finances",
+    "text" : "Intro - finance nadpis",
+    "content" : "FINANCE"
+}
+
+/* 10 */
+{
+    "_id" : ObjectId("599d6f77e89b89f02b670d66"),
+    "page" : "home",
+    "name" : "intro_living",
+    "text" : "Intro - bydlení nadpis",
+    "content" : "BYDLENÍ"
+}
+
+/* 11 */
+{
+    "_id" : ObjectId("599d71d3e89b89f02b67118f"),
+    "page" : "home",
+    "name" : "carousel_header",
+    "text" : "Carousel nadpis",
+    "content" : "NÁVRHY DOMŮ"
+}
+
+/* 12 */
+{
+    "_id" : ObjectId("599d7370e89b89f02b671497"),
+    "page" : "home",
+    "name" : "intro_finances_list",
+    "text" : "Intro - finance položky",
+    "content" : "Úvěry|Investice|Spoření|Pojištění|Hypoteční kalkulačka"
+}
+
+/* 13 */
+{
+    "_id" : ObjectId("599d7391e89b89f02b6714ce"),
+    "page" : "home",
+    "name" : "intro_living_list",
+    "text" : "Intro - bydlení položky",
+    "content" : "Návrhy domů|Technologie|Reference|Kroky k Vašemu vysněnému byldení"
+}
+
+/* 14 */
+{
+    "_id" : ObjectId("59c14b74ad551c9bde02236b"),
+    "page" : "contact",
+    "name" : "header",
+    "text" : "Nadpis",
+    "content" : "FINANCE A BYDLENÍ"
+}
+
+/* 15 */
+{
+    "_id" : ObjectId("59c14b8aad551c9bde02236c"),
+    "page" : "contact",
+    "name" : "mail",
+    "text" : "E-mail",
+    "content" : "info@fiby.cz"
+}
+
+/* 16 */
+{
+    "_id" : ObjectId("59c14bdbad551c9bde02236e"),
+    "page" : "contact",
+    "name" : "street",
+    "text" : "Ulice",
+    "content" : "Tolstého 35"
+}
+
+/* 17 */
+{
+    "_id" : ObjectId("59c14bf5ad551c9bde02236f"),
+    "page" : "contact",
+    "name" : "post",
+    "text" : "PSČ",
+    "content" : "616 00"
+}
+
+/* 18 */
+{
+    "_id" : ObjectId("59c14c0aad551c9bde022370"),
+    "page" : "contact",
+    "name" : "city",
+    "text" : "Město",
+    "content" : "Brno-Žabovřesky"
+}
+
+/* 19 */
+{
+    "_id" : ObjectId("59c507b2a2a9e21d663a0d0a"),
+    "page" : "living",
+    "name" : "steps_block_text",
+    "text" : "6 Kroků - text",
+    "content" : "dssdas"
+}
+
+/* 20 */
+{
+    "_id" : ObjectId("59c507c3a2a9e21d663a0d0b"),
+    "page" : "living",
+    "name" : "references_block_text",
+    "text" : "Reference - text",
+    "content" : "Svět kolem nás se žene rychlým tempem. Dům nám dává příležitost k odpočinku a načerpání nové energie."
+}
+
+/* 21 */
+{
+    "_id" : ObjectId("59c508adef782adf43335ed7"),
+    "page" : "living",
+    "name" : "houses_block_header",
+    "text" : "Návrhy domů - nadpis",
+    "content" : "INSPIRACE A NÁVRHY"
+}
+
+/* 22 */
+{
+    "_id" : ObjectId("5a085208af1679e27b984345"),
+    "page" : "living",
+    "name" : "mailus_header",
+    "text" : "NADPIS MAILU",
+    "content" : "Napište nám"
+}
+
+/* 23 */
+{
+    "_id" : ObjectId("5a086464ffe7cb99d925cf8b"),
+    "page" : "living",
+    "name" : "mailus_topics_list",
+    "text" : "MAIL - témata",
+    "content" : "NĚCO|LALA|AHOJ"
+}
+
+/* 24 */
+{
+    "_id" : ObjectId("59c508bfef782adf43335ed8"),
+    "page" : "living",
+    "name" : "houses_block_text",
+    "text" : "Návrhy domů - text",
+    "content" : "MUSELI JSME DOBRÉ NÁVRHY SMAZAT. TO PROTO, ABY VZNIKLY JEŠTĚ LEPŠÍ."
+}
+
+/* 25 */
+{
+    "_id" : ObjectId("59c507d5a2a9e21d663a0d0c"),
+    "page" : "living",
+    "name" : "technology_block_text",
+    "text" : "Technologie - text",
+    "content" : "Více možností dává svobodnější volbu. Nejvíce inklinujeme k přírodním materiálům jako beton, sklo, dřevo či kov. Rádi také stavíme z pálené cihly nebo Ytong. Připravili jsme pro Vás proto širokou škálu možností, z čeho dům postavit."
+}
+
+/* 26 */
+{
+    "_id" : ObjectId("5a085425af1679e27b9848dd"),
+    "page" : "living",
+    "name" : "mailus_topics_list",
+    "text" : "MAIL - témata",
+    "content" : "NĚCO|LALA|AHOJ"
+}
+
+/* 27 */
+{
+    "_id" : ObjectId("59c14c2ead551c9bde022371"),
+    "page" : "contact",
+    "name" : "name",
+    "text" : "Zastupující",
+    "content" : "TADEÁŠ VOLÁNEK\r\n"
+}
+
+/* 28 */
+{
+    "_id" : ObjectId("59c14ba5ad551c9bde02236d"),
+    "page" : "contact",
+    "name" : "phone",
+    "text" : "Mobil",
+    "content" : "+420 775 750 998"
+}

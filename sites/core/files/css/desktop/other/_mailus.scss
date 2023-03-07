@@ -1,0 +1,171 @@
+
+#mailus {
+    
+    color:      $theme_color;
+    height:     auto;
+    padding:    5rem 0;
+
+    #mailus_warp {
+
+        width:          $min_block_width;
+        height:         auto;
+        min-height:     700px;
+        margin:         0 auto;
+        background-image:   url(/files/get/images/static/mailus_paper.png);
+        background-size:    cover;
+        box-shadow:         4px 4px 20px 0px #888;
+
+    }
+    
+    #mailus_img {
+        
+        position:       absolute;
+        width:          45%;
+        right:          5%;
+        top:            20%;
+        
+        
+    }
+    
+    #mailus_header {
+        
+        text-align:     center;
+        font-size:      3rem;
+        padding:        3rem;
+        
+        
+    }
+ 
+    #mailus_button {
+        
+        @include        absolute(80%, 350px, 300px, auto);
+        
+    }
+    
+    .mailus_button {
+        
+        @include        font_size(24px, 2);
+        padding:        0 24px;
+        @include        border_radius(3px);
+        border:         2px solid $theme_color;
+        cursor:         pointer;
+        opacity:        0.8;
+        text-align:     center;
+        display:        inline-block;
+        
+        &:hover {
+            
+            opacity:    1;
+            
+        }
+        
+    }
+    
+    #mailus_form {
+        
+        margin-left:    400px;
+        width:          550px;
+        height:         auto;
+        padding:        20px;
+        text-align:     left;
+        
+    }
+    
+    .mailus_input {
+        
+        display:        block;
+        border:         1px solid $dark_color;
+        @include        border_radius(3px);
+        padding:        5px;
+        @include        font-size(15px, 2);
+        margin-bottom:  10px;
+        color:          $dark_color;
+        background:     rgba(#FFFFFF, 0.5);
+        box-sizing:     border-box;
+        
+    }
+    
+    .mailus_select { 
+        
+        @extend         .mailus_input; 
+        /*width:          200px;    */
+    
+    }
+    .mailus_text {
+    
+        @extend         .mailus_input; 
+       /* width:          182px;*/
+    
+    }
+    
+    .mailus_textarea {
+    
+        @extend         .mailus_input; 
+        /*width:          400px;
+        max-width:      400px;*/
+        margin-bottom:  0;
+        
+    }
+    
+    #mailus_button_send {
+        
+        background:     none;
+        color:          $theme_color;
+        font-family:    GOTHIC;
+        /*font-size:      1.5rem;*/
+        
+    }
+    
+    #mailus_button_cancel {
+        
+        float:          right;
+        color:          $dark_color;
+        border-color:   $dark_color;
+        /*font-size:      1.5rem;*/
+        
+    }
+    
+    #mi_error {
+        
+        color:          crimson;
+        padding:        1rem 1rem 1rem 0;
+        font-size:      1.2em;
+        
+    }
+    
+    #mi_loader {
+        
+        @extend                 .absolute;
+        background-color:       $light_color;
+        opacity:                0.7;
+        background-image:       url("/files/get/icons/loader.svg");
+        background-position:    center center;
+        background-repeat:      no-repeat;
+        z-index:                10;
+        display:                none;
+        
+    }
+    
+    .mi_error {
+        
+        color:          crimson;
+        border-color:   crimson;
+        
+    }
+    
+@media screen and (max-width: $media_width) and (max-height: $media_height) {
+
+    #mailus_warp {      width: 100%; height: 100%; }
+    #mailus_header {    margin-top: 30px; font-size: 2rem; padding: 2rem; z-index: 16; }
+    #mailus_img {       width: 35%; right: 10%; }
+    .mailus_button {    font-size: 1.5rem; padding: 0.5rem 1rem; }
+    .mailus_input {     font-size: 1rem; margin-bottom: 0.5rem;}
+    .mailus_textarea {  width: 300px; max-width: 300px;}
+    #mailus_button_send {   font-size: 1.2rem;}
+    #mailus_button_cancel { font-size: 1.2rem; float: none;}
+    #mi_error {             font-size: 1rem; }
+    
+}
+    
+}
+

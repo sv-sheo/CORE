@@ -1,0 +1,99 @@
+
+/*$hg_grey: #77787b;*/
+$hg_green: #8ac53f;
+
+.hourglass_block {
+    
+}
+    /* HOURGLASS BACKGROUNDS */
+    .hgb_left_top {
+
+        background-image: $base64_hg_left_top;
+        background-repeat: no-repeat;
+        background-position: center right;
+        border-top: 2px solid $hg_grey;
+        border-bottom: 2px solid $theme_color;
+        z-index: 1;
+
+    }
+    .hgb_right_top {
+
+        background-image: $base64_hg_right_top;
+        background-repeat: no-repeat;
+        background-position: center left;
+        border-top: 2px solid $hg_grey;
+        border-bottom: 2px solid $theme_color;
+        z-index: 1;
+
+    }
+
+    .hgb_left_bot {
+
+        background-image: $base64_hg_left_bot;
+        background-repeat: no-repeat;
+        background-position: center right;
+        border-top: 2px solid $theme_color;
+        border-bottom: 2px solid $hg_grey;
+        z-index: 1;
+
+    }
+    .hgb_right_bot {
+
+        background-image: $base64_hg_right_bot;
+        background-repeat: no-repeat;
+        background-position: center left;
+        border-top: 2px solid $theme_color;
+        border-bottom: 2px solid $hg_grey;
+        z-index: 1;
+
+    }
+    	
+    /* the rest */
+    .hgb_warp_right {
+
+        padding:    30px 30px 30px 120px;
+
+    }
+    .hgb_warp_left {
+
+        padding:    30px 120px 30px 30px;
+
+    }
+    
+    .hgb_header {
+
+        font-size:      2.5rem;
+        text-align:     center;
+        margin-bottom:  20px;
+        z-index:        3;
+
+    }
+
+    .hgb_header_green {
+        
+        @extend .hgb_header;
+        color: $theme_color;
+        
+    }
+    .hgb_header_grey {
+        
+        @extend .hgb_header;
+        color: $hg_grey;
+        
+    }
+
+    .hgb_content {
+
+        font-size:      1.8rem;
+        text-align:     center;
+        z-index:        5;
+
+    }
+
+@media screen and (max-width: $media_width) and (max-height: $media_height) {
+
+    .hgb_header {   font-size:  2.2rem;}
+    .hgb_content {  font-size:  1.8rem;}
+
+}
+

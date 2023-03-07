@@ -1,0 +1,9 @@
+.env
+rethinkdb.conf
+sites/core/config/.conf
+sites/core/files/temp/
+node_modules/
+files/temp/
+security/
+.vscode/
+logs/

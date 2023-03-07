@@ -1,0 +1,33 @@
+.lightbox {
+    
+    position: fixed;
+    z-index: 20;
+    
+}
+
+.lightbox_close_button {
+    
+    position:   absolute;
+    width:      30px;
+    height:     30px;
+    background-image: $base64_x_white;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    top:        20px;
+    right:      20px;
+    cursor:     pointer;
+    
+}
+
+.lighbox_arrow {
+    
+    position:   absolute;
+    top:        50%;
+    left:       50%;
+    cursor:     pointer;
+    width:      30px;
+    height:     30px;
+    
+    transform: translate(-50%, -50%);
+    
+}

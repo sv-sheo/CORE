@@ -1,0 +1,298 @@
+﻿/* 1 */
+{
+    "_id" : ObjectId("59984f70b210dd938406846d"),
+    "id" : 1,
+    "type" : "page",
+    "name" : "Nová hypotéka",
+    "link_text" : "Novou hypotéku",
+    "text" : "Koupit/stavět dům nebo byt. ",
+    "active" : true,
+    "rates" : {
+        "1" : {
+            "3" : 1.54,
+            "5" : 1.74,
+            "10" : 2.27
+        },
+        "2" : {
+            "3" : 2.49,
+            "5" : 2.49,
+            "10" : 5.79
+        }
+    },
+    "inputs" : {
+        "price" : {
+            "min" : 400000,
+            "value" : 0,
+            "max" : 10000000,
+            "step" : 10000,
+            "text" : "Hodnota nemovitosti",
+            "title" : "Celková hodnota nemovitosti, včetně pozemku."
+        },
+        "loan" : {
+            "min" : 300000,
+            "value" : 0,
+            "max" : 10000000,
+            "step" : 10000,
+            "text" : "Výše hypotéky",
+            "title" : ""
+        },
+        "time" : {
+            "min" : 5,
+            "value" : 0,
+            "max" : 30,
+            "step" : 1,
+            "text" : "Délka splácení",
+            "title" : ""
+        },
+        "fixation" : {
+            "text" : "Fixace",
+            "options" : {
+                "3" : "3 roky",
+                "5" : "5 let",
+                "10" : "10 let"
+            },
+            "selected" : 0
+        },
+        "extra" : {
+            "hurry" : {
+                "text" : "Jak moc spěchám",
+                "options" : "Hoří to!|Spěchám|Jen trochu|Rozkoukávám se",
+                "selected" : 0
+            }
+        }
+    }
+}
+
+/* 2 */
+{
+    "_id" : ObjectId("599a0b72785b693b77732ced"),
+    "id" : 2,
+    "type" : "page",
+    "name" : "Refinancovat",
+    "link_text" : "Refinancovat",
+    "text" : "Končí mi fixační období a chci lepší podmínky.",
+    "active" : false,
+    "rates" : {
+        "1" : {
+            "3" : 1.54,
+            "5" : 1.74,
+            "10" : 2.27
+        },
+        "2" : {
+            "3" : 2.49,
+            "5" : 2.49,
+            "10" : 3.17
+        }
+    },
+    "inputs" : {
+        "price" : {
+            "min" : 400000,
+            "value" : 0,
+            "max" : 10000000,
+            "step" : 10000,
+            "text" : "Hodnota nemovitosti",
+            "title" : "Celková hodnota nemovitosti, včetně pozemku."
+        },
+        "loan" : {
+            "min" : 300000,
+            "value" : 0,
+            "max" : 9500000,
+            "step" : 10000,
+            "text" : "Výše hypotéky",
+            "title" : ""
+        },
+        "time" : {
+            "min" : 5,
+            "value" : 0,
+            "max" : 30,
+            "step" : 1,
+            "text" : "Délka splácení",
+            "title" : ""
+        },
+        "fixation" : {
+            "text" : "Fixace",
+            "options" : {
+                "3" : "3 roky",
+                "5" : "5 let",
+                "10" : "10 let"
+            },
+            "selected" : 0
+        },
+        "extra" : {
+            "hurry" : {
+                "text" : "Jak moc spěchám",
+                "options" : "Hoří to!|Spěchám|Jen trochu|Rozkoukávám se"
+            },
+            "muj_urok" : {
+                "type" : "number",
+                "min" : 1,
+                "max" : 30,
+                "step" : 2,
+                "value" : 1
+            },
+            "moje_banka" : {
+                "options" : "Hypoteční banka|Komerční banka|Česká spořitelna|Unicredit bank|Československá obchodní banka|Sberbank|Moneta Money Bank|Raiffeisenbank|Wüstenrot hypoteční banka|EQUA bank|mBank|Expobank"
+            }
+        }
+    }
+}
+
+/* 3 */
+{
+    "_id" : ObjectId("599a0ebcd74e55e18ee5ad04"),
+    "id" : 3,
+    "type" : "page",
+    "name" : "Americká hypotéka",
+    "link_text" : "Americkou hypotéku",
+    "text" : "Peníze na cokoliv.",
+    "active" : false,
+    "rates" : {
+        "1" : {
+            "3" : 2.99,
+            "5" : 3.49,
+            "10" : 3.49
+        },
+        "2" : {
+            "3" : 3.39,
+            "5" : 3.79,
+            "10" : 4.99
+        }
+    },
+    "inputs" : {
+        "price" : {
+            "min" : 400000,
+            "value" : 0,
+            "max" : 10000000,
+            "step" : 10000,
+            "text" : "Hodnota nemovitosti",
+            "title" : "Celková hodnota nemovitosti, včetně pozemku."
+        },
+        "loan" : {
+            "min" : 300000,
+            "value" : 0,
+            "max" : 9500000,
+            "step" : 10000,
+            "text" : "Výše hypotéky",
+            "title" : ""
+        },
+        "time" : {
+            "min" : 5,
+            "value" : 0,
+            "max" : 30,
+            "step" : 1,
+            "text" : "Délka splácení",
+            "title" : ""
+        },
+        "fixation" : {
+            "text" : "Fixace",
+            "options" : {
+                "3" : "3 roky",
+                "5" : "5 let",
+                "10" : "10 let"
+            },
+            "selected" : 0
+        },
+        "extra" : {
+            "hurry" : {
+                "text" : "Jak moc spěchám",
+                "options" : "Hoří to!|Spěchám|Jen trochu|Rozkoukávám se"
+            }
+        }
+    }
+}
+
+/* 4 */
+{
+    "_id" : ObjectId("599a111cd74e55e18ee5ad05"),
+    "id" : 4,
+    "type" : "page",
+    "name" : "Lepší nabídka",
+    "link_text" : "Lepší nabídku",
+    "text" : "Chci nezávaznou lepší nabídku.",
+    "active" : false,
+    "rates" : {
+        "1" : {
+            "3" : 1.54,
+            "5" : 1.74,
+            "10" : 2.27
+        },
+        "2" : {
+            "3" : 2.49,
+            "5" : 2.49,
+            "10" : 5.79
+        }
+    },
+    "inputs" : {
+        "price" : {
+            "min" : 400000,
+            "value" : 0,
+            "max" : 10000000,
+            "step" : 10000,
+            "text" : "Hodnota nemovitosti",
+            "title" : "Celková hodnota nemovitosti, včetně pozemku."
+        },
+        "loan" : {
+            "min" : 300000,
+            "value" : 0,
+            "max" : 9500000,
+            "step" : 10000,
+            "text" : "Výše hypotéky",
+            "title" : ""
+        },
+        "time" : {
+            "min" : 2,
+            "value" : 0,
+            "max" : 30,
+            "step" : 2,
+            "text" : "Délka splácení",
+            "title" : ""
+        },
+        "fixation" : {
+            "text" : "Fixace",
+            "options" : {
+                "3" : "3 roky",
+                "5" : "5 let",
+                "10" : "10 let"
+            },
+            "selected" : 0
+        },
+        "extra" : {
+            "hurry" : {
+                "text" : "Jak moc spěchám",
+                "options" : "Hoří to!|Spěchám|Jen trochu|Rozkoukávám se"
+            },
+            "nabidli_urok" : {
+                "type" : "number",
+                "min" : 0.01,
+                "max" : 98.99,
+                "step" : 0.01,
+                "value" : 1
+            },
+            "nabidli_splatku" : {
+                "type" : "number",
+                "min" : 0,
+                "max" : 99988,
+                "step" : 1,
+                "value" : 1000
+            }
+        }
+    }
+}
+
+/* 5 */
+{
+    "_id" : ObjectId("599a130a60d4f170c810cdc0"),
+    "id" : 100,
+    "type" : "LTV_groups",
+    "name" : "LTV skupiny",
+    "data" : {
+        "1" : {
+            "min" : 0,
+            "max" : 80
+        },
+        "2" : {
+            "min" : 80,
+            "max" : 95
+        }
+    }
+}

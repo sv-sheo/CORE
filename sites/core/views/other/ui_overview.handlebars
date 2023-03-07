@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+
+<!-- CONTENTS OF Q.data is available here -->
+
+<html lang="cs">
+
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta name="robots" content="index, follow">
+        <meta name=”description” content=”CORE-S - UI overview”>
+        <meta name="author" content="sheo.cz">
+        
+        <title>{{html.head.title}}</title>
+
+        <script src="{{socket.protocol}}://{{socket.host}}:{{socket.port}}/socket.io/socket.io.min.js"></script>
+        <script src="{{base_url}}files/get/build/other/desktop_preload.js?prqi={{request_id}}"></script>
+        <script src="{{webpack_url}}desktop.js?prqi={{request_id}}"></script>
+        <link href="{{webpack_url}}desktop.css?prqi={{request_id}}" type="text/css" rel="stylesheet">
+        
+    </head>
+    
+    <body>
+
+        <div id="slock">
+
+			<div id="warp">
+
+				<div id="left_block">
+
+					<nav id="main_menu_container">
+
+						<ul>
+							<li>qweq</li>
+							<li>qweq</li>
+							<li>qweq</li>
+						</ul>
+
+					</nav>
+
+					<div id="lb_inner_shadow_border"></div>
+
+				</div>
+
+				<div id="right_block">
+
+					<header id="top_header_container">
+
+						<h1>CORE-S - UI overview</h1>
+
+
+					</header>
+
+					<main id="main_container">
+
+						<div class="row_block h80x">
+
+							<button class="nm_btn nm_btn_flat txt_12 rounded">
+								<img src="{{HOST}}files/get/icons/send_dark.png" height="20" class="va_middle" style="margin-right: 8px" />
+								<span class="va_middle">Send E-mail</span>
+							</button>
+
+							<button class="nm_btn nm_btn_inset txt_12 rounded">Send E-mail</button>
+
+							<button class="nm_btn nm_btn_spread txt_12 rounded"><span class="gradient_text bold">Send E-mail</span></button>
+
+						</div>
+
+						<div class="row_block">
+
+							<button class="nm_btn nm_btn_flat txt_5 mg_10 rounded">Send E-mail 5</button>
+							<button class="nm_btn nm_btn_flat txt_6 mg_10 rounded">Send E-mail 6</button>
+							<button class="nm_btn nm_btn_flat txt_8 mg_10 rounded">Send E-mail 8</button>
+							<button class="nm_btn nm_btn_flat txt_10 mg_10 rounded">Send E-mail 10</button>
+							<button class="nm_btn nm_btn_flat txt_12 mg_10 rounded">Send E-mail 12</button>
+							<!--<button class="nm_btn nm_btn_flat txt_18 mg_10 rounded">Send E-mail 18</button>
+							<button class="nm_btn nm_btn_flat txt_24 mg_10 rounded">Send E-mail 24</button>
+							<button class="nm_btn nm_btn_flat txt_30 mg_10 rounded">Send E-mail 30</button>-->
+
+						</div>
+
+						<div class="row_block">
+
+							<input type="text" class="nm_input mg_10 txti_5 br_rounded" value="" placeholder="Input text" />
+							<input type="text" class="nm_input mg_10 txti_10 br_rounded" value="" placeholder="Input text" />
+							<input type="text" class="nm_input mg_10 txti_12 br_rounded" value="" placeholder="Input text" />
+							<input type="text" class="nm_input mg_10 txti_16 br_rounded" value="" placeholder="Input text" />
+
+						</div>
+
+						<div class="row_block">
+
+							<textarea class="nm_input mg_10 txti_8 br_rounded">Nulla quis diam. Fusce wisi. Fusce tellus odio, dapibus id fermentum quis, suscipit id erat. Curabitur ligula sapien, pulvinar a vestibulum quis, facilisis vel sapien. In enim a arcu imperdiet malesuada. Curabitur vitae diam non enim vestibulum interdum. Vestibulum erat nulla, ullamcorper nec, rutrum non, nonummy ac, erat. Cras elementum. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat. Curabitur bibendum justo non orci. Phasellus et lorem id felis nonummy placerat. Vestibulum fermentum tortor id mi. Suspendisse sagittis ultrices augue. Maecenas fermentum, sem in pharetra pellentesque, velit turpis volutpat ante, in pharetra metus odio a lectus. Aliquam erat volutpat. Aliquam id dolor. Nullam dapibus fermentum ipsum. Praesent dapibus.</textarea>
+
+						</div>
+
+						<div class="row_block">
+
+							<div class="nm_checkbox mg_20 rounded h30x">
+								
+								<div class="nm_checkbox_checker"></div>
+
+								<input type="checkbox" style="top:120%;position:absolute;" />
+
+							</div>
+
+							<div class="led_light led_light_success mg_20"></div>
+							<div class="led_light led_light_warning mg_20"></div>
+							<div class="led_light led_light_error mg_20"></div>
+							<div class="led_light led_light_theme_1 mg_20"></div>
+							<div class="led_light led_light_theme_2 mg_20"></div>
+							<div class="led_light led_light_theme_3 mg_20"></div>
+
+						</div>
+
+						<div class="row_block">
+
+							<button class="nm_btn nm_btn_spread nm_btn_cubic h35x pd_6 mg_10"><img src="{{HOST}}files/get/icons/send_dark.png" class="h100p" /></button>
+							<button class="nm_btn nm_btn_flat nm_btn_cubic h35x pd_6 br_4 mg_10"><img src="{{HOST}}files/get/icons/send_dark.png" class="h100p" /></button>
+							<button class="nm_btn nm_btn_flat nm_btn_cubic h35x pd_6 br_8 mg_10"><img src="{{HOST}}files/get/icons/send_dark.png" class="h100p" /></button>
+							<button class="nm_btn nm_btn_spread nm_btn_circle h35x pd_6 mg_10" >
+								<img class="h100p" src="{{HOST}}files/get/icons/x.png" />
+							</button>
+
+						</div>
+
+						<div class="row_block">
+
+							<div class="mg_10">
+								<label class="radio_label" for="HTML">HTML</label>
+								<div class="nm_radio_theme rounded h20x">
+									
+									<div class="nm_radio_checker"></div>
+									<input id="HTML" name="language" type="radio" style="left:120%;position:absolute;" />
+
+								</div>
+							</div>
+
+							<div class="mg_10">
+								<label class="radio_label" for="CSS">CSS</label>
+								<div class="nm_radio_theme rounded h20x">
+									
+									<div class="nm_radio_checker"></div>
+									<input id="CSS" name="language" type="radio" style="left:120%;position:absolute;" />
+
+								</div>
+							</div>
+
+							<div class="mg_10">
+								<label class="radio_label" for="JS">JS</label>
+								<div class="nm_radio_theme rounded h20x">
+									
+									<div class="nm_radio_checker"></div>
+									<input id="JS" name="language" type="radio" style="left:120%;position:absolute;" />
+
+								</div>
+							</div>
+
+						</div>
+
+						<div class="row_block">
+
+							
+							<div class="mg_10">
+								<label class="radio_label" for="COKE">COKE</label>
+								<div class="nm_radio_flat rounded h25x">
+									
+									<div class="nm_radio_checker"></div>
+									<input id="COKE" name="drinks" type="radio" style="left:120%;position:absolute;" />
+
+								</div>
+							</div>
+
+							<div class="mg_10">
+								<label class="radio_label" for="PEPSI">PEPSI</label>
+								<div class="nm_radio_flat rounded h25x">
+									
+									<div class="nm_radio_checker"></div>
+									<input id="PEPSI" name="drinks" type="radio" style="left:120%;position:absolute;" />
+
+								</div>
+							</div>
+
+							<div class="mg_10">
+								<label class="radio_label" for="TONIC">TONIC</label>
+								<div class="nm_radio_flat rounded h25x">
+									
+									<div class="nm_radio_checker"></div>
+									<input id="TONIC" name="drinks" type="radio" style="left:120%;position:absolute;" />
+
+								</div>
+							</div>
+
+										<script>
+
+											var nm_checkboxes = document.getElementsByClassName('nm_checkbox');
+
+											for(nm_ckb of nm_checkboxes) { nm_ckb.addEventListener('click', function(e) { e.currentTarget.classList.toggle('active') }); }
+
+
+											var labels = document.getElementsByClassName('radio_label');
+
+											for(DOM_label of labels) {
+
+												DOM_label.addEventListener('click', function(e) {
+													
+													var radio_id = e.currentTarget.getAttribute('for');
+
+													// wait until native radio is checked
+													setTimeout(function() {
+
+														var radio_DOM= document.getElementById(radio_id);
+
+														if(radio_DOM) {
+
+															if(  radio_DOM.checked ) radio_DOM.parentElement.classList.add('active');
+															if( !radio_DOM.checked ) radio_DOM.parentElement.classList.remove('active');
+
+															// uncheck other radios with same name
+															var radio_name = radio_DOM.getAttribute('name');
+															var radios_with_same_name = document.getElementsByName(radio_name);
+
+															for(radio_DOM_name of radios_with_same_name) {
+
+																if(radio_DOM_name.id !== radio_DOM.id) { radio_DOM_name.parentElement.classList.remove('active') }
+
+															}
+
+														}
+
+													}, 20);
+
+												});
+
+											};
+
+										</script>
+
+						</div>
+
+						<div class="row_block">
+
+							<div class="nm_gauge h100x w20x br_rounded mg_10"><div class="nm_gauge_fill br_rounded h40p"></div></div>
+							<div class="nm_gauge h100x w20x br_rounded mg_10"><div class="nm_gauge_fill br_rounded h60p"></div></div>
+							<div class="nm_gauge h100x w20x br_rounded mg_10"><div class="nm_gauge_fill br_rounded h40p"></div></div>
+							<div class="nm_gauge h100x w20x br_rounded mg_10"><div class="nm_gauge_fill br_rounded h80p"></div></div>
+							<div class="nm_gauge h100x w20x br_rounded mg_10"><div class="nm_gauge_fill br_rounded h100p"></div></div>
+							<div class="nm_gauge h100x w20x br_rounded mg_10"><div class="nm_gauge_fill br_rounded h50p"></div></div>
+							<div class="nm_gauge h100x w20x br_rounded mg_10"><div class="nm_gauge_fill br_rounded h60p"></div></div>
+							<div class="nm_gauge h100x w20x br_rounded mg_10"><div class="nm_gauge_fill br_rounded h20p"></div></div>
+
+						</div>
+
+						
+						<!--https://css-tricks.com/reverse-text-color-mix-blend-mode/-->
+						<div class="row_block">
+
+							<div class="nm_loader w300x h30x mg_20 br_rounded"><div class="nm_loader_fill w48p br_rounded"></div><span class="nm_loader_text fs_12">48 %</span></div>
+
+							<div class="nm_loader w300x h10x mg_20 br_rounded"><div class="nm_loader_fill w48p br_rounded"></div></div>
+
+						</div>
+
+						<div class="row_block" style="flex-flow: column nowrap;">
+
+							<div class="txt24 mg_10">This defines the default behavior for how flex items are laid out along the cross axis</div>
+
+							<div class="nm_separator_flat w80p h1x br_rounded mg_20"></div>
+
+							<div class="nm_separator_flat w80p h4x br_rounded mg_20"></div>
+
+							<div class="nm_separator_convex w80p h1x br_rounded mg_20"></div>
+
+							<div class="nm_separator_convex w80p h4x br_rounded mg_20"></div>
+
+							<div class="nm_separator_convex w80p h10x br_rounded mg_20"></div>
+
+							<div class="nm_separator_concave w80p h4x br_rounded mg_20"></div>
+
+							<div class="nm_separator_concave w80p h10x br_rounded mg_20"></div>
+
+							<div class="txt24 mg_10">This defines the default behavior for how flex items are laid out along the cross axis</div>
+
+						</div>
+
+						<div class="row_block" >
+
+							<div class="nm_platform_flat w200x h200x pd_20 mg_20"><span class="txti_30">AHOJ</span></div>
+
+							<div class="nm_platform_flat nm_platform_convex w200x h200x pd_20 mg_20"><span class="txti_30">AHOJ</span></div>
+
+							<div class="nm_platform_flat nm_platform_concave w200x h200x pd_20 mg_20"><span class="txti_30">AHOJ</span></div>
+							
+							<div class="nm_platform_flat nm_platform_concave w200x h200x pd_20 mg_20"><span class="txti_30">AHOJ</span></div>
+
+							<div class="nm_platform_spread w200x h200x pd_20 mg_20"><span class="txti_30">AHOJ</span></div>
+
+							<div class="nm_platform_spread nm_platform_convex w200x h200x pd_20 mg_20"><span class="txti_30">AHOJ</span></div>
+
+							<div class="nm_platform_spread nm_platform_concave w200x h200x pd_20 mg_20"><span class="txti_30">AHOJ</span></div>
+
+							<div class="nm_platform_spread nm_platform_concave w200x h200x pd_20 mg_20"><span class="txti_30">AHOJ</span></div>
+
+							<div class="nm_platform_inset w200x h200x pd_20 mg_20"><span class="txti_30">AHOJ</span></div>
+
+							<div class="nm_platform_inset w200x h200x pd_20 mg_20"><span class="txti_30">AHOJ</span></div>
+
+							<div class="nm_platform_inset nm_platform_convex w200x h200x pd_20 mg_20"><span class="txti_30">AHOJ</span></div>
+
+							<div class="nm_platform_inset nm_platform_concave w200x h200x pd_20 mg_20"><span class="txti_30">AHOJ</span></div>
+
+							<div class="nm_platform_inset_spread w200x h200x pd_20 mg_20"><span class="txti_30">AHOJ</span></div>
+
+							<div class="nm_platform_inset_spread w200x h200x pd_20 mg_20"><span class="txti_30">AHOJ</span></div>
+
+							<div class="nm_platform_inset_spread nm_platform_convex w200x h200x pd_20 mg_20"><span class="txti_30">AHOJ</span></div>
+
+							<div class="nm_platform_inset_spread nm_platform_concave w200x h200x pd_20 mg_20"><span class="txti_30">AHOJ</span></div>
+
+							<div class="nm_platform_rounded_edges  w200x h200x br_rounded pd_20 mg_20"><span class="txti_30">AHOJ</span></div>
+
+							<div class="nm_platform_rounded_edges nm_platform_concave br_rounded w200x h200x pd_20 mg_20"><span class="txti_30">AHOJ</span></div>
+
+							<div class="nm_platform_spread_edges  w200x h200x br_rounded pd_20 mg_20"><span class="txti_30">AHOJ</span></div>
+
+							<div class="nm_platform_spread_edges nm_platform_concave br_rounded w200x h200x pd_20 mg_20"><span class="txti_30">AHOJ</span></div>
+
+
+							<div class="nm_platform_rounded_inset  w200x h200x br_rounded pd_20 mg_20"><span class="txti_30">AHOJ</span></div>
+
+							<div class="nm_platform_rounded_inset nm_platform_convex br_rounded w200x h200x pd_20 mg_20"><span class="txti_30">AHOJ</span></div>
+
+							<div class="nm_platform_rounded_inset_spread  w200x h200x br_rounded pd_20 mg_20"><span class="txti_30">AHOJ</span></div>
+
+							<div class="nm_platform_rounded_inset_spread nm_platform_convex br_rounded w200x h200x pd_20 mg_20"><span class="txti_30">AHOJ</span></div>
+
+
+						</div>
+
+					</main>
+
+				</div>
+
+				<footer id="footer_container"></footer>
+
+			</div>
+			
+			<div id="jtr5g6t8fdg52hre58rq" class="alert-box-7"><div style="display: none;" id="server_data">
+				<script> var PRELOAD_DATA = {{{PRELOAD_DATA}}}</script>
+			</div></div>
+        
+        </div>
+        
+    </body>
+    
+</html>

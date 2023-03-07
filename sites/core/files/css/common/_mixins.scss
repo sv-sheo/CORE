@@ -1,0 +1,47 @@
+@mixin font_size($size, $line_height: 1.5) {
+ 
+    font-size:      $size;
+    line-height:    $size * $line_height; 
+    
+}
+
+@mixin line_height($height, $font_size: 1.5) {
+ 
+    font-size:      calc($height / $font_size);
+    line-height:    $height; 
+    
+}
+
+
+@mixin absolute($top: 0px, $left: 0px, $width: 100%, $height: 100%) {
+    
+    position:   absolute;
+    top:        $top; 
+    left:       $left;
+    width:      $width;
+    height:     $height;
+    
+}
+
+@mixin button($bg_color, $font_color, $font_size:1rem, $padding: 1rem 2rem, $border: null, $radius:null) {
+    
+    display:    inline-block;
+    background: $bg_color;
+    color:      $font_color;
+    font-size:  $font_size;
+    padding:    $padding;
+    border:     $border;
+    
+    -webkit-border-radius: $radius;
+    -moz-border-radius: $radius;
+    border-radius: $radius;
+    
+}
+
+@mixin border_radius($radius) {
+    
+    -webkit-border-radius: $radius;
+    -moz-border-radius: $radius;
+    border-radius: $radius;
+    
+}

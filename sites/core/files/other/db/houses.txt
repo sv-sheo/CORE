@@ -1,0 +1,424 @@
+﻿/* 1 */
+{
+    "_id" : ObjectId("59905d0b77453178396c4e49"),
+    "name" : "Vaduz",
+    "text" : "Dům určený pro rodinu ",
+    "description" : "Předností domu je praktičnost spolu s jednotným vzhledem obou stran domu. Dlouuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuhý text.",
+    "price" : "5000000",
+    "disposition" : "7+1kk+gar.1",
+    "penb" : "A+",
+    "area" : {
+        "gross" : "150",
+        "net" : "180"
+    },
+    "active" : 1,
+    "other" : [],
+    "images" : {
+        "title" : "title.jpg",
+        "other" : [ 
+            "0_other.jpg", 
+            "1_other.jpg", 
+            "2_other.jpg", 
+            "3_other.jpg", 
+            "4_other.jpg", 
+            "5_other.jpg", 
+            "6_other.jpg", 
+            "7_other.jpg"
+        ],
+        "title_sketch" : "title_sketch.jpg",
+        "plan" : "plan.jpg"
+    },
+    "id" : 1
+}
+
+/* 2 */
+{
+    "_id" : ObjectId("59905d44b62a367833f13605"),
+    "name" : "Basel",
+    "text" : "Vila ve tvaru výrazného širokého rámu.",
+    "description" : "Dům s tisíci přednostmi pro uživatele a všechny ostatní .........................dfasdfkj dfkj sdfkjsapoij dpoij d dkj df. ",
+    "price" : "5000000",
+    "disposition" : "5+kk+Gar.2",
+    "penb" : "A+",
+    "area" : {
+        "gross" : "240",
+        "net" : "210"
+    },
+    "active" : 1,
+    "other" : [],
+    "images" : {
+        "title" : "title.jpg",
+        "other" : [ 
+            "0_other.jpg", 
+            "1_other.jpg", 
+            "2_other.jpg", 
+            "3_other.jpg", 
+            "4_other.jpg", 
+            "5_other.jpg", 
+            "6_other.jpg", 
+            "7_other.jpg"
+        ],
+        "title_sketch" : "title_sketch.jpg",
+        "plan" : "plan.jpg"
+    },
+    "id" : 2
+}
+
+/* 3 */
+{
+    "_id" : ObjectId("5990a688fa76330232adad5b"),
+    "name" : "Locarno",
+    "text" : "Krátký popis",
+    "description" : "Podrobný popis",
+    "price" : "3100000",
+    "disposition" : "5+kk",
+    "penb" : "A+",
+    "area" : {
+        "gross" : "90",
+        "net" : "110"
+    },
+    "active" : 1,
+    "other" : [],
+    "images" : {
+        "title" : "title.jpg",
+        "title_sketch" : "title_sketch.jpg",
+        "other" : [ 
+            "0_other.jpg", 
+            "1_other.jpg", 
+            "2_other.jpg", 
+            "3_other.jpg", 
+            "4_other.jpg", 
+            "5_other.jpg", 
+            "6_other.jpg", 
+            "7_other.jpg"
+        ],
+        "plan" : "plan.jpg"
+    },
+    "id" : 3
+}
+
+/* 4 */
+{
+    "_id" : ObjectId("5990aa0b038063023a600862"),
+    "name" : "Luzern",
+    "text" : "Krátký popis",
+    "description" : "Podrobný popis",
+    "price" : "4800000",
+    "disposition" : "6+kk+Gar. pro 2 auta",
+    "penb" : "A",
+    "area" : {
+        "gross" : "250",
+        "net" : "140"
+    },
+    "active" : 1,
+    "other" : [],
+    "images" : {
+        "title" : "title.jpg",
+        "title_sketch" : "title_sketch.jpg",
+        "other" : [ 
+            "0_other.jpg", 
+            "1_other.jpg", 
+            "2_other.jpg", 
+            "3_other.jpg", 
+            "4_other.jpg", 
+            "5_other.jpg"
+        ],
+        "plan" : "plan.jpg"
+    },
+    "id" : 4
+}
+
+/* 5 */
+{
+    "_id" : ObjectId("5990aab9fa76330232adad6c"),
+    "name" : "Luzern Exclusive",
+    "text" : "Krátký popis",
+    "description" : "Podrobný popis",
+    "price" : "6500000",
+    "disposition" : "7+kk+gar.2místa",
+    "penb" : "A++",
+    "area" : {
+        "gross" : "280",
+        "net" : "220"
+    },
+    "active" : 1,
+    "other" : [],
+    "images" : {
+        "title" : "title.jpg",
+        "title_sketch" : "title_sketch.jpg",
+        "other" : [ 
+            "0_other.jpg", 
+            "1_other.jpg", 
+            "2_other.jpg", 
+            "3_other.jpg", 
+            "4_other.jpg", 
+            "5_other.jpg", 
+            "6_other.jpg"
+        ],
+        "plan" : "plan.jpg"
+    },
+    "id" : 5
+}
+
+/* 6 */
+{
+    "_id" : ObjectId("5990ac99038063023a60087f"),
+    "name" : "Bellinzona",
+    "text" : "Krátký popis",
+    "description" : "Podrobný popis",
+    "price" : "4800000",
+    "disposition" : "5+1+Gar.2místa",
+    "penb" : "A",
+    "area" : {
+        "gross" : "190",
+        "net" : "160"
+    },
+    "active" : 1,
+    "other" : [],
+    "images" : {
+        "title" : "title.jpg",
+        "title_sketch" : "title_sketch.jpg",
+        "other" : [ 
+            "0_other.jpg", 
+            "1_other.jpg", 
+            "2_other.jpg", 
+            "3_other.jpg", 
+            "4_other.jpg", 
+            "5_other.jpg", 
+            "6_other.jpg"
+        ],
+        "plan" : "plan.jpg"
+    },
+    "id" : 6
+}
+
+/* 7 */
+{
+    "_id" : ObjectId("5990adfdfa76330232adad7b"),
+    "name" : "Lugano",
+    "text" : "Krátký popis",
+    "description" : "Podrobný popis",
+    "price" : "5200000",
+    "disposition" : "5+kk+Gar.",
+    "penb" : "A",
+    "area" : {
+        "gross" : "215",
+        "net" : "140"
+    },
+    "active" : 1,
+    "other" : [],
+    "images" : {
+        "title" : "title.jpg",
+        "title_sketch" : "title_sketch.jpg",
+        "other" : [ 
+            "0_other.jpg", 
+            "1_other.jpg", 
+            "2_other.jpg", 
+            "3_other.jpg", 
+            "4_other.jpg", 
+            "5_other.jpg", 
+            "6_other.jpg"
+        ],
+        "plan" : "plan.jpg"
+    },
+    "id" : 7
+}
+
+/* 8 */
+{
+    "_id" : ObjectId("5990aea6038063023a600895"),
+    "name" : "Sion",
+    "text" : "Ano opravdu krásný",
+    "description" : "Podrobný popis",
+    "price" : "4000000",
+    "disposition" : "6+kk",
+    "penb" : "A",
+    "area" : {
+        "gross" : "160",
+        "net" : "130"
+    },
+    "active" : 1,
+    "other" : [],
+    "images" : {
+        "title" : "title.jpg",
+        "title_sketch" : "title_sketch.jpg",
+        "other" : [ 
+            "0_other.jpg", 
+            "1_other.jpg", 
+            "2_other.jpg", 
+            "3_other.jpg", 
+            "4_other.jpg", 
+            "5_other.jpg"
+        ],
+        "plan" : "plan.jpg"
+    },
+    "id" : 8
+}
+
+/* 9 */
+{
+    "_id" : ObjectId("5990af2a038063023a60089b"),
+    "name" : "Davos",
+    "text" : "Krátký popis",
+    "description" : "Podrobný popis",
+    "price" : "4500000",
+    "disposition" : "6+kk",
+    "penb" : "A++",
+    "area" : {
+        "gross" : "220",
+        "net" : "130"
+    },
+    "active" : 1,
+    "other" : [],
+    "images" : {
+        "title" : "title.jpg",
+        "title_sketch" : "title_sketch.jpg",
+        "other" : [ 
+            "0_other.jpg", 
+            "1_other.jpg", 
+            "2_other.jpg", 
+            "3_other.jpg", 
+            "4_other.jpg", 
+            "5_other.jpg", 
+            "6_other.jpg"
+        ],
+        "plan" : "plan.jpg"
+    },
+    "id" : 9
+}
+
+/* 10 */
+{
+    "_id" : ObjectId("5990afa8fa76330232adad87"),
+    "name" : "Vevey",
+    "text" : "Krátký popis",
+    "description" : "Podrobný popis",
+    "price" : "4700000",
+    "disposition" : "5+kk+Gar.",
+    "penb" : "A",
+    "area" : {
+        "gross" : "210",
+        "net" : "175"
+    },
+    "active" : 1,
+    "other" : [],
+    "images" : {
+        "title_sketch" : "title_sketch.jpg",
+        "other" : [ 
+            "0_other.jpg", 
+            "1_other.jpg", 
+            "2_other.jpg", 
+            "3_other.jpg", 
+            "4_other.jpg", 
+            "5_other.jpg", 
+            "6_other.jpg", 
+            "7_other.jpg", 
+            "8_other.jpg", 
+            "9_other.jpg"
+        ],
+        "title" : "title.jpg",
+        "plan" : "plan.jpg"
+    },
+    "id" : 10
+}
+
+/* 11 */
+{
+    "_id" : ObjectId("5990b0c7fa76330232adad9b"),
+    "name" : "Baden",
+    "text" : "Krátký popis",
+    "description" : "Podrobný popis",
+    "price" : "2900000",
+    "disposition" : "4+kk",
+    "penb" : "A",
+    "area" : {
+        "gross" : "170",
+        "net" : "110"
+    },
+    "active" : 1,
+    "other" : [],
+    "images" : {
+        "title" : "title.jpg",
+        "title_sketch" : "title_sketch.jpg",
+        "other" : [ 
+            "0_other.jpg", 
+            "1_other.jpg", 
+            "2_other.jpg", 
+            "3_other.jpg", 
+            "4_other.jpg", 
+            "5_other.jpg", 
+            "6_other.jpg", 
+            "7_other.jpg"
+        ],
+        "plan" : "plan.jpg"
+    },
+    "id" : 11
+}
+
+/* 12 */
+{
+    "_id" : ObjectId("5990b150fa76330232adada8"),
+    "name" : "Bern ",
+    "text" : "Krátký popis",
+    "description" : "Podrobný popis",
+    "price" : "1900000",
+    "disposition" : "3+kk",
+    "penb" : "A+",
+    "area" : {
+        "gross" : "65",
+        "net" : "55"
+    },
+    "active" : 1,
+    "other" : [],
+    "images" : {
+        "title" : "title.jpg",
+        "title_sketch" : "title_sketch.jpg",
+        "other" : [ 
+            "0_other.jpg", 
+            "1_other.jpg", 
+            "2_other.jpg", 
+            "3_other.jpg", 
+            "4_other.jpg", 
+            "5_other.jpg", 
+            "6_other.jpg", 
+            "7_other.jpg"
+        ],
+        "plan" : "plan.jpg"
+    },
+    "id" : 12
+}
+
+/* 13 */
+{
+    "_id" : ObjectId("5990b1bffa76330232adadb7"),
+    "name" : "Bern Family",
+    "text" : "Krátký popis",
+    "description" : "Podrobný popis",
+    "price" : "2400",
+    "disposition" : "4+kk",
+    "penb" : "A+",
+    "area" : {
+        "gross" : "85",
+        "net" : "75"
+    },
+    "active" : 1,
+    "other" : [],
+    "images" : {
+        "title" : "title.jpg",
+        "title_sketch" : "title_sketch.jpg",
+        "other" : [ 
+            "0_other.jpg", 
+            "1_other.jpg", 
+            "2_other.jpg", 
+            "3_other.jpg", 
+            "4_other.jpg", 
+            "5_other.jpg", 
+            "6_other.jpg", 
+            "7_other.jpg", 
+            "8_other.jpg", 
+            "9_other.jpg"
+        ],
+        "plan" : "plan.jpg"
+    },
+    "id" : 13
+}
