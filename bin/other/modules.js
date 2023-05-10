@@ -36,6 +36,8 @@ module.exports = {
     mimes:      require('mime-types'),
     nodemailer: require('nodemailer'),
     socket_io:  require('socket.io'),
+    ws:         require('ws'),          // not explicitly used, its employed by socket.io
+    uuid:       require('uuid'),
     dotenv:     require('dotenv'),
     node_dir:   require('node-dir'),
     rethinkdb:  require('rethinkdb'),

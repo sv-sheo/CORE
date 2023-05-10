@@ -13,7 +13,6 @@
         
         <title>{{html.head.title}}</title>
 
-        <script src="{{socket.protocol}}://{{socket.host}}:{{socket.port}}/socket.io/socket.io.min.js"></script>
         <script src="{{base_url}}files/get/build/other/desktop_preload.js?prqi={{request_id}}"></script>
         <script src="{{webpack_url}}desktop.js?prqi={{request_id}}"></script>
         <link href="{{webpack_url}}desktop.css?prqi={{request_id}}" type="text/css" rel="stylesheet">
@@ -117,6 +116,13 @@
             
             </div></div>
         
+        </div>
+
+        <div id="socket_status"></div>
+        <div id="loading_screen">
+            <div id="ls_blur" class="absolute"></div>
+            <div id="ls_veil" class="absolute"></div>
+            <div id="ls_box" class="nm_platform_flat nm_platform_concave">Loading...</div>
         </div>
         
     </body>

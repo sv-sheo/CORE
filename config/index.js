@@ -9,13 +9,26 @@ var cpu_cores = require('os').cpus();
 var config = {};
 
     config.server_ip    = process.env.server_ip,
-    config.https        = process.env.root ? true : false;
+    config.https        = process.env.https ? true : false;
     config.root         = process.env.root,
     config.machine      = process.env.machine,        //pc | laptop | rpi
     config.code_geass   = process.env.code_geass,
     config.ENVIRONMENT  = process.env.ENV,            // PRODUCTION | DEVELOPMENT
     config.PRODUCTION   = process.env.ENV === 'PRODUCTION',
     config.DEVELOPMENT  = process.env.ENV === 'DEVELOPMENT',
+
+    // PORTS
+    config.ports = {
+                                        // a reverse proxy is in use for future addition of load-balancing capabilities, 
+                                        // it also provides rudimentary load balancing as-is, since requests handled in proxy do not get fully initiated, and you can filter them,
+                                        // to let through only valid requsts that will be fully initiated (more expensive) behind proxy 
+                                        // ... good explanation of proxies can be found here: https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/
+        http_proxy_server:  80,         // all HTTP requests will go through proxy which will direct them to the main http server
+        http_main_server:   8080,       // main HTTP server that will handle allowed requests
+        https_proxy_server: 443,        // all HTTPS requests will be handles by HTTPS proxy, (DEPRECATED - which will redirect them to their own respective sites, with their own respective certificates)
+        https_main_server:  8443,       // 
+
+    }
 
     // OTHER
     config.workers          = parseInt(process.env.workers) || 1,                                           // number od CPU cores to use
@@ -88,10 +101,35 @@ var config = {};
     // SOCKET
     config.socket = {
 
-        enabled:    process.env.socket_enabled ? true : false,
-        host:       process.env.socket_host || '',
-        port:       parseInt(process.env.socket_port) || 8442,
-        secure:     process.env.socket_secure ? true : false,
+        enabled:            process.env.socket_enabled ? true               : false,
+        timeout:            parseInt(process.env.socket_timeout)            || 0, // 0 = no timeout
+        max_connections:    parseInt(process.env.socket_max_connections)    || 1000,
+
+        servers:    { // must be represented in .env
+
+            REGULAR: { 
+                host:       process.env.socket_server_REGULAR_host || '', 
+                port:       parseInt(process.env.socket_server_REGULAR_port) || 0, 
+                secure:     process.env.socket_server_REGULAR_secure ? true : false,
+                protocol:   process.env.socket_server_REGULAR_secure ? 'wss://' : 'ws://',
+            },
+            SECURE: {
+                host:       process.env.socket_server_SECURE_host || '',
+                port:       parseInt(process.env.socket_server_SECURE_port) || 0,  
+                secure:     process.env.socket_server_SECURE_secure ? true : false,
+                protocol:   process.env.socket_server_SECURE_secure ? 'wss://' : 'ws://',
+            },
+            // example of external socket server config - this socket server will not be running on this machine ... more viz bin/other/socket.js
+            RPI5: {
+                host:       '', // should be set via env like above
+                port:       0,  
+                secure:     true,
+                protocol:   'wss://',
+                external:   true,
+            }
+            // custom: {},
+
+        }
 
     }
 

@@ -1,4 +1,3 @@
-const { cloneDeep } = require("lodash");
 
 //exports.create = function({alert, set_alert, alerts_queue, set_alerts_queue, set_active_alert}) {
 exports.create = function({new_alert, alert, set_alert}) {

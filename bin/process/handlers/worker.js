@@ -24,14 +24,13 @@ exports.init_worker = async function(message) {
             C.logger.get_bootup_log_file.args(C.server.worker_id),
             C.server.load_certificates,
             C.server.connect_process_to_DB,
-            C.socket.setup_worker,          // set-ups socket.io server on workers and adapts them to the main socket.io server on Master, sites are connected in site.load
+            C.socket.create_servers,        // create socket servers on each worker ... must be loaded before loading sites
             C.sites.load_all,               // loads sites specified in .env SITES - TO LOAD property, fills global S with loaded sites
             C.sites.load_web_admin,         // default site name of admin is core, if web admin is enabled in config (.env), it will be loaded
             C.server.create_http,           // create http server, route sites by host, check whether site has ssl certificate, if yes, proxy to https 
             C.server.create_https,          // create https server, route sites by host, if site doesnt have certificate, proxy to http
             C.mail.setup_core,              // setup mailer for core server (if its in a config) ... sites have their mail setup in site.load
 
-            //C.server.create_socket_io.args(CONFIG.core.socket.secure) // fills IO with socket.io server (creates https server returning handshake on request) (argument - create HTTPS (true) or HTTP (false) handshake server)
         ];
 
         // init only one socket.io server (on worker 1) // fills IO with socket.io server (creates https server returning handshake on request) (argument - create HTTPS (true) or HTTP (false) handshake server) 
@@ -41,7 +40,7 @@ exports.init_worker = async function(message) {
         result = await C.promise.chain(bootup_sequence);
 
         // extract previous steps from each step and make it flat into result.data.steps
-        var steps_by_id     = {'[i13]': 'create_socket_io', '[i10]': 'create_http', '[i11]': 'create_https', '[i22]': 'C_sites_load_all', '[i24]': 'connect_process_to_DB', '[i26]': 'get_bootup_log_file', '[i27]': 'load_web_admin', '[i41]': 'load_certificates', '[i42]': 'mail_setup_core', '[i13.1]': 'socket_setup_worker'};
+        var steps_by_id     = {'[i13]': 'create_socket_io', '[i10]': 'create_http', '[i11]': 'create_https', '[i22]': 'C_sites_load_all', '[i24]': 'connect_process_to_DB', '[i26]': 'get_bootup_log_file', '[i27]': 'load_web_admin', '[i41]': 'load_certificates', '[i42]': 'mail_setup_core', '[i13.1]': 'socket_setup_worker', '[i64]': 'C_socket_create_servers'};
         result.data.steps   = C.server.extract_previous_steps(result, steps_by_id);
 
         // save process DB connection of this worker
@@ -163,7 +162,7 @@ exports.get_running_stuff = async function(message={}) {
 
     try {
 
-        console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAA get_running_stuff on WORKER', message.data);
+        console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAA get_running_stuff on WORKER ('+C.server.worker_id+')', message.data);
 
         result.ok   = 1;
         result.text = 'Got running stuff on WORKER '+M.cluster?.worker?.id;

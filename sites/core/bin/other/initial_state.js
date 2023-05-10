@@ -1,3 +1,4 @@
 
-exports.loaded 		= 0;
-exports.connected	= 0;
+exports.loaded 		= 0; // loaded in nodeJS
+exports.connected	= 0; // connected to DB
+exports.enabled 	= 0; // accepting requests

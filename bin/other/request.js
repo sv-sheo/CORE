@@ -2,8 +2,8 @@
 // extend request object with site, host, IP, user agent, request type, QUERY etc...
 exports.init = async function(Q) {
 
-    Q.start_time    = M.moment();
-    Q.id            = Q.start_time.format('x') + '_' + Math.floor(Math.random() * 1000);  
+    Q.times         = {start: C.helper.now()};
+    Q.id            = Q.times.start + '_' + Math.floor(Math.random() * 1000);  
     Q.client_ip     = Q.headers['x-forwarded-for'] || Q.connection.remoteAddress;
     Q.user_agent    = M.user_agent(Q.headers['user-agent']) || {device: {}};
     Q.is_crawler    = /bot|crawl|slurp|spider/i.test(Q.headers['user-agent']); 
@@ -119,8 +119,8 @@ exports.handle = async function(Q, s) {
                         var request_result = await C.request.execute_request_handler({Q, s, route});
                         var finish_result;
 
+                        Q.times.handled = C.helper.now(); // ms
                         result          = request_result;
-
                         finish_result   = request_result.ok ? await C.request.finish_request({Q, s, request_result}) : await C.request.handle_error({Q, s, request_result}); // apply hooks and clean up the end of request
 
                     } else { result.text = '404 HANDLER NOT FOUND'; C.response.quick_error({s, code: 404, text: result.text}); }
@@ -226,6 +226,110 @@ exports.handle_error = async function({Q, s, request_result={}, type='SERVER'}={
     
 }
 
+// used in C.server.create_http()
+exports.handle_http_proxy = async function(Q, s) {
+
+    var result = {ok: 0, id: '[i65]', data: {Q, s}, text:'', error: null};
+
+    try {
+
+        // PROXY requests are not logged or tracked if successful (only regular behind-proxy requests are). In case of proxy request error, the error is logged in DB and file
+
+        /* the Q object will be passed to .web() method, where it will be mutated and all data set to it in here will be wiped, however if you change url or host here,
+        the change will persist, therefore DO NOT SAVE ANYTHING in Q object here that you would like to use behind proxy. simply get it again behind proxy */
+
+        // DO NOT BOTHER with /favicon.ico requests - serve 200 and stop the handling of this request
+        if(CONFIG.core.request.ignore_favicon && Q.url === '/favicon.ico') { C.request.do_not_serve_favicon(s); result.text = 'No favicons!'; return result; };
+
+        // now check if acessing by IP, if yes, adjust host and URL so that we can find site ... only non-HTTPS sites can be accessed via IP
+        var adjust_by_ip    = C.request.adjust_host_and_url_by_IP(Q); // {from_ip, host, url}
+        var host            = adjust_by_ip.host;
+        var site            = C.sites.get_site_by_host(host);                                                   // get site from host 
+        var site_is_valid   = (site && S[site] && S[site].config && STATE.sites.loaded[site]) ? true : false;   // check if site is valid and loaded
+        var is_https        = (site_is_valid && S[site]?.config.is_https);                                      // check if its https 
+        var http_port       = CONFIG.core.ports.http_main_server;
+
+        if(host && site && site_is_valid) {
+
+            result.ok = 1;
+
+            // redirect to HTTPS if certificate is found
+            if( is_https ) { s.writeHead(302, {'Location': 'https://' + Q.headers.host + Q.url, 'Method': Q.method}); s.end(); result.text = 'Redirected to HTTPS.'; return result; }
+
+            // site is not https or IO - proxy to real http server
+            // .web() method doesnt return anything                                                     // ... do not add the Q.url, the .web() methods adds it automatically
+            PROCESSES.PROXY_SERVER.web(Q, s, { target: 'http://' + Q.headers.host + ':' + http_port});  // HERE ... this sends the request to C.server.create_http() ... the line with "PROCESSES.HTTP_SERVER = M.http.createServer..."  
+
+        } else { C.response.quick_error({s, code: 404, text: '404 SITE NOT FOUND'}); result.text = 'Invalid host or site'; }
+
+    } catch(error) { 
+
+        result = {ok: 0, id: '[e93]', data: {Q, s}, error, text: 'Failed to handle request - unknown error: '+error.message};
+        C.request.handle_error({Q, s, type: 'PROXY', request_result: result}); 
+    
+    }
+
+    return result;
+
+}
+
+// used in C.server.create_https()
+exports.handle_https_proxy = async function(Q, s) {
+
+    var result = {ok: 0, id: '[i66]', data: {Q, s}, text:'', error: null};
+
+    try {
+
+        // PROXY requests are not logged or tracked if successful (only regular behind-proxy requests are). In case of proxy request error, the error is logged in DB and file
+
+        /* the Q object will be passed to .web() method, where it will be mutated and all data set to it in here will be wiped, however if you change url or host here,
+        the change will persist, therefore DO NOT SAVE ANYTHING in Q object here that you would like to use behind proxy. simply get it again behind proxy */
+
+        // DO NOT BOTHER with /favicon.ico requests - serve 200 and stop the handling of this request
+        if(CONFIG.core.request.ignore_favicon && Q.url === '/favicon.ico') { C.request.do_not_serve_favicon(s); result.text = 'No favicons!'; return result; };
+
+        // now check if acessing by IP, if yes, adjust host and URL so that we can find site
+        var adjust_by_ip    = C.request.adjust_host_and_url_by_IP(Q);
+        var host            = adjust_by_ip.host;
+        var site            = C.sites.get_site_by_host(host);                                                   // get site from host 
+        var site_is_valid   = (site && S[site] && S[site].config && STATE.sites.loaded[site]) ? true : false;   // check if site is valid and loaded
+        var is_https        = (site_is_valid && S[site]?.config.is_https);                                      // check if its https 
+
+        if(host && site && site_is_valid) {
+
+            result.ok = 1;
+
+            // redirect to HTTP if no certificate is found
+            if( !is_https ) { s.writeHead(302, {'Location': 'http://' + Q.headers.host + Q.url, 'Method': Q.method}); s.end(); result.text = 'Redirected to HTTP.'; return result; }
+
+            let SITE = S[site];
+            let port = parseInt(SITE.config.port); // EACH HTTPS SITE HAS TO HAVE ITS OWN HTTPS PORT
+            let certs= STATE.certificates.https;
+
+            if(port) {
+
+                // site exists and is https - proxy to real https server
+                PROCESSES.PROXY_SERVER_SECURE.web(Q, s,    { 
+                                                                ssl:    certs,                                      // in the .web() method, ssl gets mutated .. cannot use M._.cloneDeep() -... HTTPS sites stop working
+                                                                target: 'https://' + Q.headers.host + ':' + port,   // ... do not add the Q.url, the .web() methods adds it automatically
+                                                                secure: false
+                                                            }); // ... this sends the request to the place, where M.https.createServer().listen() is called for given site
+
+            } else { throw new Error('[e79] Invalid HTTPS port.'); }
+            
+        } else { C.response.quick_error({s, code: 404, text: '404 SITE NOT FOUND'}); result.text = 'Invalid host or site'; }
+
+    } catch(error) { 
+
+        result = {ok: 0, id: '[e94]', data: {Q, s}, error, text: 'Failed to handle request - unknown error: '+error.message};
+        C.request.handle_error({Q, s, type: 'PROXY', request_result: result}); 
+    
+    }
+
+    return result;
+
+}
+
 exports.save_to_DB = async function({Q, s, request_result={}, type=''}) {
   
     var db_result = {ok: 0, data: {}, id: '[i31]', text: '', error: null};
@@ -250,7 +354,7 @@ exports.save_to_DB = async function({Q, s, request_result={}, type=''}) {
                 log.response    = s.result;
                 log.site        = SITE.name;
                 log.safe        = Q.safe || {};
-                log.start_time  = parseInt(Q.start_time.format('x'));
+                log.start_time  = Q.times.start;
                 log.method      = Q.method;
                 log.protocol    = Q.protocol;
                 log.host        = Q.true_host;
@@ -264,7 +368,7 @@ exports.save_to_DB = async function({Q, s, request_result={}, type=''}) {
                 log.params      = Q.params;
                 log.cookies     = Q.cookies;
                 log.result      = request_result;
-                log.time        = M.moment().format('x') - Q.start_time.format('x') + 'ms';
+                log.time        = Q.times.handled - Q.times.start + 'ms';
                 //log.sub_requests= []; // sub_requests are added automatically in the DB query of adding a sub_request (the ".default([])" )
                 
             } else if (log_type === 'basic') {
@@ -274,7 +378,7 @@ exports.save_to_DB = async function({Q, s, request_result={}, type=''}) {
                 log.site        = SITE.name;
                 log.safe        = Q.safe || {};
                 log.response    = s.result.code;
-                log.start_time  = parseInt(Q.start_time.format('x'));
+                log.start_time  = Q.times.start;
                 log.method      = Q.method;
                 log.protocol    = Q.protocol;
                 log.host        = Q.true_host;
@@ -290,6 +394,7 @@ exports.save_to_DB = async function({Q, s, request_result={}, type=''}) {
                 log.protocol    = Q.protocol;
                 log.host        = Q.true_host;
                 log.url         = Q.true_url;
+                log.safe        = Q.safe || {}; // used to save logged in user's id for socket authorization
                 
             } else if (log_type === 'none') {
             
@@ -407,7 +512,7 @@ exports.adjust_host_and_url_by_IP = function(Q) {
         
     }
 
-    return result;
+    return result; // {from_ip, host, url}
 
 }
 
@@ -703,7 +808,8 @@ exports.hook = async function({Q, s, request_result}={}) {
             s.on('finish', async function() {
 
                 try {
-
+                    
+                    Q.times.sent_response   = C.helper.now(); 
                     var logged_to_file      = await C.logger.request.log_access({Q, s, request_result});
                     var logged_to_DB        = await C.request.save_to_DB({Q, s, request_result, type: 'access'});
                     var logged_to_console   = await C.logger.request.log_to_console({Q, s, request_result});

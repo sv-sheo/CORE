@@ -15,13 +15,12 @@ module.exports = function(conf) {
 
         },
         //workers:        conf.workers, // !! EACH SITE HAS TO BE RUN ON EACH WORKER ... since we can't control which worker will handle which requests
-        port:           80,
-        //https_port:   8441, only if you have a standalone domain name for core (i.e. https://core.io)
-        is_https:       false,
-        base_url:       '/',
-        code_geass:     conf.code_geass || process.env.code_geass, // web admin shares same code geass as the CORE web server
-        default_country:'CZ',                  // default country - for localhost - (country codes via http://www.ip2country.net/ip2country/country_code.html)
-        webpack_dev_port:4338,
+        is_https:           conf.is_https           ? true : false,             // only if you have a standalone domain name for core (i.e. https://core.io)
+        port:               parseInt(conf.port)     || 80,                      // 80 = default for HTTP sites
+        base_url:           conf.base_url           || '/',
+        code_geass:         conf.code_geass         || process.env.code_geass,  // web admin shares same code geass as the CORE web server
+        default_country:    conf.default_country    || 'EN',                    // default country - for localhost - (country codes via http://www.ip2country.net/ip2country/country_code.html)
+        webpack_dev_port:   parseInt(conf.webpack_dev_port) || 0,
 
     };
 
@@ -89,13 +88,13 @@ module.exports = function(conf) {
     };
 
     // SOCKET
-    config.socket = {
+    config.site_socket = { // cannot be config.socket - do not mix config of core.socket and site.socket
 
-            connect_site:   conf.socket_connect_site ? true : false,
-            protocol:       process.env.socket_secure ? 'https' : 'http',
-            namespace:      conf.socket_namespace || '',
-            timeout:        parseInt(conf.socket_timeout) || 0,   // seconds, ... 0 = no timeout
-
+            enabled:        conf.socket_enabled ? true : false,
+            server:         conf.socket_server || false,            // should be a name of some server out of CONFIG.core.socket.servers
+            namespaces:     {MAIN: '/core'},                        // should be site name or <site_name>_admin etc (e.g. core_admin; core_chatroom; etc)  ... must be server wide unique
+            timeout:        parseInt(conf.socket_timeout) || 0,     // seconds, ... 0 = no timeout
+            
     };
     
     // REQUEST

@@ -27,7 +27,7 @@ exports.connect = function() {
             t.transaction.onerror = function(e) {console.log("%c indexedDB UPGRADE ERROR", 'color:red;font-size:2em;font-weight:bold;'); console.log(e); reject(e);}
             
         };
-        
+
     }).then(function(IDB) {
 
         return new Promise(function(resolve, reject) {

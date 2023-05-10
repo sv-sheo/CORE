@@ -1,8 +1,9 @@
 
 exports.sites = {
 
-	loaded: 		{},
-	connected: 		{},
+	loaded: 		{}, // sites loaded in nodeJS
+	connected: 		{}, // sites connected to DB
+	enabled: 		{}, // sites that are turned on (accepting requests)
 
 };
 
@@ -16,8 +17,7 @@ exports.mailers = {} // after each C.mail.setup a new mail transporter will be s
 
 exports.socket = {
 
-	loaded_on_master: false,
-	loaded_on_worker: false,
-	connected_namespaces: {}, // {core: 'core', ...} // filled in C.socket.connect_site
+	running_servers: {}, 			// {REGULAR: 'REGULAR', ...} // filled in C.socket.create_servers
+	listening_to_namespaces: {},	// filled in C.socket.bind_site_listener  // { "/opajda": {sites: ['opajda']}, "/opajda_admin": {sites: ['opajda', 'sheo', '<site_name']} } for example
 
 }

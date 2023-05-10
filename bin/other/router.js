@@ -3,10 +3,11 @@
 exports.route = function(Q, s) {
     
     var SITE        = S[Q.site];
-    var routes      = SITE.router;
+    var router      = SITE.router;
+    var routes      = router.get_routes(Q) || {};
     var base_url    = SITE.config.base_url || '/';
     var handlers    = SITE.handlers;
-    var result      = {route: null, matched: null, handler: null};
+    var result      = {route: null, matched:{success: false}, handler: null};
     
     for(route_name in routes) {
 
@@ -30,7 +31,7 @@ exports.route = function(Q, s) {
 exports.match_route = function(route, url, method, base_url = '/', params = {}) {
     
     // check for method before any other computing - if route method is set, but does not match request, return false
-    if(route.method && route.method !== method) return {success: false, params: {}, param_handlers: {}};
+    if(route.method && route.method.toLowerCase() !== method) return {success: false, params: {}, param_handlers: {}};
 
     // format URL - extract only URL path (remove query etc)
     var true_url    = url;

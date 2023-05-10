@@ -4,7 +4,7 @@ let rr = require.resolve;
 //exports.counter = C.helper.force_require(rr('./counter'));
 
 
-exports.ticker = async function(Q, socket, SITE, data = {}) {
+exports.test = async function(Q, socket, SITE, data = {}) {
 
 	var result = {ok: 0, data: {}, error: null, id: '[si1]', text: ''};
 
@@ -12,13 +12,13 @@ exports.ticker = async function(Q, socket, SITE, data = {}) {
     
 		// check if admin is logged in (if client has rights)
 		
-		console.log('TICKER SOCKET MESSAGE', data, Q.id, SITE.name);
+		console.log('TEST SOCKET EVENT', data, Q.id, SITE.name);
 
-		result = {...result, ok: 1, data, text: 'Ticker OK.'}
+		result = {...result, ok: 1, data, text: 'Test OK.'}
 
 		// if data.return_event is set, this event will be emitted with result back to frontend (handled in socket.connector)
 
-	} catch(error) { result = {...result, error, text: 'Failed to handle ticker - error: '+error.message}; }
+	} catch(error) { result = {...result, error, text: 'Failed to handle test - error: '+error.message}; }
 
 	return result;
     

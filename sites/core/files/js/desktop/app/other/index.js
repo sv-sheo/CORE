@@ -12,13 +12,13 @@ exports.setup_initial_state = function() {
 
 exports.populate_WH = function() {
 
-	WH.currencies   	= PRELOAD_DATA.currencies;
-	WH.languages    	= PRELOAD_DATA.languages;
-	//WH.language     	= localStorage.language || PRELOAD_DATA.language || window.navigator.language;
+	WH.currencies   	= SERVER_DATA.currencies;
+	WH.languages    	= SERVER_DATA.languages;
+	//WH.language     	= localStorage.language || SERVER_DATA.language || window.navigator.language;
 	WH.language     	= 'cz';
-	WH.request_id   	= PRELOAD_DATA.request_id;
-	WH.HOST         	= PRELOAD_DATA.HOST;
-	WH.alerts       	= PRELOAD_DATA.alerts;
+	WH.request_id   	= SERVER_DATA.request_id;
+	WH.HOST         	= SERVER_DATA.HOST;
+	WH.alerts       	= SERVER_DATA.alerts;
 
 	WH.locales_list 	= {cz: 'cs-CZ', en: 'en-US', de: 'de-DE'};
 	WH.locale 			= WH.locales_list[WH.language] || WH.locales_list[WH.languages.default] || WH.locales_list['en'];
@@ -120,6 +120,6 @@ exports.sort_first_server_data = function(sd={}) {
 
 		} else { alert(ers.join(' | ')); console.log('sort_first_server_data', errors); }
 
-	} else { alert(sd.text); }
+	} else { /* handled in root */ }
 
 }

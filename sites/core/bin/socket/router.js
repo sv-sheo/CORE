@@ -1,8 +1,7 @@
 
 module.exports = function(handlers) {
     
-    // ACTION === EVENT - action name must be the same as event name !!!
-    
+    // key is the name of the action (event)
     return  {
                 // action: handler function
                 /*'add_doc': M._.get(handlers, 'users.add_doc', false),
@@ -12,9 +11,8 @@ module.exports = function(handlers) {
                 'refresh_uptime':   M._.get(handlers, 'soul.refresh_uptime', false),
                 'refresh_ram_usage':M._.get(handlers, 'soul.refresh_ram_usage', false),*/
         
-                'ticker': M._.get(handlers, 'ticker', false),
-
-                'get_server_data': M._.get(handlers, 'get_server_data', false),
+                'test':                 M._.get(handlers, 'test', false),
+                'get_server_data':      M._.get(handlers, 'get_server_data', false),
         
             };
     

@@ -10,7 +10,7 @@ global.R    = {};   // ={ current = request list (all sites) (only valid request
 global.B    = {};   // BIN - overflow variable
 global.DB;          // RethinkDB handle, DB connections and shadow moved to S (S[site_name].DB = {connection: <>, shadow: {}, NAME: '', ...}) ... for sites .... for processes its in DBP
 global.DBP;         // DB data of PROCESS connection ... result.data of connect_site_to_DB() method = {connection: <>, shadow: {}, NAME: '', ...}
-global.IO;          // socket.io
+global.IO   = {};   // socket.io ... will be populated upon ws server creation (S.socket.create_server) ... { SERVERS: {}, CONNECTIONS: {} }
 
 global.STATE    = {}; // contains certificates, mailers and other fungible stuff
 global.CONFIG   = {};
@@ -35,12 +35,6 @@ if( M.cluster.isMaster) { // in nodeJS 16, isMaster is deprecated, replaced by i
     PROCESSES.MASTER    = process;
     // PROCESSES.WORKERS are declared in C.server.create_workers
 
-    var tets = new Promise(function(resolve, reject) {
-
-        setTimeout(function() {reject('Ahoy!')}, 10000);
-
-    });
-
     C.process.bind_process_event_listeners('MASTER', 'PROCESS');
     C.process.bind_cluster_event_listeners();
 
@@ -53,7 +47,8 @@ if( M.cluster.isMaster) { // in nodeJS 16, isMaster is deprecated, replaced by i
         C.DB.bootup,
         C.server.connect_process_to_DB,
         C.server.load_certificates,
-        C.socket.create_master_server,  // create master socket.io server
+        //C.socket.create_master_server,  // DEPRECATED create master socket.io server
+        C.socket.setup_socket_on_master,
         C.server.create_workers,        // resolve with succesfully starting to listen to workers
         C.server.init_workers,          // resolves after all workers were inited (Promise.parallel)
         C.mail.setup_core,              // setup mailer for core server (if its in a config) ... sites have their mail setup in site.load
@@ -137,95 +132,18 @@ if( M.cluster.isMaster) { // in nodeJS 16, isMaster is deprecated, replaced by i
 
     PROCESSES[w_name]   = process; // == M.cluster.worker.process (in this block)
 
-
     // wait for message from MASTER to initialize this worker
     process.on('message',  C.process.MAKE_WORKER_LISTEN_TO_MASTER);
 
     C.process.bind_process_event_listeners(w_name, 'PROCESS');
-
-    //if(M.cluster.worker.id === 1) {
-
-        /*setTimeout(function() {
-
-            console.log('Starting shutdown of worker 1....');
-
-            setTimeout(function() {
-
-                console.log('_____________________________ closing SERVER...');
-
-                if(PROCESSES.SOCKET_HANDSHAKE_SERVER.listening) PROCESSES.SOCKET_HANDSHAKE_SERVER.close(function(error) { /* throws "ERR_SERVER_NOT_RUNNING" * });
-                // if(PROCESSES.SOCKET_IO_SERVER.listening) // PROCESSES.SOCKET_IO_SERVER === IO
-                if(PROCESSES.HTTP_PROXY_SERVER.listening) PROCESSES.HTTP_PROXY_SERVER.close(function(a,b,c) {console.log('00000000000000000000000000000000000 closed HTTP_PROXY_SERVER', a,b,c)});
-                if(PROCESSES.HTTP_SERVER.listening) PROCESSES.HTTP_SERVER.close(function(a,b,c) {console.log('111111111111111111111111111111111111 closed HTTP_SERVER', a,b,c)});
-                if(PROCESSES.HTTPS_PROXY_SERVER.listening) PROCESSES.HTTPS_PROXY_SERVER.close(function(a,b,c) {console.log('22222222222222222222222222222222 closed HTTPS_PROXY_SERVER', a,b,c)});
-
-                M._.forOwn(PROCESSES.HTTPS_SERVERS, function(server_, server_name) {
-
-                    if(server_.listening) {
-
-                        console.log('____________________________ closing server '+server_name);
-
-                        server_.close(function(a,b,c) {console.log('33333333333333333333333333333333333333333 closed '+server_name, a,b,c)});
-
-                    }
-
-                });
-
-                IO.close(function(a,b,c) { console.log('Socket.IO closed, all connections closed.', a,b,c)})
-
-                setTimeout(function() {
-
-                    console.log('------------------- KILLING WORKER '+M.cluster.worker.id);
-
-                    M.cluster.worker.kill();
-
-                }, 15000)
-
-            }, 15000);
-
-
-
-        }, 15000)*/
-
-        /*setTimeout(function() {
-
-            setInterval(function() {
-
-                var conns = C.socket.get_current_connections();
-
-                console.log('____________________________________________________________________');
-                //console.log(M.util.inspect(IO._nsps.get('/core').sockets, true, 1));
-                //console.log('WORKER '+M.cluster.worker.id+' has these connections: '+M.util.inspect(conns, true, 2));
-                //console.log('____________________________________________________________________');
-
-            }, 5000);
-
-        }, 15000);*/
-
-    //}
-
-        /*setTimeout(function() {
-console.log('CLOSING IO');
-            IO.close(function(a,b,c) {console.log('Closed IO on worker '+M.cluster.worker.id+' | '+M.util.inspect({a,b,c}, true, 1))});
-
-        }, 15000);*/
-
-    /*if(M.cluster.worker.id === 1) {
-
-        setTimeout(async function() {
-
-            C.server.shutdown_slowly();
-
-        }, 20000);
-
-    }*/
     
 }
 
 function catch_chain(error) { 
     
     C.logger.bootup_step({id: '[e17]', err_text: 'UNKNOWN ERROR DURING BOOTUP: '+error.message, err: error});
-    console.log(C.logger.ANSI('bold,red', '\r\nCORE webserver failed to bootup.\r\n')); 
+    console.log(C.logger.ANSI('bold,red', '\r\nCORE webserver failed to bootup.\r\n'));
+    process.kill(process.pid); setTimeout(()=>{ process.exit(0); }, 1000); // quit everything gracefully, after 1 second forcefully 
 
 }
 
@@ -240,6 +158,8 @@ function end_chain(result)  {
         C.logger.bootup_step({id, err_text: text, err: (result.error || new Error(text))}); 
 
         console.log(C.logger.ANSI('bold,red', '\r\nCORE webserver failed to bootup.\r\n')); 
+
+        process.kill(process.pid); setTimeout(()=>{ process.exit(0); }, 1000); // quit everything gracefully, after 1 second forcefully 
     
     }
 

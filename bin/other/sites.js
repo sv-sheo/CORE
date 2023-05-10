@@ -21,7 +21,7 @@ exports.CONSTRUCTOR_site_load_method = async function({name, path, log=false}={}
 
     var SITE    = {}; // SITE OBJECT - will be saved in S[<site_name>]
     var result  = {ok: 0, data: {}, errors: {}, steps: {}};
-
+// TO DO // REFACTOR HERE ... stop putting stuff from BIN directly to SITE .... -> make SITE.bin object ---> refactor sites
     try {
 
         let load_args   = {site: name, site_root: path, log, config: {/* defined after config load (below) */}};
@@ -31,42 +31,37 @@ exports.CONSTRUCTOR_site_load_method = async function({name, path, log=false}={}
 
             load_args.config = config.data;
 
-            // check if site is to be loaded on this worker
-            //if(C.sites.site_is_assigned_to_worker(config.data.workers)) {
+            let BIN         = await C.sites.load_site_bin       (load_args);
+            let handlers    = await C.sites.load_site_handlers  (load_args);
+            let views       = await C.sites.load_site_views     (load_args);
+            let site_DB     = await C.sites.connect_site_to_DB  (load_args);
+            let socket      = await C.socket.bind_site_namespaces({...load_args, SITE_BIN: BIN.data});// https://socket.io/docs/v4/namespaces/     ... old ({...load_args, SITE_BIN: BIN.data});
+            let mailer      = await C.mail.setup_site           (load_args); // inserts the mailer (mail transporter) into STATE.mailers[site_name] ... enables use of C.mail.send(site_name, options)
+            let middleware  = {ok: 1, data: {}, text: 'No middleware applied.', error: null}; 
 
-                let BIN         = await C.sites.load_site_bin       (load_args);
-                let handlers    = await C.sites.load_site_handlers  (load_args);
-                let views       = await C.sites.load_site_views     (load_args);
-                let site_DB     = await C.sites.connect_site_to_DB  (load_args);
-                let socket      = await C.socket.connect_site       ({...load_args, SITE_BIN: BIN.data}); // https://socket.io/docs/v4/namespaces/
-                let mailer      = await C.mail.setup_site           (load_args); // inserts the mailer (mail transporter) into STATE.mailers[site_name] ... enables use of C.mail.send(site_name, options)
-                let middleware  = {ok: 1, data: {}, text: 'No middleware applied.', error: null}; 
+            SITE            = {...SITE, ...BIN.data} // merge BIN and SITE - contents of BIN will be directly available from S[<site_name] (.. or from SITE inside a request)
 
-                SITE            = {...SITE, ...BIN.data} // merge BIN and SITE - contents of BIN will be directly available from S[<site_name] (.. or from SITE inside a request)
+            SITE.name       = name;
+            SITE.root       = path;
+            SITE.config     = config.data;
+            SITE.handlers   = handlers.data;
+            SITE.views      = views.data;
+            SITE.DB         = site_DB.data; // {connection: <>, shadow: {}, NAME: '', tables: int, connected: 1}
+            SITE.SOCKET     = socket.data?.SOCKET || null; // use like this: SITE.SOCKET.MAIN.on(...) = SITE.SOCKET.IO.of('/core') 
+            SITE.mailer     = mailer.data?.mailer || null; // you can use SITE.mailer.sendMail(options) instead of C.mail.send(site_name, options)
+            SITE.STATE      = SITE.other?.initial_state ? structuredClone(SITE.other.initial_state) : {};
 
-                SITE.name       = name;
-                SITE.root       = path;
-                SITE.config     = config.data;
-                SITE.handlers   = handlers.data;
-                SITE.views      = views.data;
-                SITE.DB         = site_DB.data; // {connection: <>, shadow: {}, NAME: '', tables: int, connected: 1}
-                SITE.IO         = socket.data?.SITE_IO || null; // use like this: SITE.IO.on(...) ...equivalent of IO.of(site namespace).on('...') ... equivalent of IO.of(namespace).on('...')    // https://socket.io/docs/v4/namespaces/
-                SITE.mailer     = mailer.data?.mailer || null; // you can use SITE.mailer.sendMail(options) instead of C.mail.send(site_name, options)
-                SITE.STATE      = SITE.other?.initial_state ? structuredClone(SITE.other.initial_state) : {};
+            // base chunk of site loaded, now its time for user customization
+            // run custom code (site specific) code after main site code has been loaded
+            middleware      = await C.sites.load_site_middleware(SITE);
 
-                // base chunk of site loaded, now its time for user customization
-                // run custom code (site specific) code after main site code has been loaded
-                middleware      = await C.sites.load_site_middleware(SITE);
+            var step_results= C.sites.format_site_load_step_results({BIN, config, handlers, views, DB: site_DB, middleware, mailer, socket});
 
-                var step_results= C.sites.format_site_load_step_results({BIN, config, handlers, views, DB: site_DB, middleware, mailer, socket});
-
-                result.ok       = step_results.ok;
-                result.text     = 'Site '+name+' successfully loaded on worker '+C.server.worker_id+'.';
-                result.data     = {SITE, load_on_this_worker: 1};
-                result.steps    = step_results.steps;
-                result.errors   = step_results.errors;
-
-            //} else { result.ok = 1; result.text = 'Site '+name+' is not to be loaded on worker '+C.server.worker_id+'.'; }; 
+            result.ok       = step_results.ok;
+            result.text     = 'Site '+name+' successfully loaded on worker '+C.server.worker_id+'.';
+            result.data     = {SITE, load_on_this_worker: 1};
+            result.steps    = step_results.steps;
+            result.errors   = step_results.errors;
 
         } else { result.errors.config = config; }
 
@@ -150,6 +145,9 @@ exports.load_site = async function({name='', path='', log=false}) { // name is r
 
                             STATE.sites.loaded[name]    = now;
                             S[name].STATE.loaded        = now;
+
+                            STATE.sites.enabled[name]   = 1;
+                            S[name].STATE.enabled       = 1;
 
                             if(result.data.SITE?.DB && result.data.SITE?.DB?.CONNECTED && result.data.SITE?.DB?.READY) {
 
@@ -692,26 +690,6 @@ exports.create_tree_out_of_path_contents = function({root, path_contents}={}) {
 
 }
 
-exports.site_is_assigned_to_worker = function(worker_config="") {
-
-    var result = false;
-
-    if(worker_config === 'all') { 
-        
-        result = true;
-    
-    } else if(worker_config) {
-
-        config_split = worker_config.split(',');
-
-        if(config_split.indexOf(C.server.worker_id.toString()) !== -1) result = true;
-
-    }
-
-    return result;
-
-}
-
 exports.format_site_load_step_results = function(steps = {}) {
 
     var results             = {ok: 0, steps: {}, errors: {}};
@@ -743,9 +721,19 @@ exports.format_site_load_step_results = function(steps = {}) {
 
 }
 
+// return bool - check if site exists and is loaded
+exports.site_is_loaded = function(site_name='') {
 
+    return (site_name && S[site_name] && STATE.sites.loaded[site_name]) ? true : false;
 
+}
 
+// check if site is loaded and enabled (accepting requests)
+exports.site_is_enabled = function(site_name='') {
+
+    return (site_name && S[site_name] && STATE.sites.loaded[site_name] && STATE.sites.enabled[site_name]) ? true : false;
+
+}
 
 
 

@@ -21,3 +21,9 @@ exports.error = function(error, error_type) {
 	console.log(error);
 
 }
+
+exports.info = function(type='INFO', text='') {
+	
+	console.log('%c['+type+']%c '+text, 'color: blue; font-weight:bold', 'color: black; font-weight:normal');
+
+}

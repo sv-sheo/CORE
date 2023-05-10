@@ -118,57 +118,35 @@ exports.create_http = async function(previous_step={}) {
     
             PROCESSES.PROXY_SERVER = M.proxy.createProxyServer({});
 
-            // create http proxy server - checks if requested site is supposed to be https, in that case redirect to https, otherwise proxy to real http server
-            PROCESSES.HTTP_PROXY_SERVER = M.http.createServer((Q, s) => { // Q = request, s = response
+            // first create HTTP (reverse) proxy server
+            // a reverse proxy is in use for future addition of load-balancing capabilities, 
+            // it also provides rudimentary load balancing as-is, since requests handled in proxy do not get fully initiated, and you can filter them,
+            // to let through only valid requsts that will be fully initiated (more expensive) behind proxy 
+            // ... good explanation of proxies can be found here: https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/
+            // - also checks if requested site is supposed to be https, in that case redirect to https, otherwise proxy to real http server
+            PROCESSES.HTTP_PROXY_SERVER = M.http.createServer(async function(Q, s) { // Q = request, s = response
 
-                // PROXY requests are not logged or tracked if successful (only regular behind-proxy requests are). In case of proxy request error, the error is logged in DB and file
+                var handle_result, handle_error;
 
-                try {
+// TO DO - rate limiting (inside C.request.handle_http_proxy) add a crude rate limiter - save each request into global (worker-side) array, and block all incoming requests
+//          if certain treshold is crossed, remove each request from the array after some time (maybe 100ms) (to imitate the request being finished)
+//          basicaly, only X requests will be accepted in Y time frame
+// TO DO - (inside C.request.handle_http_proxy) allow only sites that are enabled (newly added SITE state)
 
-                    /* the q object will be passed to .web() method, were it will be mutated and all data set to it in here will be wiped, however if you change url or host here,
-                       the change will persist therefore DO NOT SAVE ANYTHING in q object here that you would like to use after proxy. simply get it again after proxy */
+                try {           handle_result = await C.request.handle_http_proxy(Q, s); } // returns a result object, but all errors will be handled inside
+                catch(error) {  handle_error  = await C.request.handle_error({Q, s, type: 'PROXY', request_result: {id:'[e62]', error, text: 'Failed to handle request on HTTP PROXY server - unknown error: '+error.message}}); }
 
-                    // DO NOT BOTHER with /favicon.ico requests - serve 200 and stop the handling of this request
-                    if(CONFIG.core.request.ignore_favicon && Q.url === '/favicon.ico') { return C.request.do_not_serve_favicon(s); };
-
-                    // now check if acessing by IP, if yes, adjust host and URL so that we can find site
-                    var adjust_by_ip    = C.request.adjust_host_and_url_by_IP(Q);
-                    var from_ip         = adjust_by_ip.from_ip;
-                    var host            = adjust_by_ip.host;
-                    var url             = adjust_by_ip.url;
-                    var site            = C.sites.get_site_by_host(host);                                                   // get site from host 
-                    var site_is_valid   = (site && S[site] && S[site].config && STATE.sites.loaded[site]) ? true : false;   // check if site is valid
-                    var is_https        = (site_is_valid && S[site].config.is_https);    // check if its https 
-console.log('?????????????????????????????', adjust_by_ip, site, site_is_valid)
-                    if(host && site && site_is_valid) {
-
-                        // redirect to HTTPS if certificate is found
-                        if( is_https ) { s.writeHead(302, {'Location': 'https://' + Q.headers.host + Q.url, 'Method': Q.method}); s.end(); return; }
-
-                        // site is not https or IO - proxy to real http server
-                        // .web() method doesnt return anything
-                        PROCESSES.PROXY_SERVER.web(Q, s, { target: 'http://' + Q.headers.host + ':8080'}); // HERE      ... do not add the Q.url, the .web() methods adds it automatically
-
-                    } else { C.response.quick_error({s, code: 404, text: '404 SITE NOT FOUND'}); }
-                    
-                } catch(error) { C.request.handle_error({Q, s, type: 'PROXY', request_result: {id:'[e62]', error, text: 'Failed to handle request on HTTP PROXY server - unknown error: '+error.message}}); }
-
-            }).listen(80);
+            }).listen(CONFIG.core.ports.http_proxy_server); // 80 .. this is listening to all incoming HTTP requests
             
             // create real server and route hosts to individual site routers
             PROCESSES.HTTP_SERVER = M.http.createServer(async function(Q, s) {
                 
-                try { 
+                var handle_result, handle_error;
 
-                    var handle_result = await C.request.handle(Q, s); // returns a result object, but all errors will be handled inside
-                    
-                } catch(error) { 
-                    
-                    var handle_error = await C.request.handle_error({Q, s, request_result: {id:'[e63]', error, text: 'Failed to handle request on HTTP server - unknown error: '+error.message}}); 
-
-                };
+                try {           handle_result = await C.request.handle(Q, s); } // returns a result object, but all errors will be handled inside
+                catch(error) {  handle_error  = await C.request.handle_error({Q, s, type: 'SERVER', request_result: {id:'[e63]', error, text: 'Failed to handle request on HTTP server - unknown error: '+error.message}}); };
                 
-            }).listen(8080); // IS HERE
+            }).listen(CONFIG.core.ports.http_main_server); // 8080; IS HERE ... this is listening to .web() method called in C.request.handle_http_proxy
 
             C.process.bind_server_event_listeners(PROCESSES.PROXY_SERVER, 'PROXY_SERVER');
             C.process.bind_server_event_listeners(PROCESSES.HTTP_PROXY_SERVER, 'HTTP_PROXY_SERVER');
@@ -184,7 +162,7 @@ console.log('?????????????????????????????', adjust_by_ip, site, site_is_valid)
             if(HTTP_PROXY_SERVER.ok && HTTP_SERVER.ok) {
 
                 result.ok   = 1;
-                result.text = 'Created proxied HTTP server and started listening on port 80.';
+                result.text = 'Created proxied HTTP server and started listening on ports '+CONFIG.core.ports.http_proxy_server+' -> '+CONFIG.core.ports.http_main_server+'.';
 
                 C.logger.bootup_step(result);
 
@@ -210,55 +188,58 @@ exports.create_https = async function(previous_step={}) {
             PROCESSES.PROXY_SERVER_SECURE = M.proxy.createProxyServer({});
 
             // create https proxy server - checks if site has certificate, if not, redirect to http
-            PROCESSES.HTTPS_PROXY_SERVER = M.https.createServer(STATE.certificates.https, (Q, s) => { // Q = request, s = response
-                
-                try {
+            // since the server runs on 1 IP address, all HTTPS requests will be going through https://<SERVER_IP>:443/  or   https://<SITE_HOST>:443
+            // ... these requests will be handled by HTTPS proxy, which will redirect them to their given site HTTPS servers, 
+            //     however, the HTTPS PROXY SERVER needs a certificate, that contains all domains of HTTPS sites
+            PROCESSES.HTTPS_PROXY_SERVER = M.https.createServer(STATE.certificates.https, async function(Q, s) { // Q = request, s = response
 
-                    // DO NOT BOTHER with /favicon.ico requests - serve 200 and stop the handling of this request
-                    if(CONFIG.core.request.ignore_favicon && Q.url === '/favicon.ico') return C.request.do_not_serve_favicon(s);
+                try {          var handle_result = await C.request.handle_https_proxy(Q, s); } // returns a result object, but all errors will be handled inside
+                catch(error) { var handle_error  = await C.request.handle_error({Q, s, type: 'PROXY', request_result: {id:'[e62.1]', error, text: 'Failed to handle request on HTTPS PROXY server - unknown error: '+error.message}}); }
 
-                    // now check if acessing by IP, if yes, adjust host and URL so that we can find site
-                    var adjust_by_ip    = C.request.adjust_host_and_url_by_IP(Q);
-                    var from_ip         = adjust_by_ip.from_ip;
-                    var host            = adjust_by_ip.host;
-                    var url             = adjust_by_ip.url;
-                    var site            = C.sites.get_site_by_host(host);                                                   // get site from host 
-                    var site_is_valid   = (site && S[site] && S[site].config && STATE.sites.loaded[site]) ? true : false;   // check if site is valid
-                    var is_https        = (site_is_valid && S[site].config.is_https);    // check if its https 
+            });
 
-                    // weird host error
-                    if(host && site && site_is_valid) {
+            PROCESSES.HTTPS_SERVER = M.https.createServer(STATE.certificates.https, async function(Q, s) { // Q = request, s = response
 
-                        // redirect to HTTP if no certificate is found
-                        if( !is_https ) { s.writeHead(302, {'Location': 'http://' + Q.headers.host + Q.url, 'Method': Q.method}); s.end(); return; }
-
-                        let SITE = S[site];
-                        let port = parseInt(SITE.config.https_port); // EACH HTTPS SITE HAS TO HAVE ITS OWN PORT
-
-                        if(port) {
-
-                            // site exists and is https - proxy to real https server
-                            PROCESSES.PROXY_SERVER_SECURE.web(Q, s,    { 
-                                                                            ssl:    M._.cloneDeep(STATE.certificates.https), // in the .web() method, ssl gets mutated
-                                                                            target: 'https://' + Q.headers.host + ':' + port,
-                                                                            secure: false
-                                                                        });  
-
-                        } else { throw new Error('[e79] Invalid HTTPS port.'); }
-                        
-                    } else { C.response.quick_error({s, code: 404, text: '404 SITE NOT FOUND'}); }
-
-                } catch(error) { C.request.handle_error({Q, s, type: 'PROXY', request_result: {id:'[e62.1]', error, text: 'Failed to handle request on HTTPS PROXY server - unknown error: '+error.message}}); }
+                try {           var handle_result = await C.request.handle(Q, s); } // returns a result object, but all errors will be handled inside
+                catch(error) {  var handle_error  = await C.request.handle_error({Q, s, type: 'PROXY', request_result: {id:'[e62.2]', error, text: 'Failed to handle request on HTTPS MAIN server - unknown error: '+error.message}}); }
 
             });
             
-            PROCESSES.HTTPS_PROXY_SERVER.listen(443); // EACH HTTPS SITE HAS TO HAVE ITS OWN https_port (i.e. 8443, 8444, ...)
+            PROCESSES.HTTPS_PROXY_SERVER.listen(CONFIG.core.ports.https_proxy_server); // 443
+            PROCESSES.HTTPS_SERVER.listen(CONFIG.core.ports.https_main_server); // 8443
 
             C.process.bind_server_event_listeners(PROCESSES.PROXY_SERVER_SECURE, 'PROXY_SERVER_SECURE');
             C.process.bind_server_event_listeners(PROCESSES.HTTPS_PROXY_SERVER, 'HTTPS_PROXY_SERVER');
+            C.process.bind_server_event_listeners(PROCESSES.HTTPS_SERVER, 'HTTPS_SERVER');
+
+            // HTTPS 
+            // by the time the main HTTPS PROXY SERVER starts, the HTTPS servers of each site on each worker are already running
+            // (the HTTPS servers of each site are started during loading of the site)
+
+            // wrap up creation of the HTTPS server
+            var HTTPS_PROXY_SERVER_RUNNING_PROMISE  = new Promise(function(resolve, reject) { PROCESSES.HTTPS_PROXY_SERVER.on('listening', () => {resolve({ok:1});}); });
+            var HTTPS_MAIN_SERVER_RUNNING_PROMISE   = new Promise(function(resolve, reject) { PROCESSES.HTTPS_SERVER.on('listening', () => {resolve({ok:1});}); });
+
+            var HTTPS_PROXY_SERVER                  = await HTTPS_PROXY_SERVER_RUNNING_PROMISE;
+            var HTTPS_MAIN_SERVER                   = await HTTPS_MAIN_SERVER_RUNNING_PROMISE;
+
+            if(HTTPS_PROXY_SERVER.ok && HTTPS_MAIN_SERVER.ok) {
+
+                result.ok   = 1;
+                result.text = 'Created proxied HTTPS server and started listening on ports '+CONFIG.core.ports.https_proxy_server+' -> '+CONFIG.core.ports.https_main_server+'.';
+
+                C.logger.bootup_step(result); // otherwise, let the error propagate to the end of bootup, where it will be logged
+
+             } else { result.id = '[e61.1]'; result.text = 'Failed to create HTTP server - unknown error.'; result.error = new Error(result.text); }
+
             
+             // ___________ DEPRECATED ______________
+             // earlier, each site had its own HTTPS certificate, so it needed its own HTTPS server (behind proxy), and its own HTTPS port (8443, 8444...)
+             // but now, all HTTPS sites have Certificate grouped together in one certificate (so called SAN).
+             // in case one would need to split the certificates, a HTTPS proxy server with SNI option would have to be created
+
             // create real https server - for each https site, with its own certificate - and set site router
-            PROCESSES.HTTPS_SERVERS = {};
+            /*PROCESSES.HTTPS_SERVERS = {};
 
             var site_list           = '';
             var site_count          = 0;
@@ -275,7 +256,7 @@ exports.create_https = async function(previous_step={}) {
                 if( SITE.config && SITE.config.is_https && port ) {
 
                     let https_server = M.https.createServer(STATE.certificates.https, async function(Q, s) {
-                        
+
                         try          { var handle_result = await C.request.handle(Q, s); }  // returns a result object, but all errors will be handled inside
                         catch(error) { var handle_error  = await C.request.handle_error({Q, s, request_result: {id:'[e63.2]', error, text: 'Failed to handle request on HTTPS server - unknown error: '+error.message}}); }
                         
@@ -292,21 +273,6 @@ exports.create_https = async function(previous_step={}) {
                 }
                 
             }
-
-            // do not shutdown HTTPS proxy if there are no HTTPS sites anymore (there might be some turned on later on)
-            /*if(site_list) {
-                
-                site_list   = site_list.slice(0, (site_list.length - 3))
-                log_text    = 'Created proxied HTTPS servers for sites: ' + site_list + '.';
-                
-            } else {
-                
-                // no https sites, thus servers -> no need for https proxy server -> close it
-                PROCESSES.HTTPS_PROXY_SERVER.close();
-                delete PROCESSES.HTTPS_PROXY_SERVER;
-                log_text = C.server.worker_id + 'No HTTPS sites loaded, HTTPS proxy server closed.';
-                
-            }*/
             
             var ALL_HTTPS_SERVERS_RUNNING = await C.promise.parallel(https_promises);
 
@@ -335,7 +301,7 @@ exports.create_https = async function(previous_step={}) {
             result.text     = log_text;
             result.errors   = https_errors;
 
-            C.logger.bootup_step(result);
+            C.logger.bootup_step(result);*/
 
         } catch(error) { result = {...result, id: '[e61]', text: 'Failed to create HTTPS servers - unknown error: '+error.message, error}; }
 

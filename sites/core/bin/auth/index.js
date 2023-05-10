@@ -7,7 +7,7 @@ exports.get_admin = function(Q, s) {
     if(Q.cookies.admin) {
         
         let admin       = Q.cookies.admin.split('_'); // array of admin data made from cookies
-        Q.data.admin    = {id: admin[0], name: admin[1], time: admin[2], logged_in_time: M.moment(parseInt(admin[2])).format('D.M.Y HH:mm:ss')}
+        Q.data.admin    = {id: parseInt(admin[0]), name: admin[1], time: parseInt(admin[2]), logged_in_time: M.moment(parseInt(admin[2])).format('D.M.Y HH:mm:ss')}
         
     }
     

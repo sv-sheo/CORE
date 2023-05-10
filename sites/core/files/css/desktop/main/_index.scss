@@ -3,6 +3,7 @@
     
     min-width:      $min_width;
     width:          100vw;
+    max-width:      100%; // width without scrollbar, works only in <body>
     overflow:       hidden;
     //font-family:    GOTHIC;
     font-family:    "Myriad Pro", Arial;
@@ -273,5 +274,51 @@
 
 }
 
+#socket_status {
+
+    position:   fixed;
+    bottom:     50px;
+    left:       50px;
+    color:      $light_color;
+    background: $error_color;
+    @include    font_size(12pt);
+    padding:    10px 20px;
+    border-radius: 6px;
+    font-family: "Myriad Pro", Arial;
+    z-index:    10;
+    display:    none;
+
+}
+
+#loading_screen {
+
+    display:    flex;
+    position:   fixed;
+    width:      100vw;
+    max-width:  100%; // without scrollbar width, works only if directly in <body>
+    height:     100vh;
+    top:        0;
+    left:       0;
+    z-index:    20;
+
+
+    justify-content:    center;
+    align-items:        center;
+
+    font-family:    "Myriad Pro", Arial;
+    @include        font_size(14pt);
+
+}
+        #ls_blur { backdrop-filter:blur(3px); }
+        #ls_veil { background: $light_color; opacity: 0.6; }
+
+        #ls_box {
+
+            max-width:  80vw;
+            padding:    20px 30px 16px 30px;
+            background: $light_color;
+            color:      $darker_color;
+
+        }
 
 

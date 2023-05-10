@@ -188,11 +188,12 @@ exports.request.get_request_log_path = async function(start_time, site_name) {
     try {
 
         var SITE        = S[site_name] || null; // if SITE is unknown, use core logs directory
+        var start_moment= M.moment(start_time);
     
         // first check if whole request log dir structure already exists (its created only on first request of the day)
-        var YYYY_dir        = start_time.format('YYYY');
-        var MM_dir          = start_time.format('MM');
-        var DD_dir          = start_time.format('DD');
+        var YYYY_dir        = start_moment.format('YYYY');
+        var MM_dir          = start_moment.format('MM');
+        var DD_dir          = start_moment.format('DD');
         var logs_path       = (SITE && SITE.config) ? M.path.join(SITE.config.root, SITE.config.logs.path) : M.path.join(CONFIG.core.root, CONFIG.core.logs.path, CONFIG.core.logs.request.path);
         var logs_YYYY_path  = M.path.join(logs_path, YYYY_dir);
         var logs_MM_path    = M.path.join(logs_YYYY_path, MM_dir);
@@ -247,8 +248,8 @@ exports.request.log_access = async function({Q, s, request_result={}}={}) {
 
         var SITE                = S[Q.site];
         var log_type            = C.request.get_log_type(SITE.name, Q.hook, 'file');
-        var time_string         = Q.start_time.format('HH:mm:ss.SSS');
-        var request_duration    = M.moment().format('x') - Q.start_time.format('x');
+        var time_string         = M.moment(Q.times.start).format('HH:mm:ss.SSS');
+        var request_duration    = Q.times.handled - Q.times.start;
         var from_ip             = Q.from_ip ? 'YES' : 'NO';
         var is_crawler          = Q.is_crawler ? 'YES' : 'NO';
         var pid                 = '[W'+C.server.worker_id+']';
@@ -299,7 +300,7 @@ exports.request.log_access = async function({Q, s, request_result={}}={}) {
         if(log_text) {
 
             // first get logs dir (site logs dir if SITE exists, core logs dir otherwise)
-            var log_path     = await C.logger.request.get_request_log_path(Q.start_time, SITE.name);
+            var log_path     = await C.logger.request.get_request_log_path(Q.times.start, SITE.name);
 
             if(log_path.ok) {
 
@@ -327,10 +328,10 @@ exports.request.log_error = async function({Q, s, request_result={}}={}) {
         var SITE            = S[Q.site] || null;
         var site_name       = M._.get(SITE, 'name', '');
         var log_type        = C.request.get_log_type(site_name, 'error', 'file');
-        var now             = M.moment();
-        var start_time      = Q.start_time || now;
-        var time_string     = start_time.format('HH:mm:ss.SSS');
-        var request_duration= now.format('x') - Q.start_time.format('x');
+        var now             = C.helper.now();
+        var start_time      = Q.times?.start || now;
+        var time_string     = M.moment(start_time).format('HH:mm:ss.SSS');
+        var request_duration= now - start_time;
         var pid             = '[W'+C.server.worker_id+']';
 
         var log_text        = '';
@@ -445,8 +446,11 @@ exports.request.log_to_console = async function({Q, s, request_result={}}={}) {
         var hook        = Q.hook || 'error';
         var log_type    = C.request.get_log_type(site_name, hook, 'console');
         var pid         = '[W'+C.server.worker_id+']';
-        var now_        = M.moment();
-        var now         = now_.format('DD.MM.YYYY_HH:mm:ss');
+        var now         = C.helper.now();
+        var start_time  = Q?.times?.start || now;
+        var handled_time= Q?.times?.handled || now;
+        var time_text   = M.moment(start_time).format('DD.MM.YYYY_HH:mm:ss');
+        var duration_time= (handled_time - start_time);
         var log_text    = ''; 
         var outcome     = request_result.ok ? 'SUCCESS' : 'ERROR';
         var error_text  = request_result.text || (request_result.error ? request_result.error.message : 'Unknown error');
@@ -458,14 +462,13 @@ exports.request.log_to_console = async function({Q, s, request_result={}}={}) {
             // request has been initialized
             if(Q.id && SITE) {
 
-                var r_time      = M.moment().format('x') - Q.start_time.format('x');
-                    log_text    =  outcome+' ['+Q.hook.toUpperCase()+']['+request_result.id+']'+pid+'['+Q.id+']['+Q.site+']['+Q.country+']['+Q.language+']['+Q.client_ip+']['+now+'] '+Q.true_host+Q.true_url+' - '+r_time+'ms '+error_text+full_error;
+                    log_text    =  outcome+' ['+Q.hook.toUpperCase()+']['+request_result.id+']'+pid+'['+Q.id+']['+Q.site+']['+Q.country+']['+Q.language+']['+Q.client_ip+']['+time_text+']['+duration_time+'ms] '+Q.true_host+Q.true_url+' '+error_text+full_error;
 
             } else {
 
                 var client_ip   = Q.headers['x-forwarded-for'] || Q.connection.remoteAddress;
                     outcome     = 'ERROR';
-                    log_text    = 'ERROR [ ERROR ]['+request_result.id+']'+pid+'['+site_name+']['+client_ip+']['+now+'] '+Q.headers.host+Q.url+' (ERROR:  '+error_text+')'+full_error;
+                    log_text    = 'ERROR [ ERROR ]['+request_result.id+']'+pid+'['+site_name+']['+client_ip+']['+time_text+'] '+Q.headers.host+Q.url+' (ERROR:  '+error_text+')'+full_error;
 
             }
 
