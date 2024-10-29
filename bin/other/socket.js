@@ -354,7 +354,8 @@ exports.bind_site_namespaces = async function({site='', site_root='', config={},
 					let namespaces_results 		= [];
 					let authorization_method	= SITE_BIN?.socket?.custom_connection_authorization || C.socket.authorize_connection;
 					let rate_limitng_method		= SITE_BIN?.socket?.custom_connection_rate_limiting || C.socket.connection_rate_limiting;
-					let connection_handler		= SITE_BIN?.socket?.custom_connection_handler || C.socket.connection_handler;
+					let connection_handler		= SITE_BIN?.socket?.custom_connection_handler 		|| C.socket.connection_handler;
+					let artifical_delay			= config_?.artifical_delay 							|| CONFIG.core.socket.artifical_delay || 0;
 
 					M._.forEach(config_.namespaces, function(namespace_, namespace_name) {
 
@@ -368,10 +369,10 @@ exports.bind_site_namespaces = async function({site='', site_root='', config={},
 						result_IO[namespace_name].use(rate_limitng_method); // includes rate limiting (max 1000 open connections at time) (viz config)
 
 						// AUTHORIZE socket connection via middleware ... rejected connections will emit the connect_error event that will be caught on frontend
-						result_IO[namespace_name].use(authorization_method); // includes rate limiting (max 1000 open connections at time) (viz config)
+						result_IO[namespace_name].use(authorization_method); 
 
 						// artificial timeout - for testing purposes only
-						result_IO[namespace_name].use(function(socket, next) { setTimeout(next, 5000); });
+						result_IO[namespace_name].use(function(socket, next) { setTimeout(next, artifical_delay); });
 
 						// bind connection handler
 						result_IO[namespace_name].on('connection', connection_handler); // init socket connection and bind event handlers
@@ -379,6 +380,8 @@ exports.bind_site_namespaces = async function({site='', site_root='', config={},
 						namespaces_results.push(namespace_+' ('+namespace_name+')');
 
 					});
+
+
 
 					result.ok 	= 1;
 					result.text = 'Site '+site+' bound to socket server ['+server_url+'], listening on namespaces: '+(namespaces_results.join('; '));
@@ -424,7 +427,7 @@ exports.connection_handler = async function(socket) {
 	var result = {ok: 1, id: '[se3]', data: {}, error: null, text: 'Failed to initialize socket connection (bind event listeners) - unknown error.'};
 
 	// TO DO - socket events routing
-	console.log('___________IO CONNECTION ['+socket.id+']');
+	console.log('___________IO CONNECTION ['+socket.id+']'+socket.nsp.name);
 
 	try {
 
@@ -457,7 +460,7 @@ exports.connection_handler = async function(socket) {
 			
 		if(socket_router && M._.isFunction(socket_router)) {
 			
-			let socket_routes = socket_router(socket_handlers) || {};
+			let socket_routes = socket_router(socket_handlers, s.namespace.name) || {};
 			
 			for(EVENT in socket_routes) {
 		
@@ -493,7 +496,7 @@ exports.connection_handler = async function(socket) {
 
 		} else { result.text = 'Could not initialize socket connection - invalid socket router.'; }
 
-		console.log('SOCKET CONNECTION HANDLER RESULT', result);
+		//console.log('SOCKET CONNECTION HANDLER RESULT', result);
 		socket.emit('INIT', result);
 
 	} catch(error) { 

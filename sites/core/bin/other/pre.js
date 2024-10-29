@@ -13,8 +13,8 @@ exports.get_preload_data = function(Q, SITE) {
         PRELOAD_DATA.HOST        = Q.data.HOST;
         PRELOAD_DATA.webpack_url = Q.data.webpack_url;
         PRELOAD_DATA.error       = Q.data.server_error;
-        PRELOAD_DATA.section    = Q.params;
-        PRELOAD_DATA.base_url   = Q.base_url;
+        PRELOAD_DATA.section     = Q.params;
+        PRELOAD_DATA.base_url    = Q.base_url;
 
         PRELOAD_DATA.resource_version = Q.data.resource_version;
 

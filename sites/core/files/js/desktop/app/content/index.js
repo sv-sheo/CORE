@@ -1,6 +1,7 @@
 
 exports.server = require('./server');
 exports.processes = require('./processes');
+exports.sites = require('./sites');
 
 exports.init = function() {
 
@@ -9,6 +10,8 @@ exports.init = function() {
 		A.content.server.init();
 		A.content.processes.init();
 		A.content.processes.init_logs();
+
+		A.content.sites.init();
 
 	};
 

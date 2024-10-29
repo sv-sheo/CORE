@@ -1,5 +1,5 @@
 
-module.exports = function(handlers) {
+module.exports = function(handlers, namespace) {
     
     // key is the name of the action (event)
     return  {
@@ -11,8 +11,10 @@ module.exports = function(handlers) {
                 'refresh_uptime':   M._.get(handlers, 'soul.refresh_uptime', false),
                 'refresh_ram_usage':M._.get(handlers, 'soul.refresh_ram_usage', false),*/
         
-                'test':                 M._.get(handlers, 'test', false),
-                'get_server_data':      M._.get(handlers, 'get_server_data', false),
+                'test':                         M._.get(handlers, 'test', false),
+                'get_server_data':              M._.get(handlers, 'get_server_data', false),
+                'toggle_enabled_state_of_site': M._.get(handlers, 'toggle_enabled_state_of_site', false),
+                'shutdown_server':              M._.get(handlers, 'shutdown_server', false),
         
             };
     

@@ -165,7 +165,7 @@ exports.listen_once = async function(namespace, event, options={}) {
                     timeout = setTimeout(function() { 
                         
                         SOCKET.off(event); 
-                        resolve({ok:0, id: '[fe11.2]', data, text: 'Socket listen once timeout.', error: {message: 'Socket listen once timeout.'},}); 
+                        resolve({ok:0, id: '[fe11.2]', data: {}, text: 'Socket listen once timeout.', error: {message: 'Socket listen once timeout.'},}); 
                     
                     }, timeout_ms);
 

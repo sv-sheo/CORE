@@ -17,10 +17,10 @@ exports.get_request_log_type_config_by_hook = function(conf = {/* contents of .c
 			console:conf.logs_request_sub_console   || process.env.logs_request_sub_console     || 'basic',
 
 		},
-		none:       {
+		none: {
 
-			file:   conf.logs_request_none_file     || process.env.logs_request_none_file       || 'none',
-			db:     conf.logs_request_none_db       || process.env.logs_request_none_db         || 'bare',
+			//file:   conf.logs_request_none_file     || process.env.logs_request_none_file       || 'none', // - deprecated
+			//db:     conf.logs_request_none_db       || process.env.logs_request_none_db         || 'bare', // - deprecated
 			console:conf.logs_request_none_console  || process.env.logs_request_none_console    || 'none',
 
 		},

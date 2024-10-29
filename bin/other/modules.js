@@ -42,7 +42,8 @@ module.exports = {
     node_dir:   require('node-dir'),
     rethinkdb:  require('rethinkdb'),
     _:          require('lodash'),
-    multiparty: require('multiparty')   // parse POST data from rquest with form with enctype="multipart/form-data" - FILE UPLOAD, https://www.npmjs.com/package/multiparty
+    multiparty: require('multiparty'),   // parse POST data from rquest with form with enctype="multipart/form-data" - FILE UPLOAD, https://www.npmjs.com/package/multiparty
+    brevo:      require('@getbrevo/brevo'), // MAILER (formerly sendinblue) https://app.brevo.com/
 
     // FILE MODULES
     //logger:     require('./logger')

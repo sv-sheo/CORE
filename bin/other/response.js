@@ -31,10 +31,14 @@ exports.init = async function(s, Q) {
         
     }
     
-    s.cookie.delete = function(name = 'nonexistent') {
+    s.cookie.delete = function(name = 'nonexistent', path, domain, http_only) {
         
         var cookie_string = name+'=deleted; Expires=Thu, 01 Jan 1970 00:00:01 GMT';
-        
+
+        if(path)        cookie_string  += '; Path=' + path;
+        if(domain)      cookie_string  += '; Domain=' + domain;
+        if(http_only)   cookie_string  += '; HttpOnly';
+
         // check if some cookie is already set, if yes, push to the cookies array, otherwise create cookies array
         var cookies     = s.getHeader('Set-Cookie') ? s.getHeader('Set-Cookie') : [];
             cookies.push(cookie_string);
@@ -48,7 +52,7 @@ exports.init = async function(s, Q) {
         var location = out ? url : Q.data.HOST + url;
         
         //console.log('REDIRECT TO '+location);
-        
+
         Q.hook      = 'none';
         s.result    = {code: 302, handled: true, message: '302 Redirected to ' + url};
         

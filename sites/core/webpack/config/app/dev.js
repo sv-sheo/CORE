@@ -24,6 +24,7 @@ module.exports  =   {
                             // frontend base
                             desktop:        ["./files/js/desktop/root.js"],        // babel polyfill will be automatically required at the start - enabling native Promise, Object.assign etc
                             mobile:       	["./files/js/mobile/root.js"],
+                            //signal:       	["./files/js/signal/root.js"],
      
                         },
                         output: {
@@ -47,7 +48,9 @@ module.exports  =   {
                                             options: {
                                                 //presets: ['babel-preset-env', 'react'] 
                                                 // presets: ['env', 'react'] 
-                                                presets: ["@babel/preset-env", "@babel/preset-react"]
+                                                presets: ["@babel/preset-env", "@babel/preset-react"],
+                                                //presets: ["@babel/preset-env", "@babel/preset-react", "solid"],
+                                                plugins: ["@babel/plugin-transform-modules-commonjs"], // to prevent the "exports is not defined" error when trying to use commonJS together with JSX (bugs when implementing solidJS)
                                                 }
                                     }
                                     

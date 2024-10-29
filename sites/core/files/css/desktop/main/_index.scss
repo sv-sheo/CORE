@@ -290,6 +290,30 @@
 
 }
 
+#alerts_container {
+
+    position:   fixed;
+    bottom:     100px;
+    left:       50px;
+    z-index:    10;
+
+}
+
+    .alert_box {
+
+        color:      $light_color;
+        @include    font_size(12pt);
+        padding:    10px 20px;
+        margin-top: 10px;
+        border-radius: 6px;
+        font-family: "Myriad Pro", Arial;
+        cursor:     pointer;
+
+        &.success { background: $success_color; }
+        &.error { background: $error_color; }
+
+    }
+
 #loading_screen {
 
     display:    flex;

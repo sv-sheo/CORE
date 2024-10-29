@@ -69,7 +69,7 @@ exports.get_running_stuff = async function(message={}) {
 
     try {
 
-        console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAA get_running_stuff on MASTER', message.data);
+        //console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAA get_running_stuff on MASTER', message.data);
 
         result.ok   = 1;
         result.text = 'Got running stuff on MASTER';
@@ -81,7 +81,8 @@ exports.get_running_stuff = async function(message={}) {
         result.data.PROCESSES   = C.process.admin.get_process_data(data);
         result.data.OS          = C.process.admin.get_os_data(data);
         result.data.REQUESTS    = C.process.admin.get_requests(data);
-        result.data.SITES       = C.process.admin.get_sites_data(data);
+        result.data.SITES       = await C.process.admin.get_master_sites_data(data);
+        //result.data.SITES       = {to_load: CONFIG.core.sites.to_load};
         // result.data.SOCKETS     = C.process.admin.get_sockets_data(data); // should be called only on workers
 
         result.data.PROCESS_LOGS = await C.process.admin.get_process_logs(data);

@@ -380,7 +380,7 @@ exports.load_site_middleware = async function(SITE) {
 
         }
 
-    } catch(error) { result = {ok: 0, error, id: '[e57]', text: 'Failed to load site middleware of site '+site+' - unknown error: '+error.message}; }
+    } catch(error) { result = {ok: 0, error, id: '[e57]', text: 'Failed to load site middleware of site '+SITE?.name+' - unknown error: '+error.message}; }
 
     return result;
 

@@ -96,9 +96,10 @@ Promise.prototype.parallel = function(callback, promises) {
 
                             }).catch((err) => { return Promise.reject({ id: '[e1_1]', err: err});});
 
-        } else { throw new Error('Promise.parallel: promises are not iterable.'); }
+        } else { throw new Error('Promises are not iterable.'); }
 
-    }).catch((error) => { return Promise.reject({ id: '[e1]', error }); });
+    //}).catch((error) => { return Promise.reject({ id: '[e1]', error }); });
+    }).catch((error) => { error.message = '[e1] Promise.parallel error: '+error.message; return Promise.reject(error); });
 
 };
         // EXAMPLE OF USAGE (working)

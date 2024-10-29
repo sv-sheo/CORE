@@ -77,10 +77,10 @@ var config = {};
                     console:process.env.logs_request_sub_console    || 'basic',
 
                 },
-                none:       {
+                none:      {
 
-                    file:   process.env.logs_request_none_file      || 'none',
-                    db:     process.env.logs_request_none_db        || 'bare',
+                    // file:   process.env.logs_request_none_file      || 'none', // - deprecated
+                    // db:     process.env.logs_request_none_db        || 'bare', // - deprecated // because of this deprecation, requests with none hook cant be connected to socket
                     console:process.env.logs_request_none_console   || 'none',
 
                 },
@@ -104,6 +104,7 @@ var config = {};
         enabled:            process.env.socket_enabled ? true               : false,
         timeout:            parseInt(process.env.socket_timeout)            || 0, // 0 = no timeout
         max_connections:    parseInt(process.env.socket_max_connections)    || 1000,
+        artificial_delay:   parseInt(process.env.socket_artificial_delay)   || 0, // for DEV purposes only
 
         servers:    { // must be represented in .env
 
@@ -119,6 +120,10 @@ var config = {};
                 secure:     process.env.socket_server_SECURE_secure ? true : false,
                 protocol:   process.env.socket_server_SECURE_secure ? 'wss://' : 'ws://',
             },
+            /*
+            OPAJDA_SECURE: {...} // if you need certain site to have its own socket server
+            FIBY_SECURE: {...}
+             */
             // example of external socket server config - this socket server will not be running on this machine ... more viz bin/other/socket.js
             RPI5: {
                 host:       '', // should be set via env like above
@@ -191,19 +196,36 @@ var config = {};
         name:       process.env.admin_name || 'core', // will be used as a site name (available in S['core'])
         //host:     process.env.admin_host || process.env.server_ip, // if no host is specified, http://<IP>/<name> will be used
         path:       process.env.admin_path || './sites/core',
-
+    
     }
 
     // MAIL
-    config.mailer = {
+    config.mail = {
 
-        enabled:        process.env.mailer_enabled ? true : false,
-        host:           process.env.mailer_host || '',
-        port:           process.env.mailer_port || 0,                       // (GMAIL: secure:true for port 465, secure:false for port 587)
-        secure:         process.env.mailer_secure ? true : false,       
-        bypass_secure:  process.env.mailer_bypass_secure ? true : false,    // false for PRODUCTION;  true for localhost (with self-signed certificate) (DEV)
-        user:           process.env.mailer_user || '',
-        pass:           process.env.mailer_pass || '',
+        providers:      {
+
+            // NODEMAILER
+            //  - paired with a gmail account (for example a@gmail.com) - via this email, nodemailer sends out emails (meaning that they appear as sent from the gmail, and even appear in the "sent" gmail inbox)
+            //  - can host only 1 dev server that works for all sites -> 1 dev server running on each worker and master
+            nodemailer: {
+
+                enabled:        process.env.mailer_node_enabled ? true : false,
+                host:           process.env.mailer_node_host || '',
+                port:           process.env.mailer_node_port || 0,                       // (GMAIL: secure:true for port 465, secure:false for port 587)
+                secure:         process.env.mailer_node_secure ? true : false,       
+                bypass_secure:  process.env.mailer_node_bypass_secure ? true : false,    // false for PRODUCTION;  true for localhost (with self-signed certificate) (DEV)
+                user:           process.env.mailer_node_user || '',
+                pass:           process.env.mailer_node_pass || '',
+
+            },
+                                        
+            brevo: {
+
+                API_KEY: process.env.mailer_brevo_API_KEY || '',
+
+            }
+
+        },
 
     }
 

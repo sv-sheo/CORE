@@ -73,7 +73,7 @@ exports.get_resolved = function(data = {}) {
     
     M._.forEach(data, (value, key) => { 
             
-        if(key !== 'ROOT_PROMISE') {
+        if(key !== 'ROOT') {
 
             if(value.ok && value.status === 'resolved') ret[key] = value.resolved || null;
 
@@ -195,5 +195,42 @@ exports.get_server_IP = async function() {
     var result = await ip_timeout;
 
     return result;
+
+}
+
+exports.strip_html_tags = function(string) {
+
+    return string.replace(/(<([^>]+)>)/gi, "");
+
+}
+
+exports.prepend_zero_if_smaller_than_10 = function(number=0) {
+
+    number = parseInt(number) || 0;
+
+    return (number < 10 && number >= 0) ? '0'+number : ''+number;
+
+}
+
+// returns true if its anything but error; false if its error
+// usage: not_error(var1, var2, ...) OR not_error([var1, var2, ...])
+exports.not_error = function() { 
+	
+	let all_arguments 	= [...arguments];
+	let total_ok 		= 1;
+	let i 				= 0;
+
+	for(i; i<all_arguments.length; i++) {
+
+		if(all_arguments[i] instanceof Error) {
+
+			total_ok = 0;
+			break;
+
+		}
+
+	}
+
+	return total_ok; 
 
 }

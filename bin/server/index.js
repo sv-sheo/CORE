@@ -343,7 +343,7 @@ exports.load_certificates = async function(previous_step = {}) {
 
 // DEPRECATED ... replaced by C.socket.create_master_server, C.socket.setup_worker and C.socket.connect_site
 // creates Socket.IO server (only on 1 worker) (via HTTPS server) and create rooms for given sites and add handlers
-exports.create_socket_io = async function(previous_step = {}) {
+/*exports.create_socket_io = async function(previous_step = {}) {
 
     if(previous_step.ok) {
 
@@ -400,7 +400,7 @@ exports.create_socket_io = async function(previous_step = {}) {
                     var socket_handler  = require(handler_path);
                     
                     // create site room in socket and add handler for connection
-                    PROCESSES.SOCKET_IO_SERVER.of(site_socket.room).on('connection', socket_handler);*/
+                    PROCESSES.SOCKET_IO_SERVER.of(site_socket.room).on('connection', socket_handler);*
                     
                     // update log_text
                     log_text += site + ' | ';
@@ -420,7 +420,7 @@ exports.create_socket_io = async function(previous_step = {}) {
 
     } else { return previous_step; }
     
-};
+};*/
 
 exports.connect_process_to_DB = async function(previous_step={}) {
 
