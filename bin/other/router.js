@@ -99,9 +99,9 @@ exports.match_route = function(route, url, method, base_url = '/', params = {}) 
                 
                 // check if it has its own regexp, if not, use default and check if it matches
                 var route_exps      = route.regexps || {};
-                part_regexp         = route_exps[part] || part_regexp;
+                part_regexp         = route_exps[part] || regexps.route_default;
                 matched             = part_regexp.test(request_part);
-                    
+
                 // in case its not set, check if its optional, if yes, natched = true
                 if(!request_part && is_optional) matched = true;
 

@@ -65,56 +65,7 @@ if( M.cluster.isMaster) { // in nodeJS 16, isMaster is deprecated, replaced by i
 
             C.helper.get_server_IP().then(function(server_IP) { STATE.server_IP = server_IP; });
 
-            /*let options =   { 
-                                from:       {name: 'opajda.cz', address: 'info@opajda.cz'},              
-                                to:         [{name: 'sheo', address: 'stipav@seznam.cz'}, {name: 'sheo2', address: 'stepan.vetesnik@gmail.com'}],
-                                subject:    'ŽÁDOST O REZERVACI na Opajdě',                                     
-                                text:       '<!DOCTYPE html><html><head></head><body>ahooooooj</body></html>', 
-                                html:       '<!DOCTYPE html><html><head></head><body>ahooooooj</body></html>' 
-                            };
-
-            C.mail.send('__CORE__', options).then((res)=>{}).catch((e)=>{});*/
-
-        //console.log('______________ OS CPUs: ', M.os.cpus());
-           // var test = C.sites.load_site({name: 'core', path: './sites/core/'}).then(function(tres) { console.log('TEST RESULT', tres)}).catch(function(error) { console.log('TEST ERROR', error)});
-
-            //return {ok: 1, data: {}, error: null};
-
-            //var testt = C.process.EXECUTE_ON_WORKERS([1], {action: 'process.handlers.worker.test', data: {ahoj: 'lala'}}).then(function(res) {});
-
-            // setting up shutdown
-            /*setTimeout(function() {
-
-                console.log('_________________________________________ STARTING SHUTDOWN_______________________________');
-
-                setTimeout(function() { 
-
-                    console.log('_______________________________________ KILL FAILED, EXITING... ________________________________');
-                    process.exit(0);  // 0 = success code, > 0 = failure codes ... https://nodejs.org/api/process.html#process_exit_codes
-                
-                }, 20000);  	// just in case, set 10s timeout to exit immediately
-
-
-				process.kill(process.pid); 								// send kill signal, try to exit gracefully
-
-            }, 20000);*/
-
-            /*setTimeout(() => {
-
-                setInterval(()=> {
-
-                    console.log('wwwwwwwwwwwwwwwwwwwwwwwwww '+M.util.inspect(M.cluster.workers, true, 1));
-
-                }, 5000);
-
-            }, 15000);*/
-
-            // EXAMPLE
-            //return C.process.EXECUTE_ON_WORKERS([1,2,3], {action: 'process.handlers.worker.test', data: {ahoj: 'lala'}})
-
-                            //.then(function(result) { /*console.log('EXECUTE ON WORKERS RESULT: ', result);*/ return {ok: 1, data: {}, error: null}; })
-                            //.catch(function(error) { /*console.log('EXECUTE ON WORKERS ERROR: ', error);*/ return {ok: 1, data: {}, error: null}; })
-                            return {ok: 1, data: {}, error: null}
+            return {ok: 1, data: {}, error: null}
 
         } else { return result; }
 

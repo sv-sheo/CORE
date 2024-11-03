@@ -78,4 +78,21 @@ exports.init = function() {
 
 	DOM.sections_blocks.headers['server_machine_header'].innerHTML = 'MACHINE ('+WH.SD.MASTER.CONFIG.machine+')';
 
+	let shutdown_button = DOM.sections_blocks.rows.contents['server_shutdown_button'].querySelector("button");
+		shutdown_button.addEventListener('click', async function(e) { 
+			
+			let res = await M.socket.execute('MAIN', 'shutdown_server', {trigger: 'SERVER SHUTDOWN BUTTON'}, {return: false});
+		
+		});
+
+	let email_button = DOM.sections_blocks.rows.contents['server_test_mail_button'].querySelector("button");
+	email_button.addEventListener('click', async function(e) { 
+		
+		let res = await M.socket.execute('MAIN', 'send_test_email', {text: 'LALALA MAIL TEST HAHAHA'}, {return: true, timeout: 15});
+
+		console.log('EEEEEEEEEE', res)
+	
+	});
+
+
 }

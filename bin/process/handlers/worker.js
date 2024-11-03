@@ -162,7 +162,7 @@ exports.get_running_stuff = async function(message={}) {
 
     try {
 
-        console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAA get_running_stuff on WORKER ('+C.server.worker_id+')', message.data);
+        //console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAA get_running_stuff on WORKER ('+C.server.worker_id+')', message.data);
 
         result.ok   = 1;
         result.text = 'Got running stuff on WORKER '+M.cluster?.worker?.id;
@@ -179,6 +179,39 @@ exports.get_running_stuff = async function(message={}) {
         C.helper.deep_iterate(result.data, function(val, key, full_path) { if(val === null || val === undefined) M._.set(result.data, full_path, ''); });
 
     } catch(error) { result = {...result, ok: 0, error, text: 'Unknown error during relay_to_the_rest_of_the_workers - '+error?.message}; }
+
+    return result;
+
+}
+
+exports.toggle_enabled_state_of_site = async function(message={}) {
+
+    var result  = {ok: 0, id: '[e88]', text: '', data: {message}, error: null};
+
+    try {
+
+        let data    = message?.data || {};
+        let site_name= data?.site || '';
+        let site    = S[site_name] || false;
+
+        if(site) {
+
+            let current_state   = S[site_name].STATE.enabled;
+            let new_state       = current_state ? 0 : 1;
+
+            STATE.sites.enabled[site_name]      = new_state;
+            S[site_name].STATE.enabled          = new_state;
+
+            let new_state_text = new_state ? 'Enabled' : 'Disabled';
+
+            result.ok   = 1;
+            result.text = new_state_text+' site ['+site_name+'] on WORKER '+M.cluster?.worker?.id;
+
+            result.data.new_state = new_state;
+
+        } else { result.ok = 0; result.text = 'Failed to toggle enabled state of site ['+site_name+'] on WORKER '+M.cluster?.worker?.id; }
+
+    } catch(error) { result = {...result, ok: 0, error, text: 'Unknown error during toggle_enabled_state_of_site - '+error?.message}; }
 
     return result;
 

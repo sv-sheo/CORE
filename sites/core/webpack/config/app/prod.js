@@ -25,7 +25,7 @@ module.exports =    {
                             // frontend base
                             desktop:        ["./files/js/desktop/root.js"],        // babel polyfill will be automatically required at the start - enabling native Promise, Object.assign etc
                             mobile:       	["./files/js/mobile/root.js"],
-                            //admin:          ["./files/js/backend_admin/root.js"],
+                            //signal:         ["./files/js/signal/root.js"],
                             
                         },
 
@@ -63,7 +63,8 @@ module.exports =    {
                                             options: {
                                                 //presets: ['babel-preset-env', 'react'] 
                                                 // presets: ['env', 'react'] 
-                                                presets: ["@babel/preset-env", "@babel/preset-react"]
+                                                presets: ["@babel/preset-env", "@babel/preset-react"],
+                                                //presets: ["@babel/preset-env", "@babel/preset-react", "babel-preset-solid"]
                                                 }
                                     }
                                     

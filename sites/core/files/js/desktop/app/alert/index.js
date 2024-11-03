@@ -1,6 +1,42 @@
 
+
+
+
+
+
+exports.init = function() {
+
+	/*let DOM_box = document.getElementById('alert_box');
+
+	DOM_box.addEventListener('click', function(e) { e.currentTarget.style.display = 'none'; })*/
+
+	DOM.alerts_container = document.getElementById('alerts_container');
+
+}
+
+exports.create = function({type='', text=''}={}) {
+
+	let types		= {success: 'success', error: 'error'};
+		type 		= types[type] || 'error';
+		text 		= text || 'EMPTY ALERT';
+	let DOM_string 	= '<div class="alert_box '+type+'">'+text+'</div>';
+
+	let DOM_box 	= A.DOM.create_element_from_string(DOM_string);
+
+	DOM.alerts_container.appendChild(DOM_box);
+
+	DOM_box.addEventListener('click', function(e) { A.DOM.remove(e.currentTarget); })
+
+}
+
+
+
+
+
+
+
 //exports.create = function({alert, set_alert, alerts_queue, set_alerts_queue, set_active_alert}) {
-exports.create = function({new_alert, alert, set_alert}) {
+/*exports.create = function({new_alert, alert, set_alert}) {
 
 	var alert_to_add 	= new_alert;
 
@@ -66,7 +102,7 @@ exports.create = function({new_alert, alert, set_alert}) {
 
 		}
 
-	}*/
+	}*
 
 }
 
@@ -81,14 +117,14 @@ exports.close = function({set_alert}) {
 		var new_alert 			= _.cloneDeep(alert);
 			new_alert.active	= null;
 			new_alert 			=  S.alert.open_next_in_query({alert: new_alert, set_alert});
-*/
+*
 	/*	if(WH.alert_timeout) clearTimeout(WH.alert_timeout);
 
 		var new_alert 			= _.cloneDeep(alert);
 			new_alert.close 	= 1;
 			new_alert.active 	= null;
 
-		set_alert(new_alert);*/
+		set_alert(new_alert);*
 
 
 }
@@ -134,7 +170,7 @@ exports.open_next_in_query = function({alert, set_alert}) {
 		var in_q = '';
 		new_alert.queue.forEach(function(id) {in_q=in_q+', '+new_alert.alerts[id]; })
 
-console.log('opening next alert in queue: '+new_alert.active.id+' (old alert: '+(alert?alert.id:'')+'); ALERTS IN QUEUE: '+in_q);
+//console.log('opening next alert in queue: '+new_alert.active.id+' (old alert: '+(alert?alert.id:'')+'); ALERTS IN QUEUE: '+in_q);
 
 		// set auto close
 		if(new_alert.active.auto_close) WH.alert_timeout = setTimeout(function() { S.alert.close({alert: new_alert, set_alert}); }, new_alert.active.auto_close);
@@ -145,4 +181,4 @@ console.log('opening next alert in queue: '+new_alert.active.id+' (old alert: '+
 
 	return new_alert;
 
-}
+}*/

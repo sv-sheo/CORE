@@ -26,8 +26,30 @@ exports.index = async function({Q, s, SITE}) {
     Q.data.html.sections.sub_servers    = SITE.views.sections.sub_servers(Q.data);
     Q.data.html.sections.sites          = SITE.views.sections.sites(Q.data);
     Q.data.html.sections.sockets        = SITE.views.sections.sockets(Q.data);
-
+    
     s.html = SITE.views.index(Q.data);
+
+    return {ok: 1};
+
+    
+}
+
+exports.signal = async function({Q, s, SITE}) {
+
+    SITE.auth.get_admin(Q, s);                  // fills Q.data.admin       false if no admin
+    SITE.auth.kick_not_logged_in(Q, s);             // kick to admin page (result) if someone is logged in
+    SITE.other.pre.get_environment(Q, s, SITE);
+
+    Q.safe              = {user: Q.data.admin.id, site: SITE.name, client_ip: Q.client_ip};  // init Q safe and save data needed to authorize socket connections
+
+    Q.data.html         = {head: {title: 'S-CORE ADMIN'}};
+    Q.data.socket       = SITE.other.pre.get_socket_data(Q, SITE);
+    Q.data.PRELOAD_DATA = SITE.other.pre.get_preload_data(Q, SITE);
+    Q.frontend          = Object.assign(Q.frontend, Q.data.PRELOAD_DATA);
+
+    Q.data.js_data      = JSON.stringify(Q.frontend); // IMPORTANT      ... M.tosource(Q.frontend);
+
+    s.html = SITE.views.signal(Q.data);
 
     return {ok: 1};
 

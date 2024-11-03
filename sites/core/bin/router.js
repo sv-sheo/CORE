@@ -1,7 +1,7 @@
 
-module.exports = 
-        
-        {
+exports.get_routes = function() {
+    
+    var routes = {
         
             /*'test-route':       {url: 'test', handler: 'test/test/test'},
             'lalala-route':     {url: 'lalala', handler: 'test/test/lalala'},
@@ -15,6 +15,7 @@ module.exports =
     
             // HOME
             'index':            {url: '', handler: 'index/index'},
+            //'signal':           {url: '', handler: 'index/signal'},
             'sections':         {url: '<section>', handler: 'index/index', regexps: {'<section>': /(^server$)|(^processes$)|(^sub_servers$)|(^sites$)|(^sockets$)/i}},
 
             // AUTH
@@ -34,4 +35,8 @@ module.exports =
             // 404 ROUTE - has to be last
             'not_found':        {url: '(<a>(/<b>(/<c>(/<d>(/<e>(/<f>(/<g>(/<h>(/<ch>(/<i>(/<j>(/<k>(/<l>(/<m>(/<n>(/<o>))))))))))))))))', handler: 'test/test/not_found'},
         
-        }
+        };
+
+    return routes;
+
+}

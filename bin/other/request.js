@@ -10,7 +10,7 @@ exports.init = async function(Q) {
     Q.cookies       = {};
     Q.post          = Promise.resolve({}); // by default empty object
     Q.method        = Q.method.toLowerCase();
-    Q.hook          = 'main';   // main x sub x none 
+    Q.hook          = 'main';   // main | sub | none | error (set only internally in C.request.handle_error)
     
     // Q.site, Q.host, true_host, url & true_url are determined in C.request.handle before initialization
     var SITE        = S[Q.site]; // get SITE object 
@@ -121,7 +121,8 @@ exports.handle = async function(Q, s) {
 
                         Q.times.handled = C.helper.now(); // ms
                         result          = request_result;
-                        finish_result   = request_result.ok ? await C.request.finish_request({Q, s, request_result}) : await C.request.handle_error({Q, s, request_result}); // apply hooks and clean up the end of request
+                        finish_result   = request_result.ok ? await C.request.finish_request({Q, s, request_result}) 
+                                                            : await C.request.handle_error({Q, s, request_result}); // apply hooks and clean up the end of request
 
                     } else { result.text = '404 HANDLER NOT FOUND'; C.response.quick_error({s, code: 404, text: result.text}); }
 
@@ -166,7 +167,17 @@ exports.finish_request = async function({Q, s, request_result}={}) {
             
         }
 
-        result = await C.request.hook({Q, s, request_result});
+        if(Q.hook === 'main' || Q.hook === 'sub') { 
+            
+            result = await C.request.hook({Q, s, request_result}); 
+        
+        /* none hook */  
+        } else { 
+            
+            console_result = await C.logger.request.log_to_console({Q, s, request_result}); // log to console even if theres no hook
+            result = {ok: 1, id: '[i38a]', text: 'Succesfully finished request without hook.', data: {logged_to_console: console_result}, error: null}; 
+        
+        }
 
         if(Q.id) delete R.current[Q.id];
 
@@ -202,7 +213,7 @@ exports.handle_error = async function({Q, s, request_result={}, type='SERVER'}={
             Q.hook          = 'error'; // override hook of request
 
         logged_to_file      = await C.logger.request.log_error({Q, s, request_result});
-        logged_to_DB        = await C.request.save_to_DB({Q, s, request_result, type: 'error'});
+        logged_to_DB        = await C.request.save_to_DB({Q, s, request_result, kind: 'error'});
         logged_to_console   = await C.logger.request.log_to_console({Q, s, request_result});
 
         // ALWAYS remove from R
@@ -251,14 +262,18 @@ exports.handle_http_proxy = async function(Q, s) {
 
         if(host && site && site_is_valid) {
 
-            result.ok = 1;
+            if(STATE.sites.enabled[site]) {
 
-            // redirect to HTTPS if certificate is found
-            if( is_https ) { s.writeHead(302, {'Location': 'https://' + Q.headers.host + Q.url, 'Method': Q.method}); s.end(); result.text = 'Redirected to HTTPS.'; return result; }
+                result.ok = 1;
 
-            // site is not https or IO - proxy to real http server
-            // .web() method doesnt return anything                                                     // ... do not add the Q.url, the .web() methods adds it automatically
-            PROCESSES.PROXY_SERVER.web(Q, s, { target: 'http://' + Q.headers.host + ':' + http_port});  // HERE ... this sends the request to C.server.create_http() ... the line with "PROCESSES.HTTP_SERVER = M.http.createServer..."  
+                // redirect to HTTPS if certificate is found
+                if( is_https ) { s.writeHead(302, {'Location': 'https://' + Q.headers.host + Q.url, 'Method': Q.method}); s.end(); result.text = 'Redirected to HTTPS.'; return result; }
+
+                // site is not https or IO - proxy to real http server
+                // .web() method doesnt return anything                                                     // ... do not add the Q.url, the .web() methods adds it automatically
+                PROCESSES.PROXY_SERVER.web(Q, s, { target: 'http://' + Q.headers.host + ':' + http_port});  // HERE ... this sends the request to C.server.create_http() ... the line with "PROCESSES.HTTP_SERVER = M.http.createServer..."  
+
+            } else { C.response.quick_error({s, code: 418, text: '418 SITE DISABLED'}); result.text = 'Site disabled'; }
 
         } else { C.response.quick_error({s, code: 404, text: '404 SITE NOT FOUND'}); result.text = 'Invalid host or site'; }
 
@@ -297,25 +312,30 @@ exports.handle_https_proxy = async function(Q, s) {
 
         if(host && site && site_is_valid) {
 
-            result.ok = 1;
+            if(STATE.sites.enabled[site]) {
 
-            // redirect to HTTP if no certificate is found
-            if( !is_https ) { s.writeHead(302, {'Location': 'http://' + Q.headers.host + Q.url, 'Method': Q.method}); s.end(); result.text = 'Redirected to HTTP.'; return result; }
+                result.ok = 1;
 
-            let SITE = S[site];
-            let port = parseInt(SITE.config.port); // EACH HTTPS SITE HAS TO HAVE ITS OWN HTTPS PORT
-            let certs= STATE.certificates.https;
+                // redirect to HTTP if no certificate is found
+                if( !is_https ) { s.writeHead(302, {'Location': 'http://' + Q.headers.host + Q.url, 'Method': Q.method}); s.end(); result.text = 'Redirected to HTTP.'; return result; }
 
-            if(port) {
+                let SITE = S[site];
+                //let port = parseInt(SITE.config.port); // DEPRECATED - EACH HTTPS SITE HAS TO HAVE ITS OWN HTTPS PORT
+                let port = CONFIG.core.ports.https_main_server;
+                let certs= STATE.certificates.https;
 
-                // site exists and is https - proxy to real https server
-                PROCESSES.PROXY_SERVER_SECURE.web(Q, s,    { 
-                                                                ssl:    certs,                                      // in the .web() method, ssl gets mutated .. cannot use M._.cloneDeep() -... HTTPS sites stop working
-                                                                target: 'https://' + Q.headers.host + ':' + port,   // ... do not add the Q.url, the .web() methods adds it automatically
-                                                                secure: false
-                                                            }); // ... this sends the request to the place, where M.https.createServer().listen() is called for given site
+                if(port) {
 
-            } else { throw new Error('[e79] Invalid HTTPS port.'); }
+                    // site exists and is https - proxy to real https server
+                    PROCESSES.PROXY_SERVER_SECURE.web(Q, s,    { 
+                                                                    ssl:    certs,                                      // in the .web() method, ssl gets mutated .. cannot use M._.cloneDeep() -... HTTPS sites stop working
+                                                                    target: 'https://' + Q.headers.host + ':' + port,   // ... do not add the Q.url, the .web() methods adds it automatically
+                                                                    secure: false
+                                                                }); // ... this sends the request to the place, where M.https.createServer().listen() is called for given site
+
+                } else { throw new Error('[e79] Invalid HTTPS port.'); }
+
+            } else { C.response.quick_error({s, code: 418, text: '418 SITE DISABLED'}); result.text = 'Site disabled'; }
             
         } else { C.response.quick_error({s, code: 404, text: '404 SITE NOT FOUND'}); result.text = 'Invalid host or site'; }
 
@@ -330,7 +350,7 @@ exports.handle_https_proxy = async function(Q, s) {
 
 }
 
-exports.save_to_DB = async function({Q, s, request_result={}, type=''}) {
+exports.save_to_DB = async function({Q, s, request_result={}, kind=''}) {
   
     var db_result = {ok: 0, data: {}, id: '[i31]', text: '', error: null};
 
@@ -340,7 +360,7 @@ exports.save_to_DB = async function({Q, s, request_result={}, type=''}) {
         var site_name   = SITE?.name    || '';
         var hook        = Q.hook        || 'error';
         var log_type    = C.request.get_log_type(site_name, hook, 'db');
-        var log         = {type};
+        var log         = {kind};
             s.result    = s.result || '';
 
         // check if request was initialized (in case of early error)
@@ -392,16 +412,17 @@ exports.save_to_DB = async function({Q, s, request_result={}, type=''}) {
                 log.response    = s.result.code || '';
                 log.method      = Q.method;
                 log.protocol    = Q.protocol;
+                log.site        = SITE.name;
                 log.host        = Q.true_host;
                 log.url         = Q.true_url;
                 log.safe        = Q.safe || {}; // used to save logged in user's id for socket authorization
                 
-            } else if (log_type === 'none') {
+            }/* else if (log_type === 'none') { // deprecated 
             
                 log.id          = Q.id; // start_time is in ID
                 log.response    = s.result.code || '';
                 
-            }
+            }*/
 
         // request was not initialized (in handle_error)
         } else {
@@ -422,42 +443,47 @@ exports.save_to_DB = async function({Q, s, request_result={}, type=''}) {
             } else if (log_type === 'bare') {
             
                 log.start_time  = M.moment().format('x');
+                log.site        = site_name || '';
                 log.response    = s.result;
                 log.host        = Q.headers.host;
                 log.url         = Q.url;
                 
-            } else if (log_type === 'none') {
+            } /*else if (log_type === 'none') { // deprecated 
             
                 log.start_time  = M.moment().format('x');
                 log.response    = s.result;
                 
-            }
+            }*/
 
         }
 
-        if(log && log.type) {
+        if(log_type && log_type !== 'none') {
 
-            // regular requests save as usual 
-            if(hook !== 'sub') {
+            if(log && log.kind) {
 
-                var insert = await DB.SET(DBP, 'requests', log);
+                // regular requests save as usual 
+                if(hook === 'main' || hook === 'error') { // hook=none does not execute this function
 
-                if(insert)  { db_result = {...db_result, ok: 1, text: 'Successfully logged log into DB.', data: {insert}}; }
-                else        { db_result = {...db_result, ok: 0, text: 'Failed to log into DB - DB error.', data: {insert}}; }
+                    var insert = await DB.SET(DBP, 'requests', log);
 
-            // sub_requests save into the array of sub_requests of the parent request
-            } else if (hook === 'sub' && Q.parent_request_id) {
+                    if(insert)  { db_result = {...db_result, ok: 1, text: 'Successfully logged log into DB.', data: {insert}}; }
+                    else        { db_result = {...db_result, ok: 0, text: 'Failed to log into DB - DB error.', data: {insert}}; }
 
-                delete log.type; // not needed in nested sub_requests
+                // sub_requests save into the array of sub_requests of the parent request
+                } else if (hook === 'sub' && Q.parent_request_id) {
 
-                var insert = await DB.CHANGE(DBP, 'requests', {query: function(DBX) { DBX = DBX.get(Q.parent_request_id).update({sub_requests: DB.row('sub_requests').default([]).append(log)}); return DBX;}}, log);
+                    delete log.type; // not needed in nested sub_requests
 
-                if(insert)  { db_result = {...db_result, ok: 1, text: 'Successfully appended sub_request to log.', data: {insert}}; }
-                else        { db_result = {...db_result, ok: 0, text: 'Failed to append sub_request log into DB - DB error.', data: {insert}}; }
+                    var change = await DB.CHANGE(DBP, 'requests', {query: function(DBX) { DBX = DBX.get(Q.parent_request_id).update({sub_requests: DB.row('sub_requests').default([]).append(log)}); return DBX;}}, log);
 
-            }
+                    if(change.updated)  { db_result = {...db_result, ok: 1, text: 'Successfully appended sub_request to log.', data: {change}}; }
+                    else                { db_result = {...db_result, ok: 0, text: 'Failed to append sub_request log into DB - DB error.', data: {change}}; }
 
-        } else { db_result = {...db_result, ok: 1, text: 'Invalid log type, nothing was logged in DB.'}; }
+                }
+
+            } else { db_result = {...db_result, ok: 1, text: 'Invalid log or log kind (access x error), nothing was logged in DB.'}; }
+
+        } else { db_result = {...db_result, ok: 1, text: 'Not to be logged in DB.'}; }
 
     } catch(error) { db_result = {ok: 0, id:'[e64]', data: {}, error, text: 'Failed to save request log to DB - unknown error: '+error.message}; }
 
@@ -516,7 +542,7 @@ exports.adjust_host_and_url_by_IP = function(Q) {
 
 }
 
-exports.get_log_type = function(site_name, hook='none', output='') {
+exports.get_log_type = function(site_name, hook='', output='') {
 
     var SITE            = S[site_name] || null;
     var outputs         = {file: 'file', db: 'db', console: 'console'};
@@ -525,7 +551,6 @@ exports.get_log_type = function(site_name, hook='none', output='') {
     var core_log_type   = M._.get(CONFIG, ['core', 'logs', 'request', 'by_hook', hook, output], '');
     var site_log_type   = M._.get(SITE, ['config', 'logs', 'request', 'by_hook', hook, output], ''); // should be a {file, db, console} object
 
-    var outputs         = {file: 'file', db: 'db', console: 'console'};
     var log_types_      = {}; // {full: 'full', basic: 'basic', ...}
 
     log_types.forEach((lt)=>{ log_types_[lt]=lt; });
@@ -811,7 +836,7 @@ exports.hook = async function({Q, s, request_result}={}) {
                     
                     Q.times.sent_response   = C.helper.now(); 
                     var logged_to_file      = await C.logger.request.log_access({Q, s, request_result});
-                    var logged_to_DB        = await C.request.save_to_DB({Q, s, request_result, type: 'access'});
+                    var logged_to_DB        = await C.request.save_to_DB({Q, s, request_result, kind: 'access'});
                     var logged_to_console   = await C.logger.request.log_to_console({Q, s, request_result});
 
                     result = {...result, ok: 1, text: 'Succesfully finished hook.', data: {logged_to_file, logged_to_DB, logged_to_console}};

@@ -90,10 +90,11 @@ module.exports = function(conf) {
     // SOCKET
     config.site_socket = { // cannot be config.socket - do not mix config of core.socket and site.socket
 
-            enabled:        conf.socket_enabled ? true : false,
-            server:         conf.socket_server || false,            // should be a name of some server out of CONFIG.core.socket.servers
-            namespaces:     {MAIN: '/core'},                        // should be site name or <site_name>_admin etc (e.g. core_admin; core_chatroom; etc)  ... must be server wide unique
-            timeout:        parseInt(conf.socket_timeout) || 0,     // seconds, ... 0 = no timeout
+            enabled:            conf.socket_enabled ? true : false,
+            server:             conf.socket_server || false,            // should be a name of some server out of CONFIG.core.socket.servers
+            namespaces:         {MAIN: '/core'},                        // should be site name or <site_name>_admin etc (e.g. core_admin; core_chatroom; etc)  ... must be server wide unique
+            timeout:            parseInt(conf.socket_timeout) || 0,     // seconds, ... 0 = no timeout
+            artificial_delay:   parseInt(conf.socket_artificial_delay) || 0,     // milliseconds - for dev purposes only
             
     };
     
@@ -124,21 +125,21 @@ module.exports = function(conf) {
             default:    'en',
             supported:  ['cz', 'de', 'en'],
             by_country: {CZ: 'cz', AT: 'de', DE: 'de'}, // KEYS must be country codes returned by M.country() ... possible values here: http://www.ip2country.net/ip2country/country_code.html
+            data:       {cz: {text: 'Česky'}, en: {text: 'English'}, de: {text: 'Deutsch'}},
 
     };
 
     // MAIL
-    config.mailer = {
+	config.mail = {
 
-            enabled:        conf.mailer_enabled ? true : false,         // admin site does not have to have own mailer, it can use the server's "__CORE__"
-            host:           conf.mailer_host || '',
-            port:           conf.mailer_port || 0,                      // PORTS
-            secure:         conf.mailer_secure ? true : false,       
-            bypass_secure:  conf.mailer_bypass_secure ? true : false,   // false for PRODUCTION;  true for localhost (with self-signed certificate) (DEV)
-            user:           conf.mailer_user || '',
-            pass:           conf.mailer_pass || '',
+        providers: {
 
-    }
+            nodemailer: { enabled: false, }, // only one nodemailer (for whole server) per process (worker/master)
+            brevo: { API_KEY: conf.mailer_brevo_API_KEY || '', }, // only 1 brevo API_KEY for whole server
+
+        }
+
+    };
 
     var core_config_clone = M._.cloneDeep(CONFIG.core);
 

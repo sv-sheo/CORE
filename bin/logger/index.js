@@ -472,7 +472,7 @@ exports.request.log_to_console = async function({Q, s, request_result={}}={}) {
 
             }
 
-        } else { log_text = ''; }
+        } else { log_text = ''; } // log_type = none
 
         if(log_text) {
 

@@ -51,8 +51,6 @@ exports.start 		= async function() {
 
 					loading_screen.style.display = 'none';
 
-					console.log('AAAAAAAAAAA', fetch_server_data);
-
 					A.other.setup_initial_state();
 					A.other.populate_WH();
 					A.other.sort_first_server_data(fetch_server_data);
@@ -61,6 +59,7 @@ exports.start 		= async function() {
 					A.router.init();
 					A.menu.init();
 					A.content.init();
+					A.alert.init();
 
 				} else { socket_error = fetch_server_data; loading_box_text = 'Failed to fetch server data.'; }
 

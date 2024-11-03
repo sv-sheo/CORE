@@ -31,3 +31,29 @@ exports.html_collection_to_keyed_object = function(html_collection=[]) {
 	return keyed_object;
 
 }
+
+// taken from  https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro
+/**
+ * @param {String} HTML representing a single element.
+ * @param {Boolean} flag representing whether or not to trim input whitespace, defaults to true.
+ * @return {Element | HTMLCollection | null}
+ */
+exports.create_element_from_string = function (html, trim = true) {
+
+	// Process the HTML string.
+	html = trim ? html.trim() : html;
+	if (!html) return null;
+	
+	// Then set up a new template element.
+	const template = document.createElement('template');
+	template.innerHTML = html;
+	const result = template.content.children;
+	
+	// Then return either an HTMLElement or HTMLCollection,
+	// based on whether the input HTML had one or more roots.
+	if (result.length === 1) return result[0];
+	return result;
+	  
+}
+
+exports.remove 	= function(element) 		{ if(element && element.parentNode) element.parentNode.removeChild(element); }

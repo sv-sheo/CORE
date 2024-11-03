@@ -178,6 +178,19 @@ exports.get_sites_data = function(data={}) {
 
 }
 
+exports.get_master_sites_data = async function(data={}) {
+
+
+	var result = {};
+
+	result.to_load = CONFIG.core.sites.to_load;
+
+	//await DB.GET(DBP, 'process_logs', log);
+
+	return result;
+
+}
+
 // should be called only on workers
 exports.get_sockets_data = function(data={}) {
 

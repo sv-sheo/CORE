@@ -44,6 +44,7 @@ M.fs.mkdir_async        = promisify(M.fs.mkdir);
 M.fs.append_file_async  = promisify(M.fs.appendFile);
 M.fs.rename_async       = promisify(M.fs.rename);
 M.fs.unlink_async       = promisify(M.fs.unlink);
+M.fs.access_async       = promisify(M.fs.access); // fs.exists is deprecated, use this instead
 
 M.node_dir.paths_async  = promisify(M.node_dir.paths);
 
@@ -51,7 +52,7 @@ M.node_dir.paths_async  = promisify(M.node_dir.paths);
 //M.rethinkdb.connect_async               = promisify(M.rethinkdb.connect);
 //M.rethinkdb.run_async                   = promisify(M.rethinkdb.run);
 M.cloudinary.v2.uploader.upload_async   = promisify(M.cloudinary.v2.uploader.upload);
-M.cloudinary.v2.uploader.destroy_async  = promisify(M.cloudinary.v2.uploader.destroy);
+M.cloudinary.v2.uploader.destroy_async  = promisify(M.cloudinary.v2.uploader.destroy); // either resolves with {result: ('ok'|'not found'|...')} OR rejects with {message: '', name: 'Error', http_code: XXX}
 
 // return a function that returns a promise upon invoking
 exports.new = function(fn) {

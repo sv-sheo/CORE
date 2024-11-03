@@ -41,7 +41,7 @@ exports.bootup  = async function(previous_step={}) {
                     result = {...result, ok: 1, id: '[i4]', text: data_text};
 
                     // after booting up, DB needs some time before first connection can be made, delay the bootup resolve for this pusrpose (to enable MASTER to connect in next step)
-                    setTimeout(function() { C.logger.bootup_step(result); resolve(result); }, 1000);
+                    setTimeout(function() { C.logger.bootup_step(result); resolve(result); }, 30000);
 
                 } catch(error) { resolve({ok: 0, id: '[e6.2]', error, data: {}, text: 'Failed to bootup RethinkDB - unknown [started] error: '+error.message}); }
 
@@ -405,8 +405,8 @@ SHADOW_GET = async function(db_data={}, table_name, {shadow, get, filter, limit,
 
                             } else { bin.filter_QUERY = bin.filter_QUERY.and( DB.row(key)[FILTER](value_) ); }
 
-                        } else if(key === '$and'){ bin.filter_QUERY = bin.filter_QUERY.and(SHADOW_GET_BY_FILTER(DBQ, value, bin_id, (fid+1))); console.log('['+key+':'+value+'] '+'query.and(...)');
-                        } else if(key === '$or') { bin.filter_QUERY = bin.filter_QUERY.or(SHADOW_GET_BY_FILTER(DBQ, value, bin_id, (fid+1))); console.log('['+key+':'+value+'] '+'query.or(...)'); }
+                        } else if(key === '$and'){ bin.filter_QUERY = bin.filter_QUERY.and(SHADOW_GET_BY_FILTER(DBQ, value, bin_id, (fid+1))); /*console.log('['+key+':'+value+'] '+'query.and(...)');*/
+                        } else if(key === '$or') { bin.filter_QUERY = bin.filter_QUERY.or(SHADOW_GET_BY_FILTER(DBQ, value, bin_id, (fid+1))); /*console.log('['+key+':'+value+'] '+'query.or(...)');*/ }
 
                         return bin.filter_QUERY;
 
