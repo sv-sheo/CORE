@@ -20,3 +20,8 @@ WSS opajda SOCKET SERVER: 	8383
 WEBPACK DEV SERVER:
 
 site core					4338
+opajda                      4333
+fiby                        4334
+sheo                        4335
+opajda                      4333
+opajda_solid                4336

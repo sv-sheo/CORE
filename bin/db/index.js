@@ -41,7 +41,7 @@ exports.bootup  = async function(previous_step={}) {
                     result = {...result, ok: 1, id: '[i4]', text: data_text};
 
                     // after booting up, DB needs some time before first connection can be made, delay the bootup resolve for this pusrpose (to enable MASTER to connect in next step)
-                    setTimeout(function() { C.logger.bootup_step(result); resolve(result); }, 5000);
+                    setTimeout(function() { C.logger.bootup_step(result); resolve(result); }, 30000);
 
                 } catch(error) { resolve({ok: 0, id: '[e6.2]', error, data: {}, text: 'Failed to bootup RethinkDB - unknown [started] error: '+error.message}); }
 
