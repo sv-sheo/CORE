@@ -120,7 +120,7 @@ exports.wait_for_DB_ready = async function({config={}, CONN}={}) {
 
     try {
 
-        var ready_result    = await DB.db(data.db).wait({waitFor: 'all_replicas_ready', timeout: 60}).run(CONN) // wait for max. 30 seconds for DBs to load their replicas; 0 = no timeout
+        var ready_result    = await DB.db(data.db).wait({waitFor: 'all_replicas_ready', timeout: 120}).run(CONN) // wait for max. 30 seconds for DBs to load their replicas; 0 = no timeout
 
         result.ok       = 1;
         result.id       = '[i15]';
