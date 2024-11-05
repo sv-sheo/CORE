@@ -2,6 +2,7 @@
 rethinkdb.conf
 sites/core/config/.conf
 sites/core/files/temp/
+sites/core/files/build/production/
 node_modules/
 files/temp/
 security/
