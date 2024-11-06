@@ -6,7 +6,7 @@
   "scripts": {},
   "repository": {
     "type": "git",
-    "url": "ssh://sshd@212.4.144.114:3822/mnt/HD/HD_a2/git_repos/web/system_sheo"
+    "url": "https://github.com/sv-sheo/CORE.git"
   },
   "author": "sheo",
   "license": "MIT",
@@ -31,7 +31,8 @@
     "socket.io": "^4.3.1",
     "tosource": "^2.0.0-alpha.3",
     "ua-parser-js": "^1.0.2",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "node-dir": "^0.1.17"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
@@ -43,7 +44,6 @@
     "css-loader": "^6.5.1",
     "eslint": "^8.1.0",
     "mini-css-extract-plugin": "^2.6.0",
-    "node-dir": "^0.1.17",
     "sass": "^1.43.4",
     "sass-loader": "^12.3.0",
     "socket.io-client": "^4.6.1",
