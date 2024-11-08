@@ -1,7 +1,7 @@
 
 // extend request object with site, host, IP, user agent, request type, QUERY etc...
 exports.init = async function(Q) {
-
+console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa')
     Q.times         = {start: C.helper.now()};
     Q.id            = Q.times.start + '_' + Math.floor(Math.random() * 1000);  
     Q.client_ip     = Q.headers['x-forwarded-for'] || Q.connection.remoteAddress;
