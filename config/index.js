@@ -167,6 +167,9 @@ var config = {};
         db:         process.env.DB_name,
         user:       process.env.DB_user,
         pass:       process.env.DB_password,
+
+        bootup_timeout: parseInt(process.env.DB_bootup_timeout) || 10, // give some time after booting up DB to become responsive, in seconds
+        ready_timeout: parseInt(process.env.DB_ready_timeout) || 30, // give some time for DB tables to become ready, in seconds
         //host:       'localhost',                         // not needed for rethinkDB
         //user:       'admin',                             // ... admin user of RethinkDB ... full rights
         //pass:       '0e5c2b5fb0f3d49d7d7afc3560bacf5f',  //
