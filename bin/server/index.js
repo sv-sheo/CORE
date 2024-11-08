@@ -127,7 +127,7 @@ exports.create_http = async function(previous_step={}) {
             PROCESSES.HTTP_PROXY_SERVER = M.http.createServer(async function(Q, s) { // Q = request, s = response
 
                 var handle_result, handle_error;
-console.log('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO');
+
 // TO DO - rate limiting (inside C.request.handle_http_proxy) add a crude rate limiter - save each request into global (worker-side) array, and block all incoming requests
 //          if certain treshold is crossed, remove each request from the array after some time (maybe 100ms) (to imitate the request being finished)
 //          basicaly, only X requests will be accepted in Y time frame
@@ -135,7 +135,7 @@ console.log('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO');
 
                 try {           handle_result = await C.request.handle_http_proxy(Q, s); } // returns a result object, but all errors will be handled inside
                 catch(error) {  handle_error  = await C.request.handle_error({Q, s, type: 'PROXY', request_result: {id:'[e62]', error, text: 'Failed to handle request on HTTP PROXY server - unknown error: '+error.message}}); }
-
+                console.log('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO', handle_result, handle_error);
             }).listen(CONFIG.core.ports.http_proxy_server); // 80 .. this is listening to all incoming HTTP requests
             
             // create real server and route hosts to individual site routers
