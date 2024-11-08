@@ -86,6 +86,7 @@ exports.connect = async function(config={}) {
     try {
 
         var pass_       = C.ciphers.decrypt_sync(data.pass, config.code_geass);
+        console.log('________________????????????????', data.pass, config.code_geass, pass_)
         var CONNECTION  = await DB.connect({ host: data.host, port: data.port, db: data.db, user: data.user, password: pass_ });
 
         result.data     = {CONNECTION, SHADOW: {}}; // create empty shadow DB - extend DB by shadow methods | TO DO: documentation 

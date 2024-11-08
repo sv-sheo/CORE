@@ -2,9 +2,10 @@
 rethinkdb.conf
 sites/core/config/.conf
 sites/core/files/temp/
-/sites/core/files/images/
-/sites/core/files/unversioned/
+sites/core/files/images/
+sites/core/files/unversioned/
 sites/core/files/build/production/
+environments/
 node_modules/
 files/temp/
 security/
