@@ -41,7 +41,7 @@ exports.bootup  = async function(previous_step={}) {
                     result = {...result, ok: 1, id: '[i4]', text: data_text};
 
                     // after booting up, DB needs some time before first connection can be made, delay the bootup resolve for this pusrpose (to enable MASTER to connect in next step)
-                    setTimeout(function() { C.logger.bootup_step(result); resolve(result); }, 60000);
+                    setTimeout(function() { C.logger.bootup_step(result); resolve(result); }, (CONFIG.core.db.bootup_timeout*1000));
 
                 } catch(error) { resolve({ok: 0, id: '[e6.2]', error, data: {}, text: 'Failed to bootup RethinkDB - unknown [started] error: '+error.message}); }
 
@@ -86,7 +86,6 @@ exports.connect = async function(config={}) {
     try {
 
         var pass_       = C.ciphers.decrypt_sync(data.pass, config.code_geass);
-        console.log('________________????????????????', data.pass, config.code_geass, pass_)
         var CONNECTION  = await DB.connect({ host: data.host, port: data.port, db: data.db, user: data.user, password: pass_ });
 
         result.data     = {CONNECTION, SHADOW: {}}; // create empty shadow DB - extend DB by shadow methods | TO DO: documentation 
@@ -121,7 +120,7 @@ exports.wait_for_DB_ready = async function({config={}, CONN}={}) {
 
     try {
 
-        var ready_result    = await DB.db(data.db).wait({waitFor: 'all_replicas_ready', timeout: 240}).run(CONN) // wait for max. 30 seconds for DBs to load their replicas; 0 = no timeout
+        var ready_result    = await DB.db(data.db).wait({waitFor: 'all_replicas_ready', timeout: CONFIG.core.db.ready_timeout}).run(CONN) // wait for max. 30 seconds for DBs to load their replicas; 0 = no timeout
 
         result.ok       = 1;
         result.id       = '[i15]';
