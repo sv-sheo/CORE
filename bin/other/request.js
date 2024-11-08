@@ -263,14 +263,15 @@ console.log('PPPPPPPPPPPPPPPPPPPPPPPPP', host, site, site_is_valid);
         if(host && site && site_is_valid) {
 
             if(STATE.sites.enabled[site]) {
-                console.log('DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD');
+                
                 result.ok = 1;
 
                 // redirect to HTTPS if certificate is found
                 if( is_https ) { s.writeHead(302, {'Location': 'https://' + Q.headers.host + Q.url, 'Method': Q.method}); s.end(); result.text = 'Redirected to HTTPS.'; return result; }
 
                 // site is not https or IO - proxy to real http server
-                // .web() method doesnt return anything                                                     // ... do not add the Q.url, the .web() methods adds it automatically
+                // .web() method doesnt return anything         
+                console.log('DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD', 'http://' + Q.headers.host + ':' + http_port);                                            // ... do not add the Q.url, the .web() methods adds it automatically
                 PROCESSES.PROXY_SERVER.web(Q, s, { target: 'http://' + Q.headers.host + ':' + http_port});  // HERE ... this sends the request to C.server.create_http() ... the line with "PROCESSES.HTTP_SERVER = M.http.createServer..."  
 
             } else { C.response.quick_error({s, code: 418, text: '418 SITE DISABLED'}); result.text = 'Site disabled'; }
