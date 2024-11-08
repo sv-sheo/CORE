@@ -259,11 +259,11 @@ exports.handle_http_proxy = async function(Q, s) {
         var site_is_valid   = (site && S[site] && S[site].config && STATE.sites.loaded[site]) ? true : false;   // check if site is valid and loaded
         var is_https        = (site_is_valid && S[site]?.config.is_https);                                      // check if its https 
         var http_port       = CONFIG.core.ports.http_main_server;
-
+console.log('PPPPPPPPPPPPPPPPPPPPPPPPP', host, site, site_is_valid);
         if(host && site && site_is_valid) {
 
             if(STATE.sites.enabled[site]) {
-
+                console.log('DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD');
                 result.ok = 1;
 
                 // redirect to HTTPS if certificate is found
