@@ -132,7 +132,7 @@ exports.create_http = async function(previous_step={}) {
 //          if certain treshold is crossed, remove each request from the array after some time (maybe 100ms) (to imitate the request being finished)
 //          basicaly, only X requests will be accepted in Y time frame
 // TO DO - (inside C.request.handle_http_proxy) allow only sites that are enabled (newly added SITE state)
-
+console.log('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF', Q.socket?.remoteAddress, Q.headers['x-forwarded-for'])
                 try {           handle_result = await C.request.handle_http_proxy(Q, s); } // returns a result object, but all errors will be handled inside
                 catch(error) {  handle_error  = await C.request.handle_error({Q, s, type: 'PROXY', request_result: {id:'[e62]', error, text: 'Failed to handle request on HTTP PROXY server - unknown error: '+error.message}}); }
 
@@ -142,7 +142,7 @@ exports.create_http = async function(previous_step={}) {
             PROCESSES.HTTP_SERVER = M.http.createServer(async function(Q, s) {
                 
                 var handle_result, handle_error;
-
+                console.log('TTTTTTTTTTTTTTTTTTTTTTTTTTTTT', Q.socket?.remoteAddress, Q.headers['x-forwarded-for'])
                 try {           handle_result = await C.request.handle(Q, s); } // returns a result object, but all errors will be handled inside
                 catch(error) {  handle_error  = await C.request.handle_error({Q, s, type: 'SERVER', request_result: {id:'[e63]', error, text: 'Failed to handle request on HTTP server - unknown error: '+error.message}}); };
                 
