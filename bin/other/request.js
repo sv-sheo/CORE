@@ -1,7 +1,7 @@
 
 // extend request object with site, host, IP, user agent, request type, QUERY etc...
 exports.init = async function(Q) {
-console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa')
+
     Q.times         = {start: C.helper.now()};
     Q.id            = Q.times.start + '_' + Math.floor(Math.random() * 1000);  
     Q.client_ip     = Q.headers['x-forwarded-for'] || Q.connection.remoteAddress;
@@ -538,7 +538,7 @@ exports.adjust_host_and_url_by_IP = function(Q) {
         result.url = '/' + url_split.join('/');
         
     }
-
+console.log('CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC', result);
     return result; // {from_ip, host, url}
 
 }
