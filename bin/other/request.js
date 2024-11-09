@@ -26,7 +26,7 @@ exports.init = async function(Q) {
     Q.DB            = SITE.DB.NAME || '';  // shortcut for DB querries
     Q.base_url      = M._.get(SITE, 'config.base_url', '/'); // BASE URL - MUST START and END with '/'  ... or be === '/'
 
-    if(Q.from_ip) Q.base_url = '/'+Q.host+Q.base_url; // prepend sitename host to base_url if accessing via IP
+    if(Q.from_ip) Q.base_url = '/'+Q.host+Q.base_url; // prepend sitename host to base_url if accessing via IP // as an alternative to Q.from_ip, Q.headers['x-from_ip']) can be used ... its value is "YES" || "NO" ... available only behind proxy
 
     // DEVICE SIZE - desktop x handheld - defaults to desktop
     var ua_type                 = Q.user_agent.device.type;
@@ -91,14 +91,12 @@ exports.handle = async function(Q, s) {
 
             if(host && site && site_is_valid) {
 
-                Q.from_ip   = adjust_by_ip.from_ip;
+                Q.from_ip   = adjust_by_ip.from_ip; // Q.headers['x-from_ip']); = 'YES' or 'NO' ... available only on requests behind proxy
                 Q.true_host = Q.headers.host;
                 Q.true_url  = Q.url;
                 Q.host      = adjust_by_ip.host;
                 Q.url       = adjust_by_ip.url;
                 Q.site      = site;
-
-                console.log('SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS', Q.headers['x-from_ip']);
 
                 // now initialize the rquest
                 Q = await C.request.init(Q);
@@ -168,6 +166,8 @@ exports.finish_request = async function({Q, s, request_result}={}) {
             s.end(content || con_404);
             
         }
+
+        if(Q.hook === 'main') { console.log('VVVVVVVVVVVVVVVVVVVVV', Q.client_ip, Q.from_ip, Q.host, Q.true_host)}
 
         if(Q.hook === 'main' || Q.hook === 'sub') { 
             
@@ -521,11 +521,7 @@ exports.is_from_IP = function(host) {
 
 exports.adjust_host_and_url_by_IP = function(Q) {
 
-    var IP_hosts        = {'127.0.0.1': 1, 'localhost': 1};
-        IP_hosts[CONFIG.core.server_ip] = 1; // add the IP of this machine
-
-    var result          = {from_ip: false, host: Q.headers.host, url: Q.url};
-        result.from_ip  = IP_hosts[Q.headers.host] ? true : false;
+    var result          = {from_ip: C.request.is_from_IP(Q.headers.host), host: Q.headers.host, url: Q.url};
 
     // if site is being accessed via IP, adjust Q.host and Q.url (for example:         VIA HOST - http://my_site.io/hello => host = "my_site.io"; url = "/hello"
     //                                                                          --- OR VIA IP --- http://12.34.56.78/my_site.io/hello => true_host = "12.34.56.78", true_url="/my_site.io/hello", host = "my_site.io"; url = "/hello")
@@ -540,7 +536,7 @@ exports.adjust_host_and_url_by_IP = function(Q) {
         result.url = '/' + url_split.join('/');
         
     }
-console.log('CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC', Q.headers['x-from_ip']);
+
     return result; // {from_ip, host, url}
 
 }
@@ -878,13 +874,9 @@ exports.preserve_client_IP_behind_proxy = function(proxyReq, req, res, options) 
 
     // proxyReq = the request that was artificially created by proxy and will be sent to real server;
     // req = the initial request that the proxy received ... its data wont get through to the proxyReq, so you gotta save the client IP to headers 
+    let from_IP         = C.request.is_from_IP(req.headers?.host);
+
     proxyReq.setHeader('x-forwarded-for', (req.headers['x-forwarded-for'] || req.socket?.remoteAddress) );
-
-    let IP_hosts        = {'127.0.0.1': 1, 'localhost': 1}; 
-    if(CONFIG?.core?.server_ip) IP_hosts[CONFIG.core.server_ip] = 1; // add the IP of this machine
-
-    let from_IP         = IP_hosts[req.headers?.host] ? true : false;
-
     proxyReq.setHeader('x-from_ip', (from_IP ? 'YES' : 'NO'));
 
   }
