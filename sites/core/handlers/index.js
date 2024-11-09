@@ -26,7 +26,7 @@ exports.index = async function({Q, s, SITE}) {
     Q.data.html.sections.sub_servers    = SITE.views.sections.sub_servers(Q.data);
     Q.data.html.sections.sites          = SITE.views.sections.sites(Q.data);
     Q.data.html.sections.sockets        = SITE.views.sections.sockets(Q.data);
-    console.log('KKKKKKKKKKKKKKKKKKKKKKKKKKKKK', Q.client_ip, Q.headers['x-forwarded-for'], Q.connection.remoteAddress)
+    console.log('KKKKKKKKKKKKKKKKKKKKKKKKKKKKK', Q.client_ip, Q.headers['x-forwarded-for'], Q.socket.remoteAddress)
     s.html = SITE.views.index(Q.data);
 
     return {ok: 1};

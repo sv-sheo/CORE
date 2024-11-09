@@ -386,7 +386,7 @@ exports.request.log_error = async function({Q, s, request_result={}}={}) {
 
             if(log_type === 'full' || log_type === 'basic') {
             
-                var client_IP       = Q.headers['x-forwarded-for'] || Q.connection.remoteAddress || '';
+                var client_IP       = Q.headers['x-forwarded-for'] || Q.socket?.remoteAddress || '';
                 var ua              = Q.headers['user-agent'];
                 var response_code   = M._.get(s, ['result', 'code'], '000');
                 
@@ -466,7 +466,7 @@ exports.request.log_to_console = async function({Q, s, request_result={}}={}) {
 
             } else {
 
-                var client_ip   = Q.headers['x-forwarded-for'] || Q.connection.remoteAddress;
+                var client_ip   = Q.headers['x-forwarded-for'] || Q.socket?.remoteAddress;
                     outcome     = 'ERROR';
                     log_text    = 'ERROR [ ERROR ]['+request_result.id+']'+pid+'['+site_name+']['+client_ip+']['+time_text+'] '+Q.headers.host+Q.url+' (ERROR:  '+error_text+')'+full_error;
 
