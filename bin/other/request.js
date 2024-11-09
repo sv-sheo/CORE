@@ -4,7 +4,7 @@ exports.init = async function(Q) {
 
     Q.times         = {start: C.helper.now()};
     Q.id            = Q.times.start + '_' + Math.floor(Math.random() * 1000);  
-    Q.client_ip     = Q.headers['x-forwarded-for'] || Q.connection.remoteAddress;
+    Q.client_ip     = Q.headers['x-forwarded-for'] || Q.socket?.remoteAddress; // Q.connection.remoteAddress; deprecated since nodejs 13
     Q.user_agent    = M.user_agent(Q.headers['user-agent']) || {device: {}};
     Q.is_crawler    = /bot|crawl|slurp|spider/i.test(Q.headers['user-agent']); 
     Q.cookies       = {};
@@ -53,7 +53,7 @@ exports.init = async function(Q) {
     // LANGUAGE
     Q.language  = C.request.get_language(Q, SITE);
     
-    //console.log('IP and COUNTRY: ', Q.country, Q.headers['x-forwarded-for'], ' || ', Q.connection.remoteAddress);
+    //console.log('IP and COUNTRY: ', Q.country, Q.headers['x-forwarded-for'], ' || ', Q.socket.remoteAddress);
     
     // the request has some body - get it
     if(Q.method === 'post' || Q.method === 'put') {
@@ -97,6 +97,8 @@ exports.handle = async function(Q, s) {
                 Q.host      = adjust_by_ip.host;
                 Q.url       = adjust_by_ip.url;
                 Q.site      = site;
+
+                console.log('SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS', Q.headers['x-from_ip']);
 
                 // now initialize the rquest
                 Q = await C.request.init(Q);
@@ -437,7 +439,7 @@ exports.save_to_DB = async function({Q, s, request_result={}, kind=''}) {
                 log.method      = Q.method;
                 log.host        = Q.headers.host;
                 log.url         = Q.url;
-                log.client_ip   = Q.headers['x-forwarded-for'] || Q.connection.remoteAddress;
+                log.client_ip   = Q.headers['x-forwarded-for'] || Q.socket?.remoteAddress;
                 log.user_agent  = Q.headers['user-agent'];
                 log.result      = request_result;
                 

@@ -137,6 +137,21 @@ console.log('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF', Q.socket?.remoteAddress, Q.headers
                 catch(error) {  handle_error  = await C.request.handle_error({Q, s, type: 'PROXY', request_result: {id:'[e62]', error, text: 'Failed to handle request on HTTP PROXY server - unknown error: '+error.message}}); }
 
             }).listen(CONFIG.core.ports.http_proxy_server); // 80 .. this is listening to all incoming HTTP requests
+
+            // save original client IP address into headers (because the server behind proxy would see IP of itself (the proxy) )
+            // viz https://www.npmjs.com/package/http-proxy
+            PROCESSES.PROXY_SERVER.on('proxyReq', function(proxyReq, req, res, options) {
+
+                proxyReq.setHeader('x-forwarded-for', proxyReq.socket?.remoteAddress);
+
+                let IP_hosts        = {'127.0.0.1': 1, 'localhost': 1}; IP_hosts[CONFIG?.core?.server_ip] = 1; // add the IP of this machine
+                let from_IP         = IP_hosts[proxyReq.headers?.host] ? true : false;
+
+                proxyReq.setHeader('x-from_ip', (from_IP ? 'YES' : 'NO'));
+
+                console.log('GGGGGGGGGGGGGGGGGGGGGGGGGG', proxyReq.socket?.remoteAddress, proxyReq.headers?.host, from_IP, IP_hosts)
+
+              });
             
             // create real server and route hosts to individual site routers
             PROCESSES.HTTP_SERVER = M.http.createServer(async function(Q, s) {
