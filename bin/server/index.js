@@ -135,14 +135,14 @@ exports.create_http = async function(previous_step={}) {
 
                 try {           handle_result = await C.request.handle_http_proxy(Q, s); } // returns a result object, but all errors will be handled inside
                 catch(error) {  handle_error  = await C.request.handle_error({Q, s, type: 'PROXY', request_result: {id:'[e62]', error, text: 'Failed to handle request on HTTP PROXY server - unknown error: '+error.message}}); }
-                console.log('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO');
+
             }).listen(CONFIG.core.ports.http_proxy_server); // 80 .. this is listening to all incoming HTTP requests
             
             // create real server and route hosts to individual site routers
             PROCESSES.HTTP_SERVER = M.http.createServer(async function(Q, s) {
                 
                 var handle_result, handle_error;
-console.log('HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH')
+
                 try {           handle_result = await C.request.handle(Q, s); } // returns a result object, but all errors will be handled inside
                 catch(error) {  handle_error  = await C.request.handle_error({Q, s, type: 'SERVER', request_result: {id:'[e63]', error, text: 'Failed to handle request on HTTP server - unknown error: '+error.message}}); };
                 
