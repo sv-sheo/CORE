@@ -167,8 +167,6 @@ exports.finish_request = async function({Q, s, request_result}={}) {
             
         }
 
-        if(Q.hook === 'main') { console.log('VVVVVVVVVVVVVVVVVVVVV', Q.client_ip, Q.from_ip, Q.host, Q.true_host)}
-
         if(Q.hook === 'main' || Q.hook === 'sub') { 
             
             result = await C.request.hook({Q, s, request_result}); 
