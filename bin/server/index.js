@@ -149,7 +149,7 @@ console.log('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF', Q.socket?.remoteAddress, Q.headers
 
                 proxyReq.setHeader('x-from_ip', (from_IP ? 'YES' : 'NO'));
 
-                console.log('GGGGGGGGGGGGGGGGGGGGGGGGGG', proxyReq.socket?.remoteAddress, proxyReq.headers?.host, from_IP, IP_hosts)
+                console.log('GGGGGGGGGGGGGGGGGGGGGGGGGG', proxyReq.socket?.remoteAddress, proxyReq.headers?.host, from_IP, '__________', req.socket?.remoteAddress, req.headers?.host)
 
               });
             
