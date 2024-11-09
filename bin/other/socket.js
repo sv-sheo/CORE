@@ -716,7 +716,7 @@ exports.authorize_connection = async function(socket, next) {
 								let request_from_localhost 	= localhost_ips[client_ip_of_request];
 								let socket_from_localhost 	= localhost_ips[client_ip_of_socket];
 								let both_from_localhost 	= (request_from_localhost && socket_from_localhost);
-
+console.log('RRRRRRRRRRRRRRRRRRR', safe, client_ip_of_request, client_ip_of_socket)
 								if( !((client_ip_of_request === client_ip_of_socket) || both_from_localhost) ) {
 
 									result = {ok: 0, text: 'Unauthorized client IP.', data: {id: '[se9.6]'}};
