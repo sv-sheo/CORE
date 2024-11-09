@@ -142,14 +142,18 @@ console.log('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF', Q.socket?.remoteAddress, Q.headers
             // viz https://www.npmjs.com/package/http-proxy
             PROCESSES.PROXY_SERVER.on('proxyReq', function(proxyReq, req, res, options) {
 
-                proxyReq.setHeader('x-forwarded-for', proxyReq.socket?.remoteAddress);
+                // proxyReq = the request that was artificially created by proxy and will be sent to real server;
+                // req = the initial request that the proxy received ... its data wont get through to the proxyReq, so you gotta save the client IP to headers 
+                proxyReq.setHeader('x-forwarded-for', (req.headers['x-forwarded-for'] || req.socket?.remoteAddress) );
 
-                let IP_hosts        = {'127.0.0.1': 1, 'localhost': 1}; IP_hosts[CONFIG?.core?.server_ip] = 1; // add the IP of this machine
-                let from_IP         = IP_hosts[proxyReq.headers?.host] ? true : false;
+                let IP_hosts        = {'127.0.0.1': 1, 'localhost': 1}; 
+                if(CONFIG?.core?.server_ip) IP_hosts[CONFIG.core.server_ip] = 1; // add the IP of this machine
+
+                let from_IP         = IP_hosts[req.headers?.host] ? true : false;
 
                 proxyReq.setHeader('x-from_ip', (from_IP ? 'YES' : 'NO'));
 
-                console.log('GGGGGGGGGGGGGGGGGGGGGGGGGG', proxyReq.socket?.remoteAddress, proxyReq.headers?.host, from_IP, '__________', req.socket?.remoteAddress, req.headers?.host)
+                console.log('GGGGGGGGGGGGGGGGGGGGGGGGGG', req.headers['x-forwarded-for'], req.socket?.remoteAddress, from_IP)
 
               });
             
