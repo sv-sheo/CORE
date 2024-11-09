@@ -540,7 +540,7 @@ exports.adjust_host_and_url_by_IP = function(Q) {
         result.url = '/' + url_split.join('/');
         
     }
-console.log('CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC', result);
+console.log('CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC', Q.headers['x-from_ip']);
     return result; // {from_ip, host, url}
 
 }
@@ -872,3 +872,19 @@ exports.hook = async function({Q, s, request_result}={}) {
     return result;
 
 }
+
+// viz https://www.npmjs.com/package/http-proxy
+exports.preserve_client_IP_behind_proxy = function(proxyReq, req, res, options) {
+
+    // proxyReq = the request that was artificially created by proxy and will be sent to real server;
+    // req = the initial request that the proxy received ... its data wont get through to the proxyReq, so you gotta save the client IP to headers 
+    proxyReq.setHeader('x-forwarded-for', (req.headers['x-forwarded-for'] || req.socket?.remoteAddress) );
+
+    let IP_hosts        = {'127.0.0.1': 1, 'localhost': 1}; 
+    if(CONFIG?.core?.server_ip) IP_hosts[CONFIG.core.server_ip] = 1; // add the IP of this machine
+
+    let from_IP         = IP_hosts[req.headers?.host] ? true : false;
+
+    proxyReq.setHeader('x-from_ip', (from_IP ? 'YES' : 'NO'));
+
+  }

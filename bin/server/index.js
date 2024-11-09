@@ -118,6 +118,10 @@ exports.create_http = async function(previous_step={}) {
     
             PROCESSES.PROXY_SERVER = M.proxy.createProxyServer({});
 
+            // save original client IP address into headers (because the server behind proxy would see IP of itself (the proxy) )
+            // viz https://www.npmjs.com/package/http-proxy
+            PROCESSES.PROXY_SERVER.on('proxyReq', C.request.preserve_client_IP_behind_proxy);
+
             // first create HTTP (reverse) proxy server
             // a reverse proxy is in use for future addition of load-balancing capabilities, 
             // it also provides rudimentary load balancing as-is, since requests handled in proxy do not get fully initiated, and you can filter them,
@@ -132,36 +136,17 @@ exports.create_http = async function(previous_step={}) {
 //          if certain treshold is crossed, remove each request from the array after some time (maybe 100ms) (to imitate the request being finished)
 //          basicaly, only X requests will be accepted in Y time frame
 // TO DO - (inside C.request.handle_http_proxy) allow only sites that are enabled (newly added SITE state)
-console.log('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF', Q.socket?.remoteAddress, Q.headers['x-forwarded-for'])
+
                 try {           handle_result = await C.request.handle_http_proxy(Q, s); } // returns a result object, but all errors will be handled inside
                 catch(error) {  handle_error  = await C.request.handle_error({Q, s, type: 'PROXY', request_result: {id:'[e62]', error, text: 'Failed to handle request on HTTP PROXY server - unknown error: '+error.message}}); }
 
             }).listen(CONFIG.core.ports.http_proxy_server); // 80 .. this is listening to all incoming HTTP requests
-
-            // save original client IP address into headers (because the server behind proxy would see IP of itself (the proxy) )
-            // viz https://www.npmjs.com/package/http-proxy
-            PROCESSES.PROXY_SERVER.on('proxyReq', function(proxyReq, req, res, options) {
-
-                // proxyReq = the request that was artificially created by proxy and will be sent to real server;
-                // req = the initial request that the proxy received ... its data wont get through to the proxyReq, so you gotta save the client IP to headers 
-                proxyReq.setHeader('x-forwarded-for', (req.headers['x-forwarded-for'] || req.socket?.remoteAddress) );
-
-                let IP_hosts        = {'127.0.0.1': 1, 'localhost': 1}; 
-                if(CONFIG?.core?.server_ip) IP_hosts[CONFIG.core.server_ip] = 1; // add the IP of this machine
-
-                let from_IP         = IP_hosts[req.headers?.host] ? true : false;
-
-                proxyReq.setHeader('x-from_ip', (from_IP ? 'YES' : 'NO'));
-
-                console.log('GGGGGGGGGGGGGGGGGGGGGGGGGG', req.headers['x-forwarded-for'], req.socket?.remoteAddress, from_IP)
-
-              });
             
             // create real server and route hosts to individual site routers
             PROCESSES.HTTP_SERVER = M.http.createServer(async function(Q, s) {
                 
                 var handle_result, handle_error;
-                console.log('TTTTTTTTTTTTTTTTTTTTTTTTTTTTT', Q.socket?.remoteAddress, Q.headers['x-forwarded-for'])
+
                 try {           handle_result = await C.request.handle(Q, s); } // returns a result object, but all errors will be handled inside
                 catch(error) {  handle_error  = await C.request.handle_error({Q, s, type: 'SERVER', request_result: {id:'[e63]', error, text: 'Failed to handle request on HTTP server - unknown error: '+error.message}}); };
                 
@@ -205,6 +190,10 @@ exports.create_https = async function(previous_step={}) {
         try {
 
             PROCESSES.PROXY_SERVER_SECURE = M.proxy.createProxyServer({});
+
+            // save original client IP address into headers (because the server behind proxy would see IP of itself (the proxy) )
+            // viz https://www.npmjs.com/package/http-proxy
+            PROCESSES.PROXY_SERVER_SECURE.on('proxyReq', C.request.preserve_client_IP_behind_proxy);
 
             // create https proxy server - checks if site has certificate, if not, redirect to http
             // since the server runs on 1 IP address, all HTTPS requests will be going through https://<SERVER_IP>:443/  or   https://<SITE_HOST>:443
